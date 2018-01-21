@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('lunafest-dyb-frontend App', () => {
+describe('lunafest-dyb App', () => {
   let page: AppPage;
 
   beforeEach(() => {
