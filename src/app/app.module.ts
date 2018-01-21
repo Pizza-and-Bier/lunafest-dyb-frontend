@@ -4,13 +4,19 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
+import { MaterialModule } from "./material/material.module";
+
+import { ControlToolbarComponent } from './control-toolbar/control-toolbar.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ControlToolbarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
