@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, Validators} from "@angular/forms";
 
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +10,8 @@ import { FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  public invalidLogin: boolean = false;
 
   public formErrors: any = {
     "username": "",
@@ -25,10 +29,23 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private loginService: LoginService) { }
 
   ngOnInit() {
     this.buildForm();
+  }
+
+  public attemptLogin(): void {
+    let credentials = this.loginForm.value;
+    this.loginService.attemptLogin(credentials).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (err) => {
+        console.log(err);
+        this.invalidLogin = true;
+      }
+    )
   }
 
   private buildForm() {

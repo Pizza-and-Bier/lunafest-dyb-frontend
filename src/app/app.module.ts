@@ -13,6 +13,8 @@ import { RoutingModule } from "./routing/routing.module";
  
 import { ControlToolbarComponent } from './control-toolbar/control-toolbar.component';
 import { LoginComponent } from './login/login.component';
+import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
+import { LoginService } from './services/login.service';
 
 
 @NgModule({
@@ -30,7 +32,10 @@ import { LoginComponent } from './login/login.component';
     FlexLayoutModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    LoginService,
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

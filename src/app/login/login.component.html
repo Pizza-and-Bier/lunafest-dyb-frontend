@@ -20,8 +20,11 @@
           </mat-form-field>
         </div>
       </form>
+      <div *ngIf="invalidLogin" class="login-invalid">
+        Invalid username/password combination.
+      </div>
       <div class="login-actions" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-        <button mat-raised-button color="primary">Login</button>
+        <button mat-raised-button color="primary" (click)="attemptLogin()">Login</button>
         <div class="login-actions-secondary" fxLayout="row" fxLayoutAlign="space-around center">
           <button mat-button color="primary">Register</button>
           <button mat-button>Password?</button>
