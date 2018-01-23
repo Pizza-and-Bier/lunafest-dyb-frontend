@@ -15,7 +15,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
  
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // array in local storage for registered users
-        let user = {"username": "bobs", "password": "uruncle"}
+        let user = {"username": "bobs", "password": "uruncle"};
+
+        let users = [];
  
         // wrap in delayed observable to simulate server api call
         return Observable.of(null).mergeMap(() => {
@@ -54,6 +56,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
  
             // get user by id
             if (request.url.match(/\/api\/users\/\d+$/) && request.method === 'GET') {
+                
                 // check for fake auth token in header and return user if valid, this security is implemented server side in a real application
                 if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
                     // find user by id in users array
