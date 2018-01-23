@@ -1,0 +1,20 @@
+.login-card {
+    min-width: 300px;
+    margin: 0 auto;
+}
+
+.login-form {
+    margin-bottom: 10px;
+}
+
+.login-actions button {
+    width: 90%;
+}
+
+.login-actions-secondary {
+    width: 90%;
+}
+
+.login-form mat-form-field {
+    width: 90%;
+}

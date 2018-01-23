@@ -1,0 +1,36 @@
+<section fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+  <mat-card class="login-card">
+    <mat-card-title>
+      Welcome!
+    </mat-card-title>
+    <mat-card-content>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <img src="assets/beer-pizza.png" width="100px" height="100px"/>
+      </div>
+      <form class="login-form" [formGroup]="loginForm" fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-form-field>
+            <input formControlName="username" matInput placeholder="Username" type="text">
+            <mat-error *ngIf="formErrors.username">{{formErrors.username}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-form-field>
+            <input formControlName="password" matInput placeholder="Password" type="password">
+          </mat-form-field>
+        </div>
+      </form>
+      <div *ngIf="invalidLogin" class="login-invalid">
+        Invalid username/password combination.
+      </div>
+      <div class="login-actions" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+        <button mat-raised-button color="primary" (click)="attemptLogin()">Login</button>
+        <div class="login-actions-secondary" fxLayout="row" fxLayoutAlign="space-around center">
+          <button mat-button color="primary">Register</button>
+          <button mat-button>Password?</button>
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</section>
