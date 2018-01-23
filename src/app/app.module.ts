@@ -15,13 +15,17 @@ import { ControlToolbarComponent } from './control-toolbar/control-toolbar.compo
 import { LoginComponent } from './login/login.component';
 import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
 import { LoginService } from './services/login.service';
+import { AuthWrapperComponent } from './auth-wrapper/auth-wrapper.component';
+import { ItemListComponent } from './item-list/item-list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ControlToolbarComponent,
-    LoginComponent
+    LoginComponent,
+    AuthWrapperComponent,
+    ItemListComponent
   ],
   imports: [
     BrowserModule,
