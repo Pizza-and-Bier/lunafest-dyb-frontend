@@ -53,6 +53,24 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return Observable.throw('Unauthorised');
                 }
             }
+
+            // get items
+            if (request.url.endsWith('/api/items') && request.method === 'GET') {
+                let items = [
+                    {
+                        name: "Cale's Sock",
+                        estimatedValue: 5,
+                        description: "Don't touch it...",
+                        category: "Other",
+                        images: [],
+                        openingBid: {
+                            amount: 1
+                        }
+                    }
+                ];
+                // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
+                return Observable.of(items);
+            }
  
             // get user by id
             if (request.url.match(/\/api\/users\/\d+$/) && request.method === 'GET') {

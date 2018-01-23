@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 
 import { UnauthenticatedUser, AuthenticatedUser } from '../models';
 
-
 import { Observable } from 'rxjs/Observable';
 import { DybBaseService } from './dyb-base.service';
 
@@ -18,5 +17,10 @@ export class LoginService extends DybBaseService {
 
   public attemptLogin(user: UnauthenticatedUser): Observable<AuthenticatedUser> {
     return this.http.post<AuthenticatedUser|null>(this.LOGIN_API_BASE, user);
+  }
+
+  public logout(): Observable<any> {
+    console.log("logging out");
+    return Observable.of({});
   }
 }

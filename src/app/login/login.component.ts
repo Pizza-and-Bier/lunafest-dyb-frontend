@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private loginService: LoginService) { }
+  constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
     this.buildForm();
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.loginService.attemptLogin(credentials).subscribe(
       (data) => {
         console.log(data);
+        this.router.navigate(["/user/list"])
       },
       (err) => {
         console.log(err);

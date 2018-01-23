@@ -10,11 +10,13 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from "./material/material.module";
 
 import { RoutingModule } from "./routing/routing.module";
+
+import { ItemService } from "./services/item.service";
+import { LoginService } from './services/login.service';
  
 import { ControlToolbarComponent } from './control-toolbar/control-toolbar.component';
 import { LoginComponent } from './login/login.component';
 import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
-import { LoginService } from './services/login.service';
 import { AuthWrapperComponent } from './auth-wrapper/auth-wrapper.component';
 import { ItemListComponent } from './item-list/item-list.component';
 
@@ -38,6 +40,7 @@ import { ItemListComponent } from './item-list/item-list.component';
   ],
   providers: [
     LoginService,
+    ItemService,
     fakeBackendProvider
   ],
   bootstrap: [AppComponent]

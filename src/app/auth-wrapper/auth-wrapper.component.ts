@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-auth-wrapper',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AuthWrapperComponent implements OnInit {
 
-  constructor() { }
+  constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  public logout(): void {
+    this.loginService.logout().subscribe();
+    this.router.navigate(["/login"]);
   }
 
 }
