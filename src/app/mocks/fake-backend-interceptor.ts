@@ -58,18 +58,28 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if (request.url.endsWith('/api/items') && request.method === 'GET') {
                 let items = [
                     {
+                        id: 1,
                         name: "Cale's Sock",
                         estimatedValue: 5,
-                        description: "Don't touch it...",
+                        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                         category: "Other",
-                        images: [],
                         openingBid: {
                             amount: 1
-                        }
+                        },
+                        currentBid: {
+                            amount: 1
+                        },
+                        images: [
+                            {
+                                id: 1,
+                                source: "https://thumbs.dreamstime.com/z/bad-smell-sock-boy-feeling-unhappy-white-65109157.jpg"
+                            }
+                        ]
                     }
                 ];
+                console.log("items", items);
                 // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
-                return Observable.of(items);
+                return Observable.of(new HttpResponse({ status: 200, body: items }));
             }
  
             // get user by id

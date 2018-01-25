@@ -6,6 +6,7 @@ export class Item {
     public name: string;
     public description: string;
     public estimatedValue: number;
+    public currentBid: Bid;
     public openingBid: Bid;
     public category: string;
     public images: DybImage[];

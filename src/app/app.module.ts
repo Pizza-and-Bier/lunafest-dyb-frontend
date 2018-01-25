@@ -12,6 +12,7 @@ import { MaterialModule } from "./material/material.module";
 import { RoutingModule } from "./routing/routing.module";
 
 import { ItemService } from "./services/item.service";
+import { ItemListService } from "./item-list/item-list.service";
 import { LoginService } from './services/login.service';
  
 import { ControlToolbarComponent } from './control-toolbar/control-toolbar.component';
@@ -41,6 +42,7 @@ import { ItemListComponent } from './item-list/item-list.component';
   providers: [
     LoginService,
     ItemService,
+    ItemListService,
     fakeBackendProvider
   ],
   bootstrap: [AppComponent]

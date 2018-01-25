@@ -7,11 +7,9 @@ import { ItemListService } from "./item-list.service";
   selector: 'app-item-list',
   templateUrl: './item-list.component.html',
   styleUrls: ['./item-list.component.css'],
-  providers: [
-    ItemListService
-  ]
 })
 export class ItemListComponent implements OnInit {
+  //Todo: can ItemListService be provided here when I'm not mocking the backend??
 
   public itemList: Item[] = [];
 
@@ -22,9 +20,12 @@ export class ItemListComponent implements OnInit {
   }
 
   private getItems(): void {
+    console.log('getitems');
     this.itemListService.getItems().subscribe(
       (data) => {
-        this.itemList = data.slice();
+        this.itemList = data
+        console.log(data);
+        console.log(this.itemList);
       }
     )
   }
