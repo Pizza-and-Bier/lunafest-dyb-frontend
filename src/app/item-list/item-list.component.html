@@ -36,8 +36,19 @@
           </div>
         </div>
       </div>
+
+      <div class="item-more-info" *ngIf="item.showDescription">
+        <mat-divider [inset]="true"></mat-divider>
+        <div class="item-description">
+            {{item?.description}}
+        </div>
+        
+      </div>
     </mat-card-content>
     <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button (click)="toggleDescription(i)">
+        Item Info
+      </button>
       <button mat-raised-button color="primary" (click)="placeBid(i)">
         Place Bid
       </button>

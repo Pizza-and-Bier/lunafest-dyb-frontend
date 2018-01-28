@@ -26,3 +26,11 @@
 .item-list-wrapper mat-card {
     margin-bottom: 5px;
 }
+
+.item-more-info {
+    margin-top: 10px;
+}
+
+.item-description {
+    margin-top: 5px;
+}
