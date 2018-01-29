@@ -5,12 +5,14 @@ import { RouterModule, Routes } from "@angular/router";
 import { LoginComponent } from "../login/login.component";
 import { AuthWrapperComponent } from '../auth-wrapper/auth-wrapper.component';
 import { ItemListComponent } from '../item-list/item-list.component';
+import { MyBidsComponent } from '../my-bids/my-bids.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'user', component: AuthWrapperComponent,
     children: [
-      { path: "list", component: ItemListComponent}
+      { path: "list", component: ItemListComponent },
+      { path: "bids", component: MyBidsComponent }
     ]
   },
   { path: "", redirectTo: "/login", pathMatch: "full"}

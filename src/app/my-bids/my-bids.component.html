@@ -1,0 +1,42 @@
+<section class="my-bids-wrapper">
+  <mat-list role="list">
+    <mat-list-item class="dyb-list-item my-bids-list-item" *ngFor="let item of userBids; let i = index">
+      <img matListAvatar [src]="item?.images[0]?.source"/>
+      <div matLine>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div fxLayout="column" fxLayoutAlign="center center" class="item-text">
+            <div>
+              {{item?.name}}
+            </div>
+            <div>
+              <ng-container *ngIf="item.userWinningItem(currentUser) else losingItem">
+                <div class="item-status-label winning-item">
+                  Winning
+                </div>
+              </ng-container>
+              <ng-template #losingItem>
+                <div class="item-status-label losing-item">
+                  Losing
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <div>
+            <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #actionsMenu>
+              <button mat-menu-item>
+                Place bid
+              </button>
+              <button mat-menu-item>
+                Remove from list
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>
+</section>
