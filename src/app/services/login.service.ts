@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
 
+import * as firebase from "firebase/app";
+
+import { BackendAuthService } from "../firebase-services/backend-auth.service";
 import { UnauthenticatedUser, AuthenticatedUser } from '../models';
-
-import { Observable } from 'rxjs/Observable';
 import { DybBaseService } from './dyb-base.service';
 
 @Injectable()
@@ -11,16 +11,15 @@ export class LoginService extends DybBaseService {
 
   private readonly LOGIN_API_BASE = "/api/login";
 
-  constructor(private http: HttpClient) { 
+  constructor(private backendAuthService: BackendAuthService) { 
     super();
   }
 
-  public attemptLogin(user: UnauthenticatedUser): Observable<AuthenticatedUser> {
-    return this.http.post<AuthenticatedUser|null>(this.LOGIN_API_BASE, user);
+  public attemptLogin(user: UnauthenticatedUser): Promise<firebase.UserInfo> {
+    return this.backendAuthService.attemptLogin(user.email, user.password);
   }
 
-  public logout(): Observable<any> {
-    console.log("logging out");
-    return Observable.of({});
+  public logout(): Promise<void> {
+    return this.backendAuthService.logout();
   }
 }

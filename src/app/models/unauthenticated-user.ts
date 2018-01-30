@@ -1,5 +1,5 @@
 
 export class UnauthenticatedUser {
-    public username: string;
+    public email: string;
     public password: string;
 }
