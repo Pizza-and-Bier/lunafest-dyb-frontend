@@ -7,6 +7,7 @@ import { AngularFireModule } from "angularfire2";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireDatabaseModule } from "angularfire2/database";
 import { BackendItemsService } from './backend-items.service';
+import { BackendAuthService } from './backend-auth.service';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { BackendItemsService } from './backend-items.service';
   ],
   declarations: [],
   providers: [
-    BackendItemsService
+    BackendItemsService,
+    BackendAuthService
   ]
 })
 export class FirebaseServicesModule { }
