@@ -9,5 +9,5 @@ export class Item {
     public currentBid: Bid;
     public openingBid: Bid;
     public category: string;
-    public images: DybImage[];
+    public images: string[];
 }

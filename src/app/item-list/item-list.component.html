@@ -1,24 +1,8 @@
 <section class="item-list-wrapper">
   <mat-card *ngFor="let item of itemList | async; let i = index">
-    <!-- <mat-card-header>
-      <mat-card-title>
-        {{item?.name}}
-      </mat-card-title>
-    </mat-card-header> -->
-    <img mat-card-image [src]="item?.images[0]?.source">
+    <img mat-card-image [src]="item?.images[1]">
     <mat-card-content>
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <!-- <div fxFlex="49" class="item-description">
-          {{item?.description}}
-        </div> -->
-        <!-- <div class="estimated-worth" fxLayout="column" fxLayoutAlign="center start">
-          <div class="worth">
-              {{ item?.estimatedValue | currency: 'USD': 2}}
-          </div>
-          <div>
-              Estimated Worth
-          </div>
-        </div> -->
         <div fxLayout="column" fxLayoutAlign="start start">
           <div class="item-name">
             <strong>{{item?.name}}</strong>
@@ -36,7 +20,6 @@
           </div>
         </div>
       </div>
-
       <div class="item-more-info" *ngIf="item.showDescription">
         <mat-divider [inset]="true"></mat-divider>
         <div class="item-description">

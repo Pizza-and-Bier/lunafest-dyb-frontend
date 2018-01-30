@@ -16,8 +16,12 @@ export class AuthWrapperComponent implements OnInit {
   }
 
   public logout(): void {
-    this.loginService.logout().subscribe();
-    this.router.navigate(["/login"]);
+    this.loginService.logout().then(
+      (data) => {
+        this.router.navigate(["/login"]);
+      }
+    );
+    
   }
 
 }
