@@ -14,12 +14,14 @@ import { MaterialModule } from "./material/material.module";
 
 import { RoutingModule } from "./routing/routing.module";
 
+import { FirebaseServicesModule } from "./firebase-services/firebase-services.module";
+
 import { ItemService } from "./services/item.service";
 import { ItemListService } from "./item-list/item-list.service";
 import { LoginService } from './services/login.service';
 import { UserService } from './services/user.service';
 import { UserBidService } from './my-bids/user-bid.service';
- 
+
 import { ControlToolbarComponent } from './control-toolbar/control-toolbar.component';
 import { LoginComponent } from './login/login.component';
 import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
@@ -44,7 +46,8 @@ import { MyBidsComponent } from "./my-bids/my-bids.component";
     BrowserAnimationsModule,
     FlexLayoutModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemItemsService)
+    HttpClientInMemoryWebApiModule.forRoot(InMemItemsService),
+    FirebaseServicesModule
   ],
   providers: [
     LoginService,

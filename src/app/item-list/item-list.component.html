@@ -1,11 +1,11 @@
 <section class="item-list-wrapper">
-  <mat-card *ngFor="let item of itemList; let i = index">
+  <mat-card *ngFor="let item of itemList | async; let i = index">
     <!-- <mat-card-header>
       <mat-card-title>
         {{item?.name}}
       </mat-card-title>
     </mat-card-header> -->
-    <img mat-card-image [src]="item.images[0].source">
+    <img mat-card-image [src]="item?.images[0]?.source">
     <mat-card-content>
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <!-- <div fxFlex="49" class="item-description">
