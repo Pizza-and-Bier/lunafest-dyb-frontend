@@ -14,13 +14,14 @@ export class LoginComponent implements OnInit {
   public invalidLogin: boolean = false;
 
   public formErrors: any = {
-    "username": "",
+    "email": "",
     "password": ""
   };
 
   private validationMessages: any = {
-    "username": {
-      "required": "Required."
+    "email": {
+      "required": "Required.",
+      "email": "Invalid email address."
     },
     "password": {
       "required": "Required."
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private loginService: LoginService) { }
+  constructor(private fb: FormBuilder, private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
     this.buildForm();
@@ -37,21 +38,19 @@ export class LoginComponent implements OnInit {
 
   public attemptLogin(): void {
     let credentials = this.loginForm.value;
-    this.loginService.attemptLogin(credentials).subscribe(
+    this.loginService.attemptLogin(credentials).then(
       (data) => {
         console.log(data);
-      },
-      (err) => {
-        console.log(err);
-        this.invalidLogin = true;
+        this.router.navigate(["/user/list"]);
       }
-    )
+    );
   }
 
   private buildForm() {
     this.loginForm = this.fb.group({
-      "username": ["", [
-        Validators.required
+      "email": ["", [
+        Validators.required,
+        Validators.email
       ]],
       "password": ["", [
         Validators.required

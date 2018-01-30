@@ -1,0 +1,26 @@
+.item-status-label {
+    margin-top: 2px;
+    padding: 2px;
+    width: 78px;
+    text-align: center;
+    font-size: 0.7rem;
+}
+.winning-item {
+    background: #178218;
+    color: #FFFFFF;
+}
+
+.losing-item {
+    background: #D90B0B;
+    color: #FFFFFF;
+}
+
+.my-bids-wrapper {
+    background: #FFFFFF;
+    height: 100%;
+    margin-top: 5px;
+}
+
+mat-list-item.dyb-list-item.my-bids-list-item {
+    height: 70px;
+}

@@ -1,0 +1,36 @@
+.current-bid {
+    font-size: .8rem;
+}
+
+.current-bid .amount {
+    font-size: 1.2rem;
+    color: #178218;
+}
+
+.estimated-worth {
+    font-size: .8rem;
+}
+
+.item-name {
+    font-size: 1.2rem;
+}
+
+.estimated-worth {
+    font-size: .8rem;
+}
+
+.item-list-wrapper {
+    margin: 10px 10px;
+}
+
+.item-list-wrapper mat-card {
+    margin-bottom: 5px;
+}
+
+.item-more-info {
+    margin-top: 10px;
+}
+
+.item-description {
+    margin-top: 5px;
+}

@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+  <div>
+    Lunafest 2018
+  </div>
+  <button type="button" role="button" mat-button (click)="logout()">
+    Logout
+    <mat-icon aria-label="Logout">exit_to_app</mat-icon>
+  </button>
+</mat-toolbar>
+<nav mat-tab-nav-bar [backgroundColor]="'primary'" color="accent">
+  <a mat-tab-link
+    routerLink="/user/list"
+    routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
+    Item List
+  </a>
+  <a mat-tab-link>
+    My Bids
+  </a>
+</nav>
+<router-outlet></router-outlet>

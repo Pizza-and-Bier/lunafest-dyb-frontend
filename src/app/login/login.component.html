@@ -10,8 +10,8 @@
       <form class="login-form" [formGroup]="loginForm" fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="center center">
           <mat-form-field>
-            <input formControlName="username" matInput placeholder="Username" type="text">
-            <mat-error *ngIf="formErrors.username">{{formErrors.username}}</mat-error>
+            <input formControlName="email" matInput placeholder="Email" type="email">
+            <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
           </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center">
