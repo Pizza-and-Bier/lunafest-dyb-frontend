@@ -9,6 +9,9 @@
 # dependencies
 /node_modules
 
+# leave out editorconfig file because it's slightly annoying
+.editorconfig
+
 # IDEs and editors
 /.idea
 .project
