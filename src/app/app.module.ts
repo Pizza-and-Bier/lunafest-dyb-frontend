@@ -28,6 +28,7 @@ import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
 import { AuthWrapperComponent } from './auth-wrapper/auth-wrapper.component';
 import { ItemListComponent } from './item-list/item-list.component';
 import { MyBidsComponent } from "./my-bids/my-bids.component";
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MyBidsComponent } from "./my-bids/my-bids.component";
     LoginComponent,
     AuthWrapperComponent,
     ItemListComponent,
-    MyBidsComponent
+    MyBidsComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
