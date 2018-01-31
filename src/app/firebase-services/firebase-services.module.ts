@@ -6,8 +6,8 @@ import { environment } from '../../environments/environment';
 import { AngularFireModule } from "angularfire2";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireDatabaseModule } from "angularfire2/database";
-import { BackendItemsService } from './backend-items.service';
-import { BackendAuthService } from './backend-auth.service';
+import { BackendItemsService } from './items/item-list.service';
+import { BackendAuthService } from './auth/backend-auth.service';
 
 @NgModule({
   imports: [
