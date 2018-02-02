@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { Observable } from "rxjs";
 
 import { Item } from "../models";
 import { ItemListService } from "./item-list.service";
-import { ItemListItem } from './item-list-item';
-import { SerializationHelper } from "../util";
+import { AuthService } from '../firebase-services/auth.service';
+import { UserService } from '../firebase-services/user.service';
 
 @Component({
   selector: 'app-item-list',
@@ -17,28 +16,26 @@ export class ItemListComponent implements OnInit {
 
   public itemList: Observable<Item[]>;
 
-  constructor(private itemListService: ItemListService) { }
+  constructor(private itemListService: ItemListService, private auth: AuthService, private user: UserService) { }
 
   ngOnInit() {
     this.initItems();
   }
 
   public toggleDescription(index: number): void {
-    this.itemList[index].showDescription = !this.itemList[index].showDescription; 
+    this.itemList[index].showDescription = !this.itemList[index].showDescription;
   }
 
   private initItems(): void {
     console.log('getitems');
     this.itemList = this.itemListService.initConnection();
-    // this.itemListService.getItems().subscribe(
-    //   (data) => {
-    //     data.map((elem) => {
-    //       this.itemList.push(SerializationHelper.toInstance(new ItemListItem(), elem));
-    //     });
-    //     console.log(data);
-    //     console.log(this.itemList);
-    //   }
-    // )
+    
+    // this is how to retrieve a user's items
+    this.auth.uniqueID().then((uid) => {
+        this.user.following(uid).subscribe((items) => {
+            console.log(items);
+        });
+    });
   }
 
 }

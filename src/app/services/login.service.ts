@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from "firebase/app";
 
-import { BackendAuthService } from "../firebase-services/backend-auth.service";
+import { AuthService } from "../firebase-services/auth.service";
 import { UnauthenticatedUser, AuthenticatedUser } from '../models';
 import { DybBaseService } from './dyb-base.service';
 
@@ -11,7 +11,7 @@ export class LoginService extends DybBaseService {
 
   private readonly LOGIN_API_BASE = "/api/login";
 
-  constructor(private backendAuthService: BackendAuthService) { 
+  constructor(private backendAuthService: AuthService) {
     super();
   }
 
