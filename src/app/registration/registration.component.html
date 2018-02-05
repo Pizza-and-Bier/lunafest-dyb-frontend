@@ -1,3 +1,64 @@
-<p>
-  registration works!
-</p>
+<section fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+  <mat-card class="registration-card">
+    <mat-card-title>
+      Sign up
+    </mat-card-title>
+    <mat-card-content>
+
+      <form class="registration-form" [formGroup]="registrationForm">
+        <ng-container *ngIf="currentStep == 'loginInfo'">
+          <div class="login-info" formGroupName="loginInfo" fxLayout="column"  fxLayoutAlign="center center">
+            <div fxLayout="row" fxFlexFill fxLayoutAlign="center center">
+              <mat-form-field>
+                <input formControlName="email" matInput placeholder="Email" type="email">
+                <mat-error *ngIf="formErrors.loginInfo.email">{{formErrors.loginInfo.email}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+              <mat-form-field>
+                <input formControlName="password" matInput placeholder="Password" type="password">
+                <mat-error *ngIf="formErrors.loginInfo.password">{{formErrors.loginInfo.password}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+              <mat-form-field>
+                <input formControlName="confirmPassword" matInput placeholder="Confirm Password" type="password">
+                <mat-error *ngIf="formErrors.loginInfo.confirmPassword">{{formErrors.loginInfo.confirmPassword}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlexFill fxLayout="row" fxLayoutAlign="end center">
+              <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('personalInfo')" [disabled]="registrationForm.get('loginInfo').invalid">Next</button>
+            </div>
+            
+          </div>
+        </ng-container>
+        <ng-container *ngIf="currentStep == 'personalInfo'">
+          <div class="contact-inputs" formGroupName="personalInfo" fxLayout="column" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-form-field>
+                <input formControlName="firstName" matInput placeholder="First Name" type="text">
+                <mat-error *ngIf="formErrors.personalInfo.firstName">{{formErrors.personalInfo.firstName}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+              <mat-form-field>
+                <input formControlName="lastName" matInput placeholder="Last Name" type="text">
+                <mat-error *ngIf="formErrors.personalInfo.lastName">{{formErrors.personalInfo.lastName}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input dybPhoneNumber formControlName="phoneNumber" matInput placeholder="Phone Number" type="tel"/>
+                  <mat-error *ngIf="formErrors.personalInfo.phoneNumber">{{formErrors.personalInfo.phoneNumber}}</mat-error>
+                </mat-form-field>
+              </div>
+            <div fxFlexFill fxLayout="row" fxLayoutAlign="end center">
+              <button mat-raised-button type="button" role="button" (click)="previousStep('loginInfo')">Back</button>
+              <button mat-raised-button color="primary" type="button" role="button" [disabled]="registrationForm.get('loginInfo').invalid">Next</button>
+            </div>
+          </div>
+        </ng-container>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>
