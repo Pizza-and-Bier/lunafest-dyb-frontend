@@ -12,30 +12,29 @@ import { UserService } from '../firebase-services/user.service';
   styleUrls: ['./item-list.component.css'],
 })
 export class ItemListComponent implements OnInit {
-  //Todo: can ItemListService be provided here when I'm not mocking the backend??
+    //Todo: can ItemListService be provided here when I'm not mocking the backend??
 
-  public itemList: Observable<Item[]>;
+    public itemList: Observable<Item[]>;
 
-  constructor(private itemListService: ItemListService, private auth: AuthService, private user: UserService) { }
+    constructor(private itemListService: ItemListService, private auth: AuthService, private user: UserService) { }
 
-  ngOnInit() {
-    this.initItems();
-  }
+    ngOnInit() {
+        this.initItems();
+    }
 
-  public toggleDescription(index: number): void {
-    this.itemList[index].showDescription = !this.itemList[index].showDescription;
-  }
-
-  private initItems(): void {
-    console.log('getitems');
-    this.itemList = this.itemListService.initConnection();
+    public toggleDescription(index: number): void {
+        this.itemList[index].showDescription = !this.itemList[index].showDescription;
+    }
+  
+    private initItems(): void {
+        console.log('getitems');
+        this.itemList = this.itemListService.initConnection();
     
-    // this is how to retrieve a user's items
-    this.auth.uniqueID().then((uid) => {
-        this.user.following(uid).subscribe((items) => {
-            console.log(items);
+        // this is how to retrieve a user's items
+        this.auth.uniqueID().then((uid) => {
+            this.user.following(uid).subscribe((items) => {
+                console.log(items);
+            });
         });
-    });
-  }
-
+    }
 }

@@ -11,6 +11,5 @@ export class Item {
     public category: string;
     public images: string[];
     public bidders: Object;
-    public followers: Object;
     public donor: string;
 }
