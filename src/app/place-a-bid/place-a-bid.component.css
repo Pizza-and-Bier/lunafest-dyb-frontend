@@ -1,0 +1,12 @@
+.current-bid {
+    font-size: .8rem;
+}
+
+.current-bid .amount {
+    font-size: 1.2rem;
+    color: #178218;
+}
+
+mat-dialog-content {
+    height: 100%;
+}

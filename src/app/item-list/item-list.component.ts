@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MatDialogRef, MatDialog } from '@angular/material';
 import { Observable } from "rxjs";
 
 import { Item } from "../models";
 import { ItemListService } from "./item-list.service";
 import { ItemListItem } from './item-list-item';
 import { SerializationHelper } from "../util";
+import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
 
 @Component({
   selector: 'app-item-list',
@@ -19,14 +20,22 @@ export class ItemListComponent implements OnInit {
 
   public itemInfoToggles: boolean[] = [];
 
-  constructor(private itemListService: ItemListService) { }
+  constructor(private itemListService: ItemListService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.initItems();
   }
 
   public toggleDescription(index: number): void {
-    this.itemInfoToggles[index] = !this.itemInfoToggles[index]; 
+    this.itemInfoToggles[index] = !this.itemInfoToggles[index];
+  }
+
+  public placeBid(item: Item): void {
+    let dialogRef = this.dialog.open(PlaceABidComponent, {
+      width: "300px",
+      height: "300px",
+      data: item
+    });
   }
 
   private initItems(): void {

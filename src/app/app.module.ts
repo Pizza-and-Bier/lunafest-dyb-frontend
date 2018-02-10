@@ -33,6 +33,7 @@ import { AuthWrapperComponent } from './auth-wrapper/auth-wrapper.component';
 import { ItemListComponent } from './item-list/item-list.component';
 import { MyBidsComponent } from "./my-bids/my-bids.component";
 import { RegistrationComponent } from './registration/registration.component';
+import { PlaceABidComponent } from './place-a-bid/place-a-bid.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { RegistrationComponent } from './registration/registration.component';
     ItemListComponent,
     MyBidsComponent,
     RegistrationComponent,
-    PhoneNumberFormatter
+    PhoneNumberFormatter,
+    PlaceABidComponent
   ],
   imports: [
     BrowserModule,
@@ -65,6 +67,7 @@ import { RegistrationComponent } from './registration/registration.component';
     UserBidService,
     RegistrationService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ PlaceABidComponent ]
 })
 export class AppModule { }
