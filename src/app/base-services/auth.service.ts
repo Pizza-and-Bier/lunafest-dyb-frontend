@@ -3,7 +3,7 @@ import { AngularFireAuth } from "angularfire2/auth";
 import * as firebase from "firebase/app";
 
 @Injectable()
-export class AuthService {
+export class BaseAuthService {
     constructor(private afAuth: AngularFireAuth) { }
     
     public attemptLogin(email: string, password: string): Promise<firebase.User> {

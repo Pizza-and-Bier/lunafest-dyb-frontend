@@ -5,9 +5,9 @@ import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireDatabaseModule } from "angularfire2/database";
 
 import { environment } from '../../environments/environment';
-import { BackendItemsService } from './item-list.service';
-import { AuthService } from './auth.service';
-import { UserService } from "./user.service";
+import { BaseItemService } from './item.service';
+import { BaseAuthService } from './auth.service';
+import { BaseUserService } from "./user.service";
 
 @NgModule({
   imports: [
@@ -18,9 +18,9 @@ import { UserService } from "./user.service";
   ],
   declarations: [],
   providers: [
-      BackendItemsService,
-      AuthService,
-      UserService
+      BaseItemService,
+      BaseAuthService,
+      BaseUserService
   ]
 })
-export class FirebaseServicesModule { }
+export class BaseServicesModule { }

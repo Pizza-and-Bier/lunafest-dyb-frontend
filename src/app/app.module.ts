@@ -14,7 +14,7 @@ import { MaterialModule } from "./material/material.module";
 
 import { RoutingModule } from "./routing/routing.module";
 
-import { FirebaseServicesModule } from "./firebase-services/firebase-services.module";
+import { BaseServicesModule } from "./base-services/base-services.module";
 
 import { ItemService } from "./services/item.service";
 import { ItemListService } from "./item-list/item-list.service";
@@ -47,7 +47,7 @@ import { MyBidsComponent } from "./my-bids/my-bids.component";
     FlexLayoutModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemItemsService),
-    FirebaseServicesModule
+    BaseServicesModule
   ],
   providers: [
     LoginService,
