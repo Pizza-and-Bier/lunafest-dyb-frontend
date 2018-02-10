@@ -1,6 +1,6 @@
 <section class="item-list-wrapper">
   <mat-card *ngFor="let item of itemList | async; let i = index">
-    <img mat-card-image [src]="item?.images[i+1]">
+    <img mat-card-image [src]="item?.images[0]">
     <mat-card-content>
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <div fxLayout="column" fxLayoutAlign="start start">
