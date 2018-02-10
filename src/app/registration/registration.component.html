@@ -48,13 +48,13 @@
             </div>
             <div fxLayout="row" fxLayoutAlign="center center">
                 <mat-form-field>
-                  <input dybPhoneNumber formControlName="phoneNumber" matInput placeholder="Phone Number" type="tel"/>
+                  <input dybPhoneNumber formControlName="phoneNumber" matInput placeholder="Phone Number" (onPhoneNumberChanged)="setPhoneField($event)" type="tel"/>
                   <mat-error *ngIf="formErrors.personalInfo.phoneNumber">{{formErrors.personalInfo.phoneNumber}}</mat-error>
                 </mat-form-field>
               </div>
             <div fxFlexFill fxLayout="row" fxLayoutAlign="end center">
               <button mat-raised-button type="button" role="button" (click)="previousStep('loginInfo')">Back</button>
-              <button mat-raised-button color="primary" type="button" role="button" [disabled]="registrationForm.get('loginInfo').invalid">Next</button>
+              <button mat-raised-button color="primary" type="button" role="button" (click)="signupUser()" [disabled]="registrationForm.get('loginInfo').invalid">Sign Up</button>
             </div>
           </div>
         </ng-container>

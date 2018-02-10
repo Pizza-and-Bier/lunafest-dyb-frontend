@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CdkStepper } from '@angular/cdk/stepper';
 
 import { RegistrationService } from '../services/registration.service';
 import { PasswordMatchValidator } from "../util/password-match-validator";
 import { validPhoneValidator } from '../util/valid-phone.validator';
+
 
 @Component({
   selector: 'dyb-registration',
@@ -60,7 +62,7 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  constructor(private fb: FormBuilder, private registrationService: RegistrationService) { }
+  constructor(private fb: FormBuilder, private registrationService: RegistrationService, private router: Router) { }
 
   ngOnInit() {
     this.buildForm();
@@ -75,11 +77,16 @@ export class RegistrationComponent implements OnInit {
     this.currentStep = stepName;
   }
 
-  // public setPhoneField(data): void {
-  //   this.registrationForm.get("personalInfo").get("phoneNumber").markAsDirty();
-  //   this.registrationForm.get("personalInfo").get("phoneNumber").setValue(data);
-  //   this.registrationForm.get("personalInfo").get("phoneNumber").updateValueAndValidity();
-  // }
+  public setPhoneField(data): void {
+    console.log(data);
+    this.registrationForm.get("personalInfo").get("phoneNumber").markAsDirty();
+    this.registrationForm.get("personalInfo").get("phoneNumber").setValue(data);
+    this.registrationForm.get("personalInfo").get("phoneNumber").updateValueAndValidity();
+  }
+
+  public signupUser(): void {
+    
+  }
 
   private buildForm(): void {
     this.registrationForm = this.fb.group({
@@ -123,8 +130,8 @@ export class RegistrationComponent implements OnInit {
     
       for (const field in this.formErrors) {
         if (field === "loginInfo" || field === "personalInfo") {
-          if(form.get(field) !== null && form.get(field) !== undefined) {
-            for(const nestedField in this.formErrors[field]) {
+          if (form.get(field) !== null && form.get(field) !== undefined) {
+            for (const nestedField in this.formErrors[field]) {
               this.formErrors[field][nestedField] = '';
               const control = form.get(field).get(nestedField);
               if (control && control.dirty && !control.valid) {
