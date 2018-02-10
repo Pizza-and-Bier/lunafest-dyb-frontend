@@ -34,6 +34,7 @@ import { ItemListComponent } from './item-list/item-list.component';
 import { MyBidsComponent } from "./my-bids/my-bids.component";
 import { RegistrationComponent } from './registration/registration.component';
 import { PlaceABidComponent } from './place-a-bid/place-a-bid.component';
+import { OnlyNumberDirective } from './util/directives/only-number.directive';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { PlaceABidComponent } from './place-a-bid/place-a-bid.component';
     MyBidsComponent,
     RegistrationComponent,
     PhoneNumberFormatter,
-    PlaceABidComponent
+    PlaceABidComponent,
+    OnlyNumberDirective
   ],
   imports: [
     BrowserModule,

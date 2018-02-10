@@ -33,7 +33,7 @@ export class ItemListComponent implements OnInit {
   public placeBid(item: Item): void {
     let dialogRef = this.dialog.open(PlaceABidComponent, {
       width: "300px",
-      height: "300px",
+      height: "400px",
       data: item
     });
   }
