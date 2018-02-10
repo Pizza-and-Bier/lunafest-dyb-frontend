@@ -9,31 +9,6 @@ export class InMemItemsService implements InMemoryDbService {
   createDb(reqInfo?: RequestInfo) {
     let items = [
       {
-        id: 1,
-        name: "Cale's Sock",
-        estimatedValue: 5,
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        category: "Other",
-        openingBid: {
-          createdBy: 0,
-          createdAt: 0,
-          item: 1,
-          amount: 1
-        },
-        currentBid: {
-            createdBy: 1,
-            createdAt: 10,
-            item: 1,
-            amount: 1
-        },
-        images: [
-            {
-                id: 1,
-                source: "https://thumbs.dreamstime.com/z/bad-smell-sock-boy-feeling-unhappy-white-65109157.jpg"
-            }
-        ]
-      },
-      {
         id: 2,
         name: "A cat tree",
         estimatedValue: 50,
@@ -87,33 +62,8 @@ export class InMemItemsService implements InMemoryDbService {
 
     let userItems = [
       {
-        id: 1,
-        name: "Cale's Sock",
-        estimatedValue: 5,
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        category: "Other",
-        openingBid: {
-          createdBy: 0,
-          createdAt: 0,
-          item: 1,
-          amount: 1
-        },
-        currentBid: {
-            createdBy: 1,
-            createdAt: 10,
-            item: 1,
-            amount: 1
-        },
-        images: [
-            {
-                id: 1,
-                source: "https://thumbs.dreamstime.com/z/bad-smell-sock-boy-feeling-unhappy-white-65109157.jpg"
-            }
-        ]
-      },
-      {
         id: 2,
-        name: "A cat tree",
+        name: "Cat tree",
         estimatedValue: 50,
         description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         category: "Cats",
