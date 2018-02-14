@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="item-more-info" *ngIf="item.showDescription">
+      <div class="item-more-info" *ngIf="itemInfoToggles[i]">
         <mat-divider [inset]="true"></mat-divider>
         <div class="item-description">
             {{item?.description}}

@@ -17,6 +17,8 @@ export class ItemListComponent implements OnInit {
 
   public itemList: Observable<Item[]>;
 
+  public itemInfoToggles: boolean[] = [];
+
   constructor(private itemListService: ItemListService) { }
 
   ngOnInit() {
@@ -24,12 +26,20 @@ export class ItemListComponent implements OnInit {
   }
 
   public toggleDescription(index: number): void {
-    this.itemList[index].showDescription = !this.itemList[index].showDescription; 
+    this.itemInfoToggles[index] = !this.itemInfoToggles[index]; 
   }
 
   private initItems(): void {
     console.log('getitems');
     this.itemList = this.itemListService.initConnection();
+    this.itemList.subscribe(
+      (data) => {
+        console.log("subscriiiibbee");
+        this.itemInfoToggles.length = data.length;
+        this.itemInfoToggles.fill(false);
+        console.log(this.itemInfoToggles);
+      }
+    )
     // this.itemListService.getItems().subscribe(
     //   (data) => {
     //     data.map((elem) => {
