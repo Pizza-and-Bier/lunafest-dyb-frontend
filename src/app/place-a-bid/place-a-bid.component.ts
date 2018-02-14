@@ -25,7 +25,7 @@ export class PlaceABidComponent implements OnInit {
     }
   };
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Item, public dialogRef: MatDialogRef<PlaceABidComponent>, private fb: FormBuilder) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Item, public dialogRef: MatDialogRef<PlaceABidComponent>, private fb: FormBuilder, private bidService: BidService) { }
 
   ngOnInit() {
     console.log(this.data);
@@ -45,6 +45,14 @@ export class PlaceABidComponent implements OnInit {
   }
 
   public placeBid(): void {
+    this.bidService.placeBid(this.bidForm.get("bidValue").value).subscribe(
+      (data) => {
+
+      }
+    )
+  }
+
+  public cancel(): void {
     this.dialogRef.close();
   }
 
