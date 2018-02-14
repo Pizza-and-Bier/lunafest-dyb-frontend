@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-
-import { ItemService } from "../services";
-import { Item } from "../models";
-
-import { BackendItemsService } from "../firebase-services/backend-items.service";
-
 import { Observable } from "rxjs/Observable";
+
+import { Item } from "../models";
+import { BackendItemsService } from "../firebase-services/item-list.service";
 
 @Injectable()
 export class ItemListService {
@@ -13,8 +10,7 @@ export class ItemListService {
   constructor(private backendItemsService: BackendItemsService) { }
 
   public initConnection(): Observable<Item[]> {
-    console.log("item-list service");
-    return this.backendItemsService.initConnection();
+    return this.backendItemsService.all();
   }
 
 }

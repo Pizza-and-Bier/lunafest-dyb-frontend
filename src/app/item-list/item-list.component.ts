@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
 
 import { Item } from "../models";
 import { ItemListService } from "./item-list.service";
-import { ItemListItem } from './item-list-item';
-import { SerializationHelper } from "../util";
+import { AuthService } from '../firebase-services/auth.service';
+import { UserService } from '../firebase-services/user.service';
 
 @Component({
   selector: 'app-item-list',
@@ -13,13 +12,14 @@ import { SerializationHelper } from "../util";
   styleUrls: ['./item-list.component.css'],
 })
 export class ItemListComponent implements OnInit {
+
   //Todo: can ItemListService be provided here when I'm not mocking the backend??
 
   public itemList: Observable<Item[]>;
 
   public itemInfoToggles: boolean[] = [];
 
-  constructor(private itemListService: ItemListService) { }
+  constructor(private itemListService: ItemListService, private auth: AuthService, private user: UserService) { }
 
   ngOnInit() {
     this.initItems();
@@ -39,7 +39,13 @@ export class ItemListComponent implements OnInit {
         this.itemInfoToggles.fill(false);
         console.log(this.itemInfoToggles);
       }
-    )
+    );
+
+    this.auth.uniqueID().then((uid) => {
+      this.user.following(uid).subscribe((items) => {
+          console.log(items);
+      });
+  });
     // this.itemListService.getItems().subscribe(
     //   (data) => {
     //     data.map((elem) => {
@@ -50,5 +56,4 @@ export class ItemListComponent implements OnInit {
     //   }
     // )
   }
-
 }

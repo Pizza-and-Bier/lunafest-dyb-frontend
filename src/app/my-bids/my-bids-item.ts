@@ -4,7 +4,7 @@ export class MyBidsItem extends Item {
     constructor() {
         super();
     }
-    public userWinningItem(userId: number): boolean {
+    public userWinningItem(userId: string): boolean {
         return this.currentBid.createdBy === userId;
     }
 }
