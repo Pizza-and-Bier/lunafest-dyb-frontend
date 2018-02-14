@@ -9,6 +9,11 @@
 # dependencies
 /node_modules
 
+# leave out editorconfig file because it's slightly annoying
+.editorconfig
+
+src/**/*.js
+
 # IDEs and editors
 /.idea
 .project

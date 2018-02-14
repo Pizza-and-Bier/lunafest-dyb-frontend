@@ -10,4 +10,6 @@ export class Item {
     public openingBid: Bid;
     public category: string;
     public images: string[];
+    public bidders: Object;
+    public donor: string;
 }

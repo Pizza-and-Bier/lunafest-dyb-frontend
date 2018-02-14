@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatDialog } from '@angular/material';
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
 
 import { Item } from "../models";
 import { ItemListService } from "./item-list.service";
+import { AuthService } from '../firebase-services/auth.service';
+import { UserService } from '../firebase-services/user.service';
 import { ItemListItem } from './item-list-item';
 import { SerializationHelper } from "../util";
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
@@ -14,13 +16,14 @@ import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
   styleUrls: ['./item-list.component.css'],
 })
 export class ItemListComponent implements OnInit {
-  //Todo: can ItemListService be provided here when I'm not mocking the backend??
+
+  // Todo: can ItemListService be provided here when I'm not mocking the backend??
 
   public itemList: Observable<Item[]>;
 
   public itemInfoToggles: boolean[] = [];
 
-  constructor(private itemListService: ItemListService, public dialog: MatDialog) { }
+  constructor(private itemListService: ItemListService, private auth: AuthService, private user: UserService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.initItems();
@@ -48,7 +51,13 @@ export class ItemListComponent implements OnInit {
         this.itemInfoToggles.fill(false);
         console.log(this.itemInfoToggles);
       }
-    )
+    );
+
+    this.auth.uniqueID().then((uid) => {
+      this.user.following(uid).subscribe((items) => {
+          console.log(items);
+      });
+  });
     // this.itemListService.getItems().subscribe(
     //   (data) => {
     //     data.map((elem) => {
@@ -59,5 +68,4 @@ export class ItemListComponent implements OnInit {
     //   }
     // )
   }
-
 }
