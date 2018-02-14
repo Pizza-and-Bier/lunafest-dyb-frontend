@@ -26,9 +26,7 @@ export class MyBidsComponent implements OnInit {
     this.userBidService.getUsersItems().subscribe(
       (data) => {
         console.log(data);
-        data.map((elem) => {
-          this.userBids.push(SerializationHelper.toInstance(new MyBidsItem(), elem));
-        });
+        this.userBids.push(SerializationHelper.toInstance(new MyBidsItem(), data));
       }
     );
   }

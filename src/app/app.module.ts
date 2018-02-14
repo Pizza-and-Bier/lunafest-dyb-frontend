@@ -20,7 +20,6 @@ import { FirebaseServicesModule } from "./firebase-services/firebase-services.mo
 import { ItemService } from "./services/item.service";
 import { ItemListService } from "./item-list/item-list.service";
 import { LoginService } from './services/login.service';
-import { UserService } from './services/user.service';
 import { UserBidService } from './my-bids/user-bid.service';
 import { RegistrationService } from "./services/registration.service";
 
@@ -65,7 +64,6 @@ import { OnlyNumberDirective } from './util/directives/only-number.directive';
     LoginService,
     ItemService,
     ItemListService,
-    UserService,
     UserBidService,
     RegistrationService
   ],

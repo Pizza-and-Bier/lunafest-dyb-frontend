@@ -23,7 +23,7 @@ export class ItemListComponent implements OnInit {
 
   public itemInfoToggles: boolean[] = [];
 
-  constructor(private itemListService: ItemListService, private auth: AuthService, private user: UserService, public dialog: MatDialog) { }
+  constructor(private itemListService: ItemListService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.initItems();
@@ -52,12 +52,6 @@ export class ItemListComponent implements OnInit {
         console.log(this.itemInfoToggles);
       }
     );
-
-    this.auth.uniqueID().then((uid) => {
-      this.user.following(uid).subscribe((items) => {
-          console.log(items);
-      });
-  });
     // this.itemListService.getItems().subscribe(
     //   (data) => {
     //     data.map((elem) => {
