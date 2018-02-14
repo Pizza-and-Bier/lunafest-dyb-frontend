@@ -1,0 +1,16 @@
+.registration-card {
+    min-width: 90%;
+    margin: 0 auto;
+}
+
+.registration-form mat-form-field {
+    width: 100%;
+}
+
+/* .registration-form mat-form-field {
+    width: 90%;
+} */
+/* 
+.contact-inputs{
+    width: 90%;
+} */
