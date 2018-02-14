@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: '[only-number]'
+  selector: '[onlyNumber]'
 })
 export class OnlyNumberDirective {
 
@@ -9,7 +9,7 @@ export class OnlyNumberDirective {
 
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    let e = <KeyboardEvent> event;
+    const e = <KeyboardEvent> event;
     if ([46, 8, 9, 27, 13, 110, 190].indexOf(e.keyCode) !== -1 ||
     // Allow: Ctrl+A
     (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||

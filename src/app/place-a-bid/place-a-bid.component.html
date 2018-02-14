@@ -23,7 +23,7 @@
     <form [formGroup]="bidForm">
       <mat-form-field>
         <span matPrefix>$ &nbsp;</span>
-        <input matInput only-number formControlName="bidValue" type="number" aria-label="Bid Amount" aria-required="true" />
+        <input matInput onlyNumber formControlName="bidValue" type="number" aria-label="Bid Amount" aria-required="true" />
         <mat-error *ngIf="formErrors.bidValue">
           {{formErrors.bidValue}}
         </mat-error>
