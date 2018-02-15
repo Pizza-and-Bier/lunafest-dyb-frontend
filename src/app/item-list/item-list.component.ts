@@ -3,8 +3,8 @@ import { Observable } from "rxjs/Observable";
 
 import { Item } from "../models";
 import { ItemListService } from "./item-list.service";
-import { AuthService } from '../firebase-services/auth.service';
-import { UserService } from '../firebase-services/user.service';
+import { BaseAuthService } from '../base-services/auth.service';
+import { BaseUserService } from '../base-services/user.service';
 
 @Component({
   selector: 'app-item-list',
@@ -19,7 +19,7 @@ export class ItemListComponent implements OnInit {
 
   public itemInfoToggles: boolean[] = [];
 
-  constructor(private itemListService: ItemListService, private auth: AuthService, private user: UserService) { }
+  constructor(private itemListService: ItemListService, private auth: BaseAuthService, private user: BaseUserService) { }
 
   ngOnInit() {
     this.initItems();

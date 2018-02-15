@@ -8,7 +8,7 @@ import { pull } from "lodash";
 import { User, Item, Bid } from "../models";
 
 @Injectable()
-export class UserService {
+export class BaseUserService {
     constructor(private db: AngularFireDatabase) { };
 
     /**
