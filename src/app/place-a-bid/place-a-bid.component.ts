@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef, MatButtonToggleChange } from "@angular/material";
 
 import { Item } from '../models';
+import { PlaceABidService } from './place-a-bid.service';
 
 @Component({
   selector: 'dyb-place-a-bid',
@@ -25,7 +26,10 @@ export class PlaceABidComponent implements OnInit {
     }
   };
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Item, public dialogRef: MatDialogRef<PlaceABidComponent>, private fb: FormBuilder, private bidService: BidService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Item,
+  public dialogRef: MatDialogRef<PlaceABidComponent>,
+  private fb: FormBuilder,
+  private bidService: PlaceABidService) { }
 
   ngOnInit() {
     console.log(this.data);
@@ -45,7 +49,7 @@ export class PlaceABidComponent implements OnInit {
   }
 
   public placeBid(): void {
-    this.bidService.placeBid(this.bidForm.get("bidValue").value).subscribe(
+    this.bidService.placeBid(this.data.id, this.bidForm.get("bidValue").value).subscribe(
       (data) => {
 
       }
