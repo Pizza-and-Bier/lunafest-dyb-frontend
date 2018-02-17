@@ -159,8 +159,7 @@ export class RegistrationComponent implements OnInit {
 
         ]],
         "phoneNumber": ["", [
-          Validators.required,
-          validPhoneValidator()
+
         ]]
       }),
       "contactInfo": this.fb.group({
