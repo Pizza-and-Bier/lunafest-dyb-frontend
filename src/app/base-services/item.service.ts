@@ -8,7 +8,22 @@ import { Item } from '../models';
 export class BaseItemService {
     constructor(private db: AngularFireDatabase) { }
 
-    all (): Observable<Item[]> {
+    /**
+     * @author Anthony Pizzimenti
+     * @description Gets all the items wrapped in an Observable.
+     * @returns {Observable<Item[]>} An Observable watching a list of items.
+     */
+    all(): Observable<Item[]> {
         return this.db.list<Item>("items").valueChanges();
+    }
+
+    /**
+     * @author Anthony Pizzimenti
+     * @description Gets an individual item.
+     * @param {string | number} itemID  The desired item's unique ID.
+     * @returns {Observable<Item>}
+     */
+    one(itemID: string | number): Observable<Item> {
+        return this.db.object<Item>("/items/" + itemID).valueChanges();
     }
 }
