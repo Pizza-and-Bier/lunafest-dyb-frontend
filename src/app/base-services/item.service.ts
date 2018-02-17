@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { Item } from '../models';
 
 @Injectable()
-export class BackendItemsService {
+export class BaseItemService {
     constructor(private db: AngularFireDatabase) { }
 
     all (): Observable<Item[]> {

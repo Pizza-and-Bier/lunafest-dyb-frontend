@@ -4,11 +4,16 @@ import { Observable } from "rxjs/Observable";
 
 import { Item } from "../models";
 import { ItemListService } from "./item-list.service";
+<<<<<<< HEAD
 import { AuthService } from '../firebase-services/auth.service';
 import { UserService } from '../firebase-services/user.service';
 import { ItemListItem } from './item-list-item';
 import { SerializationHelper } from "../util";
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
+=======
+import { BaseAuthService } from '../base-services/auth.service';
+import { BaseUserService } from '../base-services/user.service';
+>>>>>>> master
 
 @Component({
   selector: 'app-item-list',
