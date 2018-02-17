@@ -3,9 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CdkStepper } from '@angular/cdk/stepper';
 
-import { RegistrationService } from '../services/registration.service';
+import { RegistrationService } from './registration.service';
 import { PasswordMatchValidator } from "../util/password-match-validator";
 import { validPhoneValidator } from '../util/valid-phone.validator';
+import { SerializationHelper } from '../util';
+import { AuthenticatedUser } from '../models';
 
 
 @Component({
@@ -85,7 +87,15 @@ export class RegistrationComponent implements OnInit {
   }
 
   public signupUser(): void {
-    
+    const loginInfo = this.registrationForm.get("loginInfo").value;
+    const personalInfo = this.registrationForm.get("personalInfo").value;
+    const combined = Object.assign({}, loginInfo, personalInfo);
+    const user = SerializationHelper.toInstance(new AuthenticatedUser(), combined);
+    this.registrationService.signupUser(user).then(
+      (data) => {
+        this.router.navigate(["/login"]);
+      }
+    )
   }
 
   private buildForm(): void {

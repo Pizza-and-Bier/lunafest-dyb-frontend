@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "angularfire2/auth";
 import * as firebase from "firebase/app";
 
+
 @Injectable()
 export class BaseAuthService {
     constructor(private afAuth: AngularFireAuth) { }
@@ -12,6 +13,10 @@ export class BaseAuthService {
     
     public logout(): Promise<void> {
         return this.afAuth.auth.signOut();
+    }
+
+    public signUp(email: string, password: string): Promise<void> {
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
     }
     
     /**
