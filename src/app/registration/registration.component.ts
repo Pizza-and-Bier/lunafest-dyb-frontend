@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatCheckbox } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
@@ -11,7 +12,6 @@ import { validPhoneValidator } from '../util/valid-phone.validator';
 import { SerializationHelper } from '../util';
 import { AuthenticatedUser } from '../models';
 import { stateAbbreviations } from "./states.const";
-
 
 @Component({
   selector: 'dyb-registration',
@@ -107,14 +107,30 @@ export class RegistrationComponent implements OnInit {
 
   public signupUser(): void {
     const loginInfo = this.registrationForm.get("loginInfo").value;
+    delete loginInfo.confirmPassword;
     const personalInfo = this.registrationForm.get("personalInfo").value;
-    const combined = Object.assign({}, loginInfo, personalInfo);
+    delete personalInfo.smsOptIn;
+    const contactInfo = this.registrationForm.get("contactInfo").value;
+    const combined = Object.assign({}, loginInfo, personalInfo, contactInfo);
     const user = SerializationHelper.toInstance(new AuthenticatedUser(), combined);
+    console.log(user);
     this.registrationService.signupUser(user).then(
       (data) => {
         this.router.navigate(["/login"]);
       }
     )
+  }
+
+  public updatePhoneValidators(event: {checked: boolean, source: MatCheckbox}): void {
+    const phoneControl = this.registrationForm.get("personalInfo").get("phoneNumber");
+    if (event.checked) {
+      phoneControl.setValidators([Validators.required, validPhoneValidator()]);
+      phoneControl.updateValueAndValidity();
+    }
+    else {
+      phoneControl.setValidators([]);
+      phoneControl.updateValueAndValidity();
+    }
   }
 
   private buildForm(): void {
@@ -138,6 +154,9 @@ export class RegistrationComponent implements OnInit {
         ]],
         "lastName": ["", [
           Validators.required
+        ]],
+        "smsOptIn": [false, [
+
         ]],
         "phoneNumber": ["", [
           Validators.required,

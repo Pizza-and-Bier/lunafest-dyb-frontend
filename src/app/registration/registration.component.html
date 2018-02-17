@@ -1,13 +1,11 @@
 <section fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
   <mat-card class="registration-card">
-    <mat-card-title>
-      Sign up
-    </mat-card-title>
     <mat-card-content>
 
       <form class="registration-form" [formGroup]="registrationForm">
         <ng-container *ngIf="currentStep == 'loginInfo'">
           <div class="login-info" formGroupName="loginInfo" fxLayout="column"  fxLayoutAlign="center center">
+            <h3>Login Info</h3>
             <div fxLayout="row" fxFlexFill fxLayoutAlign="center center">
               <mat-form-field>
                 <input formControlName="email" matInput placeholder="Email" type="email">
@@ -33,6 +31,7 @@
           </div>
         </ng-container>
         <ng-container *ngIf="currentStep == 'personalInfo'">
+          <h3>Personal Information</h3>
           <div class="contact-inputs" formGroupName="personalInfo" fxLayout="column" fxLayoutAlign="start center">
             <div fxLayout="row" fxLayoutAlign="center center">
               <mat-form-field>
@@ -46,19 +45,23 @@
                 <mat-error *ngIf="formErrors.personalInfo.lastName">{{formErrors.personalInfo.lastName}}</mat-error>
               </mat-form-field>
             </div>
-            <div fxLayout="row" fxLayoutAlign="center center">
-                <mat-form-field>
-                  <input dybPhoneNumber formControlName="phoneNumber" matInput placeholder="Phone Number" (onPhoneNumberChanged)="setPhoneField($event)" type="tel"/>
-                  <mat-error *ngIf="formErrors.personalInfo.phoneNumber">{{formErrors.personalInfo.phoneNumber}}</mat-error>
-                </mat-form-field>
+            <div fxLayout="column" fxLayoutAlign="center center">
+              <mat-checkbox formControlName="smsOptIn" (change)="updatePhoneValidators($event)">
+                Recieve SMS bid updates
+              </mat-checkbox>
+              <mat-form-field *ngIf="registrationForm.get('personalInfo').get('smsOptIn').value">
+                <input dybPhoneNumber formControlName="phoneNumber" matInput placeholder="Phone Number" (onPhoneNumberChanged)="setPhoneField($event)" type="tel"/>
+                <mat-error *ngIf="formErrors.personalInfo.phoneNumber">{{formErrors.personalInfo.phoneNumber}}</mat-error>
+              </mat-form-field>
               </div>
             <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
               <button mat-raised-button type="button" role="button" (click)="previousStep('loginInfo')">Back</button>
-              <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('contactInfo')" [disabled]="registrationForm.get('loginInfo').invalid">Sign Up</button>
+              <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('contactInfo')" [disabled]="registrationForm.get('personalInfo').invalid">Next</button>
             </div>
           </div>
         </ng-container>
         <ng-container *ngIf="currentStep === 'contactInfo'">
+          <h3>Contact Information</h3>
           <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="start center">
             <div fxLayout="row" fxLayoutAlign="center center">
               <mat-form-field>
@@ -90,8 +93,20 @@
               </mat-form-field>
             </div>
             <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
-              <button mat-raised-button type="button" role="button" (click)="previousStep('loginInfo')">Back</button>
-              <button mat-raised-button color="primary" type="button" role="button" (click)="signupUser()" [disabled]="registrationForm.get('loginInfo').invalid">Sign Up</button>
+              <button mat-raised-button type="button" role="button" (click)="previousStep('personalInfo')">Back</button>
+              <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('terms')" [disabled]="registrationForm.get('contactInfo').invalid">Next</button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="currentStep === 'terms'">
+          <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="start center">
+            <h3>Disclaimer</h3>
+            <p>
+              <strong>Please note:</strong> If you are bidding remotely, you will need to send someone to pick up your items. The Lunafest committe will not be shipping your winnings.
+            </p>
+            <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
+                <button mat-raised-button type="button" role="button" (click)="previousStep('contactInfo')">Back</button>
+              <button mat-raised-button color="primary" type="button" role="button" (click)="signupUser()">Sign Up</button>
             </div>
           </div>
         </ng-container>

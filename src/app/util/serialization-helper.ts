@@ -3,16 +3,15 @@ export class SerializationHelper {
         if (obj === undefined) {
             return json;
         }
-        
+
         if (typeof obj["fromJSON"] === "function") {
             obj["fromJSON"](json);
         }
         else {
-            for (var propName in json) {
-                obj[propName] = json[propName]
+            for (const propName in json) {
+                obj[propName] = json[propName];
             }
         }
-
         return obj;
     }
 
@@ -24,7 +23,7 @@ export class SerializationHelper {
             obj["toJSON"](json);
         }
         else {
-            for(var prop in obj) {
+            for (const prop in obj) {
                 json[prop] = obj[prop];
             }
         }
