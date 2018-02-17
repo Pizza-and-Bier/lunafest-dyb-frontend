@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Observable } from "rxjs/Observable";
+import { fromPromise } from "rxjs/observable/fromPromise";
+import { mergeMap } from "rxjs/operator/mergeMap";
 
-import { Observable } from "rxjs";
-
-import { UserService } from "../firebase-services/user.service";
-import { AuthService } from "../firebase-services/auth.service";
 import { Item } from '../models';
+import { BaseUserService } from '../base-services/user.service';
+import { BaseAuthService } from '../base-services/auth.service';
 
 @Injectable()
 export class UserBidService {
 
-  constructor( private auth: AuthService, private user: UserService) { }
+  constructor( private auth: BaseAuthService, private user: BaseUserService) { }
 
   // Todo: Error handling for auth.
 

@@ -4,16 +4,9 @@ import { Observable } from "rxjs/Observable";
 
 import { Item } from "../models";
 import { ItemListService } from "./item-list.service";
-<<<<<<< HEAD
-import { AuthService } from '../firebase-services/auth.service';
-import { UserService } from '../firebase-services/user.service';
 import { ItemListItem } from './item-list-item';
 import { SerializationHelper } from "../util";
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
-=======
-import { BaseAuthService } from '../base-services/auth.service';
-import { BaseUserService } from '../base-services/user.service';
->>>>>>> master
 
 @Component({
   selector: 'app-item-list',
@@ -38,11 +31,14 @@ export class ItemListComponent implements OnInit {
     this.itemInfoToggles[index] = !this.itemInfoToggles[index];
   }
 
-  public placeBid(item: Item): void {
+  public placeBid(item: Item, index: number): void {
     let dialogRef = this.dialog.open(PlaceABidComponent, {
       width: "300px",
       height: "400px",
-      data: item
+      data: {
+        item: item,
+        id: index
+      }
     });
   }
 
@@ -54,7 +50,6 @@ export class ItemListComponent implements OnInit {
         console.log("subscriiiibbee");
         this.itemInfoToggles.length = data.length;
         this.itemInfoToggles.fill(false);
-        console.log(this.itemInfoToggles);
       }
     );
     // this.itemListService.getItems().subscribe(

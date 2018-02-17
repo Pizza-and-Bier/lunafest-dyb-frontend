@@ -1,17 +1,26 @@
 
 <h3 mat-dialog-title>New Bid</h3>
 <mat-dialog-content>
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="3px">
+  <div *ngIf="bidPlaced">
+    <div *ngIf="!bidComplete" class="bid-complete-progress">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="bidComplete" class="bid-complete-confirm">
+      <mat-icon>check</mat-icon>
+      Bid Placed!
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="3px" *ngIf="!bidPlaced && !bidComplete">
     <div>
       <img [src]="imageSrc" width="100" height="100"/>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlexFill>
       <div>
-        {{data?.name}}
+        {{data?.item?.name}}
       </div>
       <div class="current-bid" fxLayout="column" fxLayoutAlign="start center">
         <div class="amount">
-          <strong>{{data?.currentBid.amount | currency: 'USD': 2}}</strong>
+          <strong>{{data?.item?.currentBid.amount | currency: 'USD': 2}}</strong>
         </div>
         <div>
           Current Bid
@@ -31,7 +40,7 @@
     </form>
   </div>
   <div class="total-wrapper">
-      <strong>Total:</strong> {{(data?.currentBid.amount + bidForm.get("bidValue").value) | currency: "USD": 2}}
+      <strong>Total:</strong> {{(data?.item?.currentBid.amount + bidForm.get("bidValue").value) | currency: "USD": 2}}
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

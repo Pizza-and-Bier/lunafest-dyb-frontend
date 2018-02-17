@@ -14,6 +14,10 @@ export class PlaceABidComponent implements OnInit {
 
   public imageSrc: string;
 
+  public bidComplete = false;
+
+  public bidPlaced = false;
+
   private bidForm: FormGroup;
 
   private formErrors: {[key: string]: any} = {
@@ -26,7 +30,7 @@ export class PlaceABidComponent implements OnInit {
     }
   };
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Item,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {item: Item, id: number},
   public dialogRef: MatDialogRef<PlaceABidComponent>,
   private fb: FormBuilder,
   private bidService: PlaceABidService) { }
@@ -38,7 +42,7 @@ export class PlaceABidComponent implements OnInit {
   }
 
   public getImageSource(): void {
-    const keys = this.data.images.filter((elem) => {
+    const keys = this.data.item.images.filter((elem) => {
       return elem !== null && elem !== undefined;
     });
     this.imageSrc = keys.pop();
@@ -49,11 +53,18 @@ export class PlaceABidComponent implements OnInit {
   }
 
   public placeBid(): void {
-    this.bidService.placeBid(this.data.id, this.bidForm.get("bidValue").value).subscribe(
+    this.bidPlaced = true;
+    const total = this.bidForm.get("bidValue").value + this.data.item.currentBid.amount;
+    this.bidService.placeBid(this.data.id, total).then(
       (data) => {
-
+        this.bidPlaced = false;
+        console.log(data);
+        this.bidComplete = true;
+        setTimeout(() => {
+          this.dialogRef.close();
+        }, 1000);
       }
-    )
+    );
   }
 
   public cancel(): void {

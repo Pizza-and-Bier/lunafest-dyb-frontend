@@ -22,6 +22,7 @@ import { ItemListService } from "./item-list/item-list.service";
 import { LoginService } from './services/login.service';
 import { UserBidService } from './my-bids/user-bid.service';
 import { RegistrationService } from "./services/registration.service";
+import { PlaceABidService } from "./place-a-bid/place-a-bid.service";
 
 import { PhoneNumberFormatter } from "./util/directives/phone-number-formatter.directive";
 
@@ -64,7 +65,8 @@ import { OnlyNumberDirective } from './util/directives/only-number.directive';
     ItemService,
     ItemListService,
     UserBidService,
-    RegistrationService
+    RegistrationService,
+    PlaceABidService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent ]
