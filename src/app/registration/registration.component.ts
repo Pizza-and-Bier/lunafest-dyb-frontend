@@ -1,13 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CdkStepper } from '@angular/cdk/stepper';
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
 
 import { RegistrationService } from './registration.service';
 import { PasswordMatchValidator } from "../util/password-match-validator";
 import { validPhoneValidator } from '../util/valid-phone.validator';
 import { SerializationHelper } from '../util';
 import { AuthenticatedUser } from '../models';
+import { stateAbbreviations } from "./states.const";
 
 
 @Component({
@@ -19,7 +22,9 @@ export class RegistrationComponent implements OnInit {
 
   public registrationForm: FormGroup;
 
-  public currentStep: string = "";
+  public currentStep = "";
+
+  public filteredStates: Observable<string[]>;
 
   public formErrors: any = {
     "loginInfo": {
@@ -31,8 +36,16 @@ export class RegistrationComponent implements OnInit {
       "firstName": "",
       "lastName": "",
       "phoneNumber": ""
+    },
+    "contactInfo": {
+      "street": "",
+      "city": "",
+      "state": "",
+      "zip": ""
     }
   };
+
+  public states = stateAbbreviations;
 
   private validationMessages: any = {
     "loginInfo": {
@@ -60,6 +73,12 @@ export class RegistrationComponent implements OnInit {
         "required": "Required.",
         "validPhoneNumber": "Invalid phone number."
       }
+    },
+    "contactInfo": {
+      "street": "",
+      "city": "",
+      "state": "",
+      "zip": ""
     }
   }
 
@@ -124,6 +143,20 @@ export class RegistrationComponent implements OnInit {
           Validators.required,
           validPhoneValidator()
         ]]
+      }),
+      "contactInfo": this.fb.group({
+        "street": ["", [
+
+        ]],
+        "city": ["Iowa City", [
+
+        ]],
+        "state": ["IA", [
+
+        ]],
+        "zip": ["52240", [
+
+        ]]
       })
     });
 
@@ -131,7 +164,19 @@ export class RegistrationComponent implements OnInit {
       (data) => {
         this.onValueChanged(data);
       }
-    )
+    );
+
+    this.filteredStates = this.registrationForm.get("contactInfo").get("state").valueChanges
+      .pipe(
+        startWith('IA'),
+        map(state => state ? this.filterStates(state) : this.states.slice())
+      );
+  }
+
+  private filterStates(name: string) {
+    return this.states.filter(state => {
+      return state.toLowerCase().indexOf(name.toLowerCase()) === 0;
+    });
   }
 
   private onValueChanged(data?: any): void {
