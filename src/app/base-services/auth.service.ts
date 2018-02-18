@@ -18,6 +18,23 @@ export class BaseAuthService {
 
     /**
      * @author Anthony Pizzimenti
+     * @desc Checks whether an email is already registered with the auth service.
+     * @param {string} email    Email to check.
+     * @returns {Promise<boolean>}
+     */
+    public userExists(email: string): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            this.afAuth.auth.fetchProvidersForEmail(email).then((data) => {
+                if (data.length == 0) resolve (true);
+                else resolve(false);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * @author Anthony Pizzimenti
      * @desc Signs up a new user.
      * @param {string} email    Email for the new user.
      * @param {string} password Password for the new user.
@@ -81,5 +98,3 @@ export class BaseAuthService {
         });
     }
 }
-
-
