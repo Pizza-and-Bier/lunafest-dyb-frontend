@@ -164,7 +164,7 @@ export class BaseUserService {
      */
     private retrieveItemObject(users: Observable<User>, parent: Observer<any>): void {
         users.subscribe((user) => {
-            let following = user.following;
+            let following = user.following ? user.following : [];
         
             for (let itemID of following) {
                 let path = "/items/" + itemID.toString(),
