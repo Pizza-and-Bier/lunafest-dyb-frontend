@@ -73,7 +73,7 @@ export class BaseUserService {
      * @author Anthony Pizzimenti
      * @desc Places a bid on the given item.
      * @param {string} uID          A user's unique ID.
-     * @param {string | number} iID An item's ID number.
+     * @param {string | number} iID An item's unique ID.
      * @param {number} bidValue     The amount to be bid.
      * @returns {Promise<any>}      Resolves if the bid was successful, rejects if not. 
      */
@@ -116,7 +116,7 @@ export class BaseUserService {
      * @returns {undefined}
      * @private 
      */
-    private followOrUnfollow(userReference: Reference, itemID: string, follow: boolean, resolve: Function, reject: Function) {
+    private followOrUnfollow(userReference: Reference, itemID: string, follow: boolean, resolve: Function, reject: Function): void {
         let observable = userReference.valueChanges().take(1);
 
         observable.subscribe((user) => {
@@ -146,7 +146,7 @@ export class BaseUserService {
      * @returns {undefined}
      * @private
      */
-    private retrieveItemObject(users: Observable<User>, parent: Observer<any>) {
+    private retrieveItemObject(users: Observable<User>, parent: Observer<any>): void {
         users.subscribe((user) => {
             let following = user.following;
         

@@ -31,7 +31,7 @@ export class BaseAuthService {
     /**
      * @author Anthony Pizzimenti
      * @desc Returns an authenticated user object.
-     * @returns {Promise<string>}
+     * @returns {Promise<firebase.User>}
      */
     public user(): Promise<firebase.User> {
         return new Promise((resolve, reject) => {
