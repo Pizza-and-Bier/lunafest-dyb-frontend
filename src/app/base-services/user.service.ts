@@ -13,6 +13,18 @@ export class BaseUserService {
 
     /**
      * @author Anthony Pizzimenti
+     * @desc Creates a new user.
+     * @param {string} uID  New user's unique ID.
+     * @returns {undefined} 
+     */
+    public create(uID: string): void {
+        let user = new User();
+        user.uid = uID;
+        this.db.object("/users/" + uID).set(user);
+    }
+
+    /**
+     * @author Anthony Pizzimenti
      * @desc Returns a user as it's represented in the database.
      * @param {string} uID  A user's unique ID.
      * @returns {Observable<User>} An Observable; can be subscribed to to listen for changes.
@@ -120,6 +132,10 @@ export class BaseUserService {
         let observable = userReference.valueChanges().take(1);
 
         observable.subscribe((user) => {
+            if (!user.following) {
+                user.following = [];
+            }
+
             if (follow && !user.following.includes(itemID)) {
                 user.following.unshift(itemID);
             } else if (follow && user.following.includes(itemID)) {
@@ -130,8 +146,8 @@ export class BaseUserService {
                 reject("User was not following the item attempting to be unfollowed.");
             }
 
-            userReference.update({ following: user.following }).then((_) => {
-                resolve(_);
+            userReference.set(user).then((_) => {
+                resolve("Successful " + (follow ? "follow." : "unfollow."));
             }).catch((err) => {
                 reject(err);
             });
