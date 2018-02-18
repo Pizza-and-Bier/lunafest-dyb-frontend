@@ -1,4 +1,3 @@
-import { Injectable } from "@angular/core";
 import { Observable, Observer } from "rxjs";
 import { AngularFireDatabase } from "angularfire2/database"
 import "rxjs/add/operator/take";
@@ -7,7 +6,6 @@ import { pull } from "lodash";
 
 import { User, Item, Bid } from "../models";
 
-@Injectable()
 export class BaseUserService {
     constructor(private db: AngularFireDatabase) { };
 
