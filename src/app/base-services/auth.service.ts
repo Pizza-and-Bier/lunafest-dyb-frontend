@@ -16,7 +16,14 @@ export class BaseAuthService {
         return this.afAuth.auth.signOut();
     }
 
-    public signUp(email: string, password: string): Promise<any> {
+    /**
+     * @author Anthony Pizzimenti
+     * @desc Signs up a new user.
+     * @param {string} email    Email for the new user.
+     * @param {string} password Password for the new user.
+     * @returns {Promise<any>} 
+     */
+    public signup(email: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
             let auth = this.afAuth.auth.createUserWithEmailAndPassword(email, password),
                 reason = "Account couldn't be created - ";
@@ -63,7 +70,7 @@ export class BaseAuthService {
     /**
      * @author Anthony Pizzimenti
      * @desc Returns an authenticated user object.
-     * @returns {Promise<firebase.User>}
+     * @returns {Promise<firebase.User>} 
      */
     public user(): Promise<firebase.User> {
         return new Promise((resolve, reject) => {
