@@ -12,6 +12,8 @@ import { validPhoneValidator } from '../util/valid-phone.validator';
 import { SerializationHelper } from '../util';
 import { AuthenticatedUser } from '../models';
 import { stateAbbreviations } from "./states.const";
+import { BaseAuthService } from '../base-services';
+import { UsernameAvaialableValidator } from '../util/username-available.validator';
 
 @Component({
   selector: 'dyb-registration',
@@ -51,7 +53,8 @@ export class RegistrationComponent implements OnInit {
     "loginInfo": {
       "email": {
         "required": "Required.",
-        "email": "Invalid email address."
+        "email": "Invalid email address.",
+        "usernameUnavailable": "This email is already in use."
       },
       "password": {
         "required": "Required.",
@@ -83,7 +86,7 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  constructor(private fb: FormBuilder, private registrationService: RegistrationService, private router: Router) { }
+  constructor(private fb: FormBuilder, private registrationService: RegistrationService, private router: Router, private authService: BaseAuthService) { }
 
   ngOnInit() {
     this.buildForm();
@@ -138,7 +141,9 @@ export class RegistrationComponent implements OnInit {
         "email": ["", [
           Validators.required,
           Validators.email
-        ]],
+        ],
+          UsernameAvaialableValidator.createValidator(this.authService)
+        ],
         "password": ["", [
           Validators.required,
           Validators.minLength(10)
@@ -199,7 +204,6 @@ export class RegistrationComponent implements OnInit {
   private onValueChanged(data?: any): void {
     if (!this.registrationForm) { return; }
     const form = this.registrationForm;
-    
     for (const field in this.formErrors) {
       if (field === "loginInfo" || field === "personalInfo") {
         if (form.get(field) !== null && form.get(field) !== undefined) {
