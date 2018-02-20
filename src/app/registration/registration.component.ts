@@ -136,6 +136,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   private buildForm(): void {
+    const passwordPattern = new RegExp(/(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]*/g);
     this.registrationForm = this.fb.group({
       "loginInfo": this.fb.group({
         "email": ["", [
@@ -146,7 +147,8 @@ export class RegistrationComponent implements OnInit {
         ],
         "password": ["", [
           Validators.required,
-          Validators.minLength(10)
+          Validators.minLength(10),
+          Validators.pattern(passwordPattern)
         ]],
         "confirmPassword": ["", [
           Validators.required,
