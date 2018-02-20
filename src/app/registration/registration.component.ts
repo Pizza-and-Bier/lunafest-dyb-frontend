@@ -113,7 +113,6 @@ export class RegistrationComponent implements OnInit {
     const contactInfo = this.registrationForm.get("contactInfo").value;
     const combined = Object.assign({}, loginInfo, personalInfo, contactInfo);
     const user = SerializationHelper.toInstance(new AuthenticatedUser(), combined);
-    console.log(user);
     this.registrationService.signupUser(user).then(
       (data) => {
         this.router.navigate(["/login"]);
@@ -201,33 +200,33 @@ export class RegistrationComponent implements OnInit {
     if (!this.registrationForm) { return; }
     const form = this.registrationForm;
     
-      for (const field in this.formErrors) {
-        if (field === "loginInfo" || field === "personalInfo") {
-          if (form.get(field) !== null && form.get(field) !== undefined) {
-            for (const nestedField in this.formErrors[field]) {
-              this.formErrors[field][nestedField] = '';
-              const control = form.get(field).get(nestedField);
-              if (control && control.dirty && !control.valid) {
-                const messages = this.validationMessages[field][nestedField];
-                for (const key in control.errors) {
-                  this.formErrors[field][nestedField] += messages[key] + ' ';
-                }
+    for (const field in this.formErrors) {
+      if (field === "loginInfo" || field === "personalInfo") {
+        if (form.get(field) !== null && form.get(field) !== undefined) {
+          for (const nestedField in this.formErrors[field]) {
+            this.formErrors[field][nestedField] = '';
+            const control = form.get(field).get(nestedField);
+            if (control && control.dirty && !control.valid) {
+              const messages = this.validationMessages[field][nestedField];
+              for (const key in control.errors) {
+                this.formErrors[field][nestedField] += messages[key] + ' ';
               }
             }
           }
         }
-        else {
-          // clear previous error message (if any)
-          this.formErrors[field] = '';
-          const control = form.get(field);
-          if (control && control.dirty && !control.valid) {
-            const messages = this.validationMessages[field];
-            for (const key in control.errors) {
-              this.formErrors[field] += messages[key] + ' ';
-            }
+      }
+      else {
+        // clear previous error message (if any)
+        this.formErrors[field] = '';
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            this.formErrors[field] += messages[key] + ' ';
           }
         }
       }
+    }
   }
 
 }
