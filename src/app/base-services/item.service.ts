@@ -1,4 +1,4 @@
-import { AngularFireDatabase } from "angularfire2/database";
+import { AngularFireDatabase, AngularFireObject, AngularFireList } from "angularfire2/database";
 import { Observable } from "rxjs";
 
 import { Item } from '../models';
@@ -13,8 +13,8 @@ export class BaseItemService {
      * @description Gets all the items wrapped in an Observable.
      * @returns {Observable<Item[]>} An Observable watching a list of items.
      */
-    all(): Observable<Item[]> {
-        return this.db.list<Item>("items").valueChanges();
+    all(): AngularFireList<Item[]> {
+        return this.db.list<Item[]>("items");
     }
 
     /**
@@ -23,8 +23,8 @@ export class BaseItemService {
      * @param {string | number} itemID  The desired item's unique ID.
      * @returns {Observable<Item>}
      */
-    one(itemID: string | number): Observable<Item> {
-        return this.db.object<Item>("/items/" + itemID).valueChanges();
+    one(itemID: string | number): AngularFireObject<Item> {
+        return this.db.object<Item>("/items/" + itemID);
     }
 
     /**
