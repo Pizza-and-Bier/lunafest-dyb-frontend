@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "angularfire2/auth";
+import { Observable } from "rxjs";
 import * as firebase from "firebase/app";
 
 import { BaseUserService } from "./user.service";
@@ -22,13 +23,13 @@ export class BaseAuthService {
      * @param {string} email    Email to check.
      * @returns {Promise<boolean>}
      */
-    public userExists(email: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
+    public userExists(email: string): Observable<any> {
+        return Observable.create((obs) => {
             this.afAuth.auth.fetchProvidersForEmail(email).then((data) => {
-                if (data.length == 0) resolve (true);
-                else resolve(false);
+                if (data.length == 0) obs.next(false);
+                else obs.next(true);
             }).catch((err) => {
-                reject(err);
+                obs.throw(err);
             });
         });
     }
