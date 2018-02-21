@@ -143,7 +143,7 @@ export class RegistrationComponent implements OnInit {
           Validators.required,
           Validators.email
         ],
-          UsernameAvaialableValidator.createValidator(this.authService)
+          // UsernameAvaialableValidator.createValidator(this.authService)
         ],
         "password": ["", [
           Validators.required,
