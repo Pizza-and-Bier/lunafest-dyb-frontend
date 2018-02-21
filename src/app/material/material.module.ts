@@ -12,7 +12,9 @@ import { MatToolbarModule,
         MatMenuModule,
         MatDialogModule,
         MatButtonToggleModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatAutocompleteModule,
+        MatCheckboxModule
        } from "@angular/material";
 
 @NgModule({
@@ -29,7 +31,9 @@ import { MatToolbarModule,
     MatMenuModule,
     MatDialogModule,
     MatButtonToggleModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatCheckboxModule
   ],
   exports: [
     MatToolbarModule,
@@ -43,7 +47,9 @@ import { MatToolbarModule,
     MatMenuModule,
     MatDialogModule,
     MatButtonToggleModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatCheckboxModule
   ],
   declarations: []
 })
