@@ -1,4 +1,3 @@
-import { Injectable } from "@angular/core";
 import { Observable, Observer } from "rxjs";
 import { AngularFireDatabase } from "angularfire2/database"
 import "rxjs/add/operator/take";
@@ -7,9 +6,20 @@ import { pull } from "lodash";
 
 import { User, Item, Bid } from "../models";
 
-@Injectable()
 export class BaseUserService {
     constructor(private db: AngularFireDatabase) { };
+
+    /**
+     * @author Anthony Pizzimenti
+     * @desc Creates a new user.
+     * @param {string} uID  New user's unique ID.
+     * @returns {undefined} 
+     */
+    public create(uID: string): void {
+        let user = new User();
+        user.uid = uID;
+        this.db.object("/users/" + uID).set(user);
+    }
 
     /**
      * @author Anthony Pizzimenti
@@ -73,7 +83,7 @@ export class BaseUserService {
      * @author Anthony Pizzimenti
      * @desc Places a bid on the given item.
      * @param {string} uID          A user's unique ID.
-     * @param {string | number} iID An item's ID number.
+     * @param {string | number} iID An item's unique ID.
      * @param {number} bidValue     The amount to be bid.
      * @returns {Promise<any>}      Resolves if the bid was successful, rejects if not. 
      */
@@ -116,10 +126,14 @@ export class BaseUserService {
      * @returns {undefined}
      * @private 
      */
-    private followOrUnfollow(userReference: Reference, itemID: string, follow: boolean, resolve: Function, reject: Function) {
+    private followOrUnfollow(userReference: Reference, itemID: string, follow: boolean, resolve: Function, reject: Function): void {
         let observable = userReference.valueChanges().take(1);
 
         observable.subscribe((user) => {
+            if (!user.following) {
+                user.following = [];
+            }
+
             if (follow && !user.following.includes(itemID)) {
                 user.following.unshift(itemID);
             } else if (follow && user.following.includes(itemID)) {
@@ -130,8 +144,8 @@ export class BaseUserService {
                 reject("User was not following the item attempting to be unfollowed.");
             }
 
-            userReference.update({ following: user.following }).then((_) => {
-                resolve(_);
+            userReference.set(user).then((_) => {
+                resolve("Successful " + (follow ? "follow." : "unfollow."));
             }).catch((err) => {
                 reject(err);
             });
@@ -146,9 +160,9 @@ export class BaseUserService {
      * @returns {undefined}
      * @private
      */
-    private retrieveItemObject(users: Observable<User>, parent: Observer<any>) {
+    private retrieveItemObject(users: Observable<User>, parent: Observer<any>): void {
         users.subscribe((user) => {
-            let following = user.following;
+            let following = user.following ? user.following : [];
         
             for (let itemID of following) {
                 let path = "/items/" + itemID.toString(),
