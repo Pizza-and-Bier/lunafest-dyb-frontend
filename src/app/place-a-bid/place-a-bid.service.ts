@@ -9,7 +9,7 @@ export class PlaceABidService {
 
   constructor(private userService: BaseUserService, private authService: BaseAuthService) { }
 
-  public placeBid(itemId: number, bidAmount: number): Promise<any> {
+  public placeBid(itemId: string, bidAmount: number): Promise<any> {
     return this.authService.uniqueID().then(
       (uid) => {
         return this.userService.bid(uid, itemId, bidAmount);

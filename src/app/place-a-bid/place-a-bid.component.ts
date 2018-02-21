@@ -55,7 +55,7 @@ export class PlaceABidComponent implements OnInit {
   public placeBid(): void {
     this.bidPlaced = true;
     const total = this.bidForm.get("bidValue").value + this.data.item.currentBid.amount;
-    this.bidService.placeBid(this.data.id, total).then(
+    this.bidService.placeBid(this.data.item.key, total).then(
       (data) => {
         this.bidPlaced = false;
         console.log(data);
