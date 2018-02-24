@@ -1,0 +1,37 @@
+<form [formGroup]="newItemForm">
+  <div>
+    <mat-form-field>
+      <input type="text" matInput placeholder="Name" formControlName="name"/>
+      <mat-error *ngIf="newItemForm.get('name').errors">Error</mat-error>
+    </mat-form-field>
+    
+  </div>
+  <div>
+    <mat-form-field>
+      <textarea matInput placeholder="Description" formControlName="description"></textarea>
+      <mat-error *ngIf="newItemForm.get('description').errors">Error</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input type="number" matInput placeholder="Estimated Worth" formControlName="estimatedWorth"/>
+      <span matPrefix>$</span>
+      <mat-error *ngIf="newItemForm.get('estimatedWorth').errors">Error</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input type="number" matInput placeholder="Opening Bid" formControlName="openingBid"/>
+      <span matPrefix>$</span>
+      <mat-error *ngIf="newItemForm.get('openingBid').errors">Error</mat-error>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <input type="number" matInput placeholder="Bid Floor" formControlName="bidFloor"/>
+      <span matPrefix>$</span>
+      <mat-hint align="start">The minimum amount a new bid has to be. For example, entering "5" would mean you have to raise the bid by at least $5.</mat-hint>
+      <mat-error *ngIf="newItemForm.get('bidFloor').errors">Error</mat-error>
+    </mat-form-field>
+  </div>
+</form>

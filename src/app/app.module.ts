@@ -36,6 +36,7 @@ import { PlaceABidComponent } from './place-a-bid/place-a-bid.component';
 import { OnlyNumberDirective } from './util/directives/only-number.directive';
 import { NewItemComponent } from './new-item/new-item.component';
 import { AuctionWrapperComponent } from './auction-wrapper/auction-wrapper.component';
+import { NewItemFormComponent } from './new-item-form/new-item-form.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { AuctionWrapperComponent } from './auction-wrapper/auction-wrapper.compo
     PlaceABidComponent,
     OnlyNumberDirective,
     NewItemComponent,
-    AuctionWrapperComponent
+    AuctionWrapperComponent,
+    NewItemFormComponent
   ],
   imports: [
     BrowserModule,
