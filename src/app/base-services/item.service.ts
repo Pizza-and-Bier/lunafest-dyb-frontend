@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { AngularFireDatabase, AngularFireObject, AngularFireList } from "angularfire2/database";
 import { Observable } from "rxjs";
 
+import { Item } from "../models";
+
 @Injectable()
 export class BaseItemService {
     constructor(private db: AngularFireDatabase) { }

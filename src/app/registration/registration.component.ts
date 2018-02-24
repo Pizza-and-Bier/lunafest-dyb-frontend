@@ -13,7 +13,6 @@ import { SerializationHelper } from '../util';
 import { AuthenticatedUser } from '../models';
 import { stateAbbreviations } from "./states.const";
 import { BaseAuthService } from '../base-services';
-import { UsernameAvaialableValidator } from '../util/username-available.validator';
 
 @Component({
   selector: 'dyb-registration',
@@ -142,9 +141,7 @@ export class RegistrationComponent implements OnInit {
         "email": ["", [
           Validators.required,
           Validators.email
-        ],
-          // UsernameAvaialableValidator.createValidator(this.authService)
-        ],
+        ]],
         "password": ["", [
           Validators.required,
           Validators.minLength(10),
@@ -152,8 +149,9 @@ export class RegistrationComponent implements OnInit {
         ]],
         "confirmPassword": ["", [
           Validators.required,
-        ]],
-      }, {validator: PasswordMatchValidator.matchPasswords("password", "confirmPassword")}),
+        ]]
+      }, {validator: PasswordMatchValidator.matchPasswords("password", "confirmPassword")
+      }),
       "personalInfo": this.fb.group({
         "firstName": ["", [
           Validators.required
@@ -190,6 +188,24 @@ export class RegistrationComponent implements OnInit {
       }
     );
 
+    this.registrationForm.get("loginInfo").get("email").statusChanges.subscribe(
+      (data) => {
+        const emailControl = this.registrationForm.get("loginInfo").get("email");
+        console.log(emailControl.value);
+        this.registrationService.userExists(emailControl.value).subscribe(
+          (exists) => {
+            console.log(exists);
+            if (!exists) {
+              emailControl.setErrors({"usernameUnavailable": true});
+            }
+          },
+          (err) => {
+            console.error(err);
+          }
+        )
+      }
+    )
+
     this.filteredStates = this.registrationForm.get("contactInfo").get("state").valueChanges
       .pipe(
         startWith('IA'),
@@ -207,28 +223,15 @@ export class RegistrationComponent implements OnInit {
     if (!this.registrationForm) { return; }
     const form = this.registrationForm;
     for (const field in this.formErrors) {
-      if (field === "loginInfo" || field === "personalInfo") {
-        if (form.get(field) !== null && form.get(field) !== undefined) {
-          for (const nestedField in this.formErrors[field]) {
-            this.formErrors[field][nestedField] = '';
-            const control = form.get(field).get(nestedField);
-            if (control && control.dirty && !control.valid) {
-              const messages = this.validationMessages[field][nestedField];
-              for (const key in control.errors) {
-                this.formErrors[field][nestedField] += messages[key] + ' ';
-              }
+      if (form.get(field) !== null && form.get(field) !== undefined) {
+        for (const nestedField in this.formErrors[field]) {
+          this.formErrors[field][nestedField] = '';
+          const control = form.get(field).get(nestedField);
+          if (control && control.dirty && !control.valid) {
+            const messages = this.validationMessages[field][nestedField];
+            for (const key in control.errors) {
+              this.formErrors[field][nestedField] += messages[key] + ' ';
             }
-          }
-        }
-      }
-      else {
-        // clear previous error message (if any)
-        this.formErrors[field] = '';
-        const control = form.get(field);
-        if (control && control.dirty && !control.valid) {
-          const messages = this.validationMessages[field];
-          for (const key in control.errors) {
-            this.formErrors[field] += messages[key] + ' ';
           }
         }
       }
