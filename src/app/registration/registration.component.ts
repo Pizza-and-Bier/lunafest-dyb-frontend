@@ -13,7 +13,6 @@ import { SerializationHelper } from '../util';
 import { AuthenticatedUser } from '../models';
 import { stateAbbreviations } from "./states.const";
 import { BaseAuthService } from '../base-services';
-import { UsernameAvaialableValidator } from '../util/username-available.validator';
 
 @Component({
   selector: 'dyb-registration',
