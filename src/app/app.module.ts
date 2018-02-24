@@ -26,7 +26,6 @@ import { PlaceABidService } from "./place-a-bid/place-a-bid.service";
 
 import { PhoneNumberFormatter } from "./util/directives/phone-number-formatter.directive";
 
-import { ControlToolbarComponent } from './control-toolbar/control-toolbar.component';
 import { LoginComponent } from './login/login.component';
 import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
 import { AuthWrapperComponent } from './auth-wrapper/auth-wrapper.component';
@@ -35,11 +34,12 @@ import { MyBidsComponent } from "./my-bids/my-bids.component";
 import { RegistrationComponent } from './registration/registration.component';
 import { PlaceABidComponent } from './place-a-bid/place-a-bid.component';
 import { OnlyNumberDirective } from './util/directives/only-number.directive';
+import { NewItemComponent } from './new-item/new-item.component';
+import { AuctionWrapperComponent } from './auction-wrapper/auction-wrapper.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ControlToolbarComponent,
     LoginComponent,
     AuthWrapperComponent,
     ItemListComponent,
@@ -47,7 +47,9 @@ import { OnlyNumberDirective } from './util/directives/only-number.directive';
     RegistrationComponent,
     PhoneNumberFormatter,
     PlaceABidComponent,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    NewItemComponent,
+    AuctionWrapperComponent
   ],
   imports: [
     BrowserModule,

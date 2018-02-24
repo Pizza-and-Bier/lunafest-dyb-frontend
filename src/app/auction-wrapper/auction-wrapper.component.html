@@ -1,0 +1,15 @@
+<nav mat-tab-nav-bar [backgroundColor]="'primary'" color="accent">
+  <a mat-tab-link
+    routerLink="/user/items/list"
+    routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
+    Item List
+  </a>
+  <a mat-tab-link
+    routerLink="/user/items/bids"
+    routerLinkActive #rla2="routerLinkActive"
+    [active]="rla2.isActive">
+    My Bids
+  </a>
+</nav>
+<router-outlet></router-outlet>
