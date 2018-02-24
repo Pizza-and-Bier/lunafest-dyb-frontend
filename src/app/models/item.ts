@@ -2,6 +2,7 @@ import { Bid } from "./bid";
 import { DybImage } from "./dyb-image";
 
 export class Item {
+    public key?: string|null;
     public name: string;
     public description?: string;
     public estimatedValue?: number;
