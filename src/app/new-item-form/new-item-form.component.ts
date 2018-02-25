@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Item } from "../models";
 import { positiveNumbersOnly } from "./positive-numbers-only.validators";
 import { dybCategories } from "../models/categories.const";
+import { NewItemFormOutput } from './new-item-form-output.model';
 
 @Component({
   selector: 'dyb-new-item-form',
@@ -18,7 +19,7 @@ export class NewItemFormComponent implements OnInit {
 
   @Input() existingData: Item|null;
 
-  @Output() save: EventEmitter<any> = new EventEmitter();
+  @Output() save: EventEmitter<NewItemFormOutput> = new EventEmitter();
 
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
@@ -97,7 +98,7 @@ export class NewItemFormComponent implements OnInit {
 
       ]],
       "categories": this.fb.group({
-        "giftCertificate": [false, [
+        "giftCertificates": [false, [
 
         ]],
         "jewelry": [false, [

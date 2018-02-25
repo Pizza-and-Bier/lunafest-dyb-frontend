@@ -12,5 +12,5 @@ export class Item {
     public categories?: string[];
     public images?: string[];
     public bidders?: Object;
-    public donor?: string;
+    public donorInfo?: string;
 }

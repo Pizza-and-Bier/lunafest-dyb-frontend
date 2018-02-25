@@ -2,7 +2,22 @@
   <mat-card class="new-item-card" fxFlex="100">
     <mat-card-title>New Item</mat-card-title>
     <mat-card-content>
-      <dyb-new-item-form></dyb-new-item-form>
+      <ng-container *ngIf="!savingItem">
+        <dyb-new-item-form (cancel)="cancel()" (save)="save($event)"></dyb-new-item-form>
+      </ng-container>
+      <ng-container *ngIf="savingItem">
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill *ngIf="!itemSaveComplete">
+          <mat-spinner></mat-spinner>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill *ngIf="itemSaveComplete">
+          <div>
+            <mat-icon>check</mat-icon>
+          </div>
+          <div>
+            Item saved successfully!
+          </div>
+        </div>
+      </ng-container>
     </mat-card-content>
   </mat-card>
 </section>
