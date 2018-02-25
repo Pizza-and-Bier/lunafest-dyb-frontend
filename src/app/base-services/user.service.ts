@@ -14,12 +14,14 @@ export class BaseUserService {
     /**
      * @author Anthony Pizzimenti
      * @desc Creates a new user.
-     * @param {string} uID  New user's unique ID.
+     * @param {string} uID      New user's unique ID.
+     * @param {Object} prefs    New user's SMS/notification/etc. preferences.
      * @returns {undefined} 
      */
-    public create(uID: string): void {
+    public create(uID: string, prefs: Object): void {
         let user = new User();
         user.uid = uID;
+        user.preferences = prefs;
         this.db.object("/users/" + uID).set(user);
     }
 
