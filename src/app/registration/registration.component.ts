@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
+import { debounceTime } from "rxjs/operators/debounceTime";
 
 import { RegistrationService } from './registration.service';
 import { PasswordMatchValidator } from "../util/password-match-validator";
@@ -188,14 +189,20 @@ export class RegistrationComponent implements OnInit {
       }
     );
 
-    this.registrationForm.get("loginInfo").get("email").statusChanges.subscribe(
+    this.registrationForm.get("loginInfo").get("email").valueChanges.pipe(
+      debounceTime(1000)
+    ).subscribe(
       (data) => {
+        console.log("data change");
         const emailControl = this.registrationForm.get("loginInfo").get("email");
         this.registrationService.userExists(emailControl.value).subscribe(
-          (exists) => {
-            console.log(exists);
-            if (!exists) {
+          (taken) => {
+            console.log(taken);
+            if (taken) {
               emailControl.setErrors({"usernameUnavailable": true});
+            }
+            else {
+              emailControl.setErrors;
             }
           },
           (err) => {
@@ -231,7 +238,9 @@ export class RegistrationComponent implements OnInit {
           if (control && control.dirty && !control.valid) {
             const messages = this.validationMessages[field][nestedField];
             for (const key in control.errors) {
-              this.formErrors[field][nestedField] += messages[key] + ' ';
+              if (control.errors[key] !== null) {
+                this.formErrors[field][nestedField] += messages[key] + ' ';
+              }
             }
           }
         }

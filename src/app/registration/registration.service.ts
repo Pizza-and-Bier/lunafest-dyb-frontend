@@ -15,11 +15,9 @@ export class RegistrationService {
     return this.authService.signup(user.email, user.password);
   }
 
-  public userExists(email: string): Observable<any> {
-    return this.authService.userExists(email).pipe(
-      debounceTime(1500),
-      distinctUntilChanged()
-    );
+  public userExists(email: string): Observable<boolean> {
+    console.log("reg service exists");
+    return this.authService.userExists(email);
   }
 
 }
