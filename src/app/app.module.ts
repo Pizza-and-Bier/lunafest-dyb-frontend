@@ -18,9 +18,8 @@ import { RoutingModule } from "./routing/routing.module";
 
 import { BaseServicesModule } from "./base-services/base-services.module";
 
-import { ItemService } from "./services/item.service";
+import { LoginService } from "./services/login.service";
 import { ItemListService } from "./item-list/item-list.service";
-import { LoginService } from './services/login.service';
 import { UserBidService } from './my-bids/user-bid.service';
 import { RegistrationService } from "./registration/registration.service";
 import { PlaceABidService } from "./place-a-bid/place-a-bid.service";
@@ -71,7 +70,6 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
   ],
   providers: [
     LoginService,
-    ItemService,
     ItemListService,
     UserBidService,
     RegistrationService,
