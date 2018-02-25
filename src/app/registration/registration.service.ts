@@ -17,6 +17,7 @@ export class RegistrationService {
 
   public userExists(email: string): Observable<any> {
     return this.authService.userExists(email).pipe(
+      debounceTime(1500),
       distinctUntilChanged()
     );
   }

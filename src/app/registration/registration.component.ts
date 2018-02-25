@@ -191,7 +191,6 @@ export class RegistrationComponent implements OnInit {
     this.registrationForm.get("loginInfo").get("email").statusChanges.subscribe(
       (data) => {
         const emailControl = this.registrationForm.get("loginInfo").get("email");
-        console.log(emailControl.value);
         this.registrationService.userExists(emailControl.value).subscribe(
           (exists) => {
             console.log(exists);
@@ -200,7 +199,9 @@ export class RegistrationComponent implements OnInit {
             }
           },
           (err) => {
-            console.error(err);
+            if (err.code !== "auth/invalid-email") {
+              console.error(err);
+            }
           }
         )
       }
