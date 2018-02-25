@@ -38,6 +38,7 @@ import { OnlyNumberDirective } from './util/directives/only-number.directive';
 import { NewItemComponent } from './new-item/new-item.component';
 import { AuctionWrapperComponent } from './auction-wrapper/auction-wrapper.component';
 import { NewItemFormComponent } from './new-item-form/new-item-form.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { NewItemFormComponent } from './new-item-form/new-item-form.component';
     OnlyNumberDirective,
     NewItemComponent,
     AuctionWrapperComponent,
-    NewItemFormComponent
+    NewItemFormComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -75,6 +77,6 @@ import { NewItemFormComponent } from './new-item-form/new-item-form.component';
     NewItemService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ PlaceABidComponent ]
+  entryComponents: [ PlaceABidComponent, ConfirmDialogComponent ]
 })
 export class AppModule { }
