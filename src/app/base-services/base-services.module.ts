@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { BaseItemService } from './item.service';
 import { BaseAuthService } from './auth.service';
 import { BaseUserService } from "./user.service";
+import { BaseImageService } from "./image.service";
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { BaseUserService } from "./user.service";
   providers: [
       BaseItemService,
       BaseAuthService,
-      BaseUserService
+      BaseUserService,
+      BaseImageService
   ]
 })
 export class BaseServicesModule { }

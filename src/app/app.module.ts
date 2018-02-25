@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { HttpClientModule } from "@angular/common/http";
 import { CdkStepperModule } from "@angular/cdk/stepper";
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { InMemItemsService } from "./in-mem-db/in-mem-items.service";
@@ -65,7 +66,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     FlexLayoutModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemItemsService),
-    BaseServicesModule
+    BaseServicesModule,
+    AngularFireStorageModule
   ],
   providers: [
     LoginService,
