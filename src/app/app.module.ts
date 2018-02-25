@@ -39,6 +39,7 @@ import { NewItemComponent } from './new-item/new-item.component';
 import { AuctionWrapperComponent } from './auction-wrapper/auction-wrapper.component';
 import { NewItemFormComponent } from './new-item-form/new-item-form.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { EditItemComponent } from './edit-item/edit-item.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     NewItemComponent,
     AuctionWrapperComponent,
     NewItemFormComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    EditItemComponent
   ],
   imports: [
     BrowserModule,

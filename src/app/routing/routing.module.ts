@@ -9,6 +9,7 @@ import { MyBidsComponent } from '../my-bids/my-bids.component';
 import { RegistrationComponent } from '../registration/registration.component';
 import { NewItemComponent } from '../new-item/new-item.component';
 import { AuctionWrapperComponent } from '../auction-wrapper/auction-wrapper.component';
+import { EditItemComponent } from '../edit-item/edit-item.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,7 +21,8 @@ const appRoutes: Routes = [
         { path: "bids", component: MyBidsComponent }
       ]},
       { path: "admin", children: [
-        { path: "add", component: NewItemComponent}
+        { path: "add", component: NewItemComponent },
+        { path: "edit/:id", component: EditItemComponent}
       ]}
     ]
   },
