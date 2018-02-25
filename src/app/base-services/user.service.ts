@@ -92,7 +92,8 @@ export class BaseUserService {
      * @returns {Promise<any>}      Resolves if the bid was successful, rejects if not. 
      */
     public bid(uID: string, iID: string | number, bidValue: number): Promise<any> {
-        let itemReference: Reference = this.db.object<Item>("/items/" + iID.toString());
+        let itemReference: Reference = this.db.object<Item>("/items/" + iID.toString()),
+            __this = this;
 
         return new Promise((resolve, reject) => {
             itemReference.valueChanges().take(1).subscribe((item) => {
@@ -107,6 +108,7 @@ export class BaseUserService {
 
                 itemReference.update({ currentBid: bid }).then((_) => {
                     itemReference.update({ bidders: item.bidders }).then((_) => {
+                        __this.follow(uID, iID).catch(_ => {});
                         resolve("Successful update.");
                     });
                 }).catch((err) => {
