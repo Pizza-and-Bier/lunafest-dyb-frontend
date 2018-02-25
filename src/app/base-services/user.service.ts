@@ -123,8 +123,8 @@ export class BaseUserService {
      * @param {Reference} userReference     A firebase.database User database reference.
      * @param {string} itemID               An item's id number.
      * @param {boolean} follow              Are we adding to a user's follow list, or removing from it? 
-     * @param {function} resolve            Resolves the Promise. 
-     * @param {function} reject             Rejects the promise on error.
+     * @param {Function} resolve            Resolves the Promise. 
+     * @param {Function} reject             Rejects the promise on error.
      * @returns {undefined}
      * @private 
      */

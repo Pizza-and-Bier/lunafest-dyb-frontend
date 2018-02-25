@@ -1,12 +1,16 @@
 import { Injectable } from "@angular/core";
 import { AngularFireDatabase } from "angularfire2/database";
 import { Observable } from "rxjs";
+import { flatten, compact } from "lodash";
+import "rxjs/add/observable/forkJoin";
+import "rxjs/add/operator/take"
 
+import { BaseImageService } from "./image.service";
 import { Item } from '../models';
 
 @Injectable()
 export class BaseItemService {
-    constructor(private db: AngularFireDatabase) { }
+    constructor(private db: AngularFireDatabase, private image: BaseImageService) { }
 
     /**
      * @author Anthony Pizzimenti
@@ -21,34 +25,37 @@ export class BaseItemService {
      * @author Anthony Pizzimenti
      * @description Gets an individual item.
      * @param {string | number} itemID  The desired item's unique ID.
-     * @returns {Observable<Item>}
+     * @returns {Observable<Item>}      A single-return Observable watching a single item.
      */
     one(itemID: string | number): Observable<Item> {
-        return this.db.object<Item>("/items/" + itemID).valueChanges();
+        return this.db.object<Item>("/items/" + itemID).valueChanges().take(1);
     }
 
     /**
      * @author Anthony Pizzimenti
      * @desc Creates an item.
-     * @param {Object} props   The properties assigned to the new object.
-     * @returns {Promise<any>}
+     * @param {Object} item     Item object.
+     * @returns {Promise<any>} Creates a new object in the database.
      */
-    create(props: Object): Promise<any> {
+    create(item: Object): Promise<any> {
         return new Promise((resolve, reject) => {
-            let I = new Item();
 
             // check if item contains required properties
-            if (!(props.hasOwnProperty("name") || props.hasOwnProperty("openingBid") || props.hasOwnProperty("bidFloor")))
+            if (!(item.hasOwnProperty("name") || item.hasOwnProperty("openingBid") || item.hasOwnProperty("bidFloor"))) {
                 reject("The provided Item object does not contain the required properties.");
-            
-            // assign properties to new Item object
-            for (let key in props) {
-                I[key] = props[key];
+                return;
             }
-            this.db.list("/items").push(I).then((_) => {
-                if (_) resolve(_);
-                else reject("An error occurred while creating a new Item.");
-            });
+
+            if (item.hasOwnProperty("images") && !(item["images"] == [] || item["images"] == null)) {
+                let __this = this;
+
+                this.convertAndUploadImages(item["images"], __this).subscribe((urls) => {
+                    item["images"] = urls;
+                    this.transcribeObject(item, resolve, reject);
+                });
+            } else {
+                this.transcribeObject(item, resolve, reject);
+            }
         });
     }
 
@@ -56,11 +63,40 @@ export class BaseItemService {
      * @author Anthony Pizzimenti
      * @desc Updates an Item.
      * @param {string | number} itemID  Unique ID for the Item to be updated.
-     * @param {Item} props              Object containing property name and desired updated value.
-     * @returns {Promise<any>}
+     * @param {Item} item               Item object.
+     * @returns {Promise<any>}          Returns true if successful, and an error if it fails.
      */
-    update(itemID: string | number, props: Item): Promise<any> {
-        return this.db.list<Item>("/items").update(itemID.toString(), props);
+    update(itemID: string | number, item: Item): Promise<any> {
+        let files: File[] = [],
+            __this = this;
+
+        // if there's a File object in the new list of images, then add it to a new Files list
+        for (let image of item.images) {
+            if (image instanceof File)
+                files.push(image);
+        }
+
+        // create a new Promise
+        return new Promise((resolve, reject) => {
+            if (files.length !== 0) {
+                // if there are File objects in the list of images, store the images
+                this.convertAndUploadImages(files, __this).take(1).subscribe((urls) => {
+
+                    // flatten/remove falsy values from the list so it's flat in the db
+                    item.images = compact(flatten(item.images.concat(urls)));
+                    this.db.list<Item>("/items").set(itemID.toString(), item)
+                        .then(_ => resolve(true))
+                        .catch(err => reject(err));
+                    return;
+                });
+            } else {
+                // otherwise, just update the existing values without changing images around
+                this.db.list<Item>("/items").update(itemID.toString(), item)
+                        .then(_ => resolve(true))
+                        .catch(err => reject(err));
+                return;
+            }
+        });
     }
 
     /**
@@ -68,8 +104,48 @@ export class BaseItemService {
      * @desc Removes the given item.
      * @param {string | number} itemID  Unique ID for the item to be deleted.
      * @returns {Promise<any>}
-     */
+     */ 
     remove(itemID: string | number): Promise<any> {
         return this.db.list<Item>("/items").remove(itemID.toString());
+    }
+
+    /**
+     * @author Anthony Pizzimenti
+     * @desc Takes in an Object generic type and assigns all its properties to those of the same name
+     * on a new Item.
+     * @param {Object} item         Item object.
+     * @param {Function} resolve    Promise resolution.
+     * @param {Function} reject     Promise rejection.
+     * @returns {undefined}
+     * @private
+     */
+    private transcribeObject (item: Object, resolve: Function, reject: Function): void {
+        let I = new Item();
+
+        // assign properties to new Item object
+        for (let key in item) {
+            I[key] = item[key];
+        }
+        this.db.list("/items").push(I).then((_) => {
+            if (_) resolve(_);
+            else reject("An error occurred while creating a new Item.");
+        });
+    }
+
+    /**
+     * @author Anthony Pizzimenti
+     * @desc Combines all Observables returned from BaseImageService.store() into a single
+     * Observable that emits when the last BaseImageService.store() Observable completes.
+     * @param {File[]} images            A list of File objects (representing images) to be uploaded.
+     * @param {BaseItemService} context  A reference to the current instance's context.
+     * @returns {Observable<any>}
+     * @private
+     */
+    private convertAndUploadImages (images: File[], context: BaseItemService): Observable<any> {
+        let uploads: Observable<any>[] = [];
+        for (let image of images)
+            uploads.push(context.image.store(image));
+
+        return Observable.forkJoin(...uploads);
     }
 }

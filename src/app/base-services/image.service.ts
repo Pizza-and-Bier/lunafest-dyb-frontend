@@ -13,7 +13,7 @@ export class BaseImageService {
      * @param {File} image  Image to be uploaded.
      * @returns {Observable<string>}
      */
-    public storeImage (image: File): Observable<string> {
+    public store (image: File): Observable<string> {
         let path = "images/" + image.name;
         return this.storage.upload(path, image).downloadURL();
     }
