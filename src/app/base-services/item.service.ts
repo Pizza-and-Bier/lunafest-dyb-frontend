@@ -46,6 +46,7 @@ export class BaseItemService {
                 return;
             }
 
+            // check if item has a list of images attached
             if (item.hasOwnProperty("images") && !(item["images"] == [] || item["images"] == null)) {
                 let __this = this;
 
