@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "angularfire2/database";
+import { AngularFireDatabase, AngularFireObject, AngularFireList } from "angularfire2/database";
 import { Observable } from "rxjs";
 import { flatten, compact } from "lodash";
 import "rxjs/add/observable/forkJoin";
@@ -7,6 +7,7 @@ import "rxjs/add/operator/take"
 
 import { BaseImageService } from "./image.service";
 import { Item } from '../models';
+
 
 @Injectable()
 export class BaseItemService {
@@ -17,8 +18,8 @@ export class BaseItemService {
      * @description Gets all the items wrapped in an Observable.
      * @returns {Observable<Item[]>} An Observable watching a list of items.
      */
-    all(): Observable<Item[]> {
-        return this.db.list<Item>("items").valueChanges();
+    all(): AngularFireList<Item[]> {
+        return this.db.list<Item[]>("items");
     }
 
     /**

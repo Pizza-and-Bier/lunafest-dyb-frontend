@@ -21,9 +21,9 @@ import { BaseServicesModule } from "./base-services/base-services.module";
 import { ItemService } from "./services/item.service";
 import { ItemListService } from "./item-list/item-list.service";
 import { LoginService } from './services/login.service';
-import { UserService } from './services/user.service';
 import { UserBidService } from './my-bids/user-bid.service';
-import { RegistrationService } from "./services/registration.service";
+import { RegistrationService } from "./registration/registration.service";
+import { PlaceABidService } from "./place-a-bid/place-a-bid.service";
 
 import { PhoneNumberFormatter } from "./util/directives/phone-number-formatter.directive";
 
@@ -34,6 +34,8 @@ import { AuthWrapperComponent } from './auth-wrapper/auth-wrapper.component';
 import { ItemListComponent } from './item-list/item-list.component';
 import { MyBidsComponent } from "./my-bids/my-bids.component";
 import { RegistrationComponent } from './registration/registration.component';
+import { PlaceABidComponent } from './place-a-bid/place-a-bid.component';
+import { OnlyNumberDirective } from './util/directives/only-number.directive';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { RegistrationComponent } from './registration/registration.component';
     ItemListComponent,
     MyBidsComponent,
     RegistrationComponent,
-    PhoneNumberFormatter
+    PhoneNumberFormatter,
+    PlaceABidComponent,
+    OnlyNumberDirective
   ],
   imports: [
     BrowserModule,
@@ -62,10 +66,11 @@ import { RegistrationComponent } from './registration/registration.component';
     LoginService,
     ItemService,
     ItemListService,
-    UserService,
     UserBidService,
-    RegistrationService
+    RegistrationService,
+    PlaceABidService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ PlaceABidComponent ]
 })
 export class AppModule { }

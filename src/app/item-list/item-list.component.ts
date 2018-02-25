@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef, MatDialog } from '@angular/material';
 import { Observable } from "rxjs/Observable";
 
 import { Item } from "../models";
 import { ItemListService } from "./item-list.service";
-import { BaseAuthService } from '../base-services/auth.service';
-import { BaseUserService } from '../base-services/user.service';
+import { ItemListItem } from './item-list-item';
+import { SerializationHelper } from "../util";
+import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
 
 @Component({
   selector: 'app-item-list',
@@ -13,13 +15,13 @@ import { BaseUserService } from '../base-services/user.service';
 })
 export class ItemListComponent implements OnInit {
 
-  //Todo: can ItemListService be provided here when I'm not mocking the backend??
+  // Todo: can ItemListService be provided here when I'm not mocking the backend??
 
   public itemList: Observable<Item[]>;
 
   public itemInfoToggles: boolean[] = [];
 
-  constructor(private itemListService: ItemListService, private auth: BaseAuthService, private user: BaseUserService) { }
+  constructor(private itemListService: ItemListService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.initItems();
@@ -30,7 +32,17 @@ export class ItemListComponent implements OnInit {
   }
 
   public toggleDescription(index: number): void {
-    this.itemInfoToggles[index] = !this.itemInfoToggles[index]; 
+    this.itemInfoToggles[index] = !this.itemInfoToggles[index];
+  }
+
+  public placeBid(item: Item): void {
+    let dialogRef = this.dialog.open(PlaceABidComponent, {
+      width: "300px",
+      height: "400px",
+      data: {
+        item: item
+      }
+    });
   }
 
   private initItems(): void {
@@ -41,15 +53,8 @@ export class ItemListComponent implements OnInit {
         console.log("subscriiiibbee");
         this.itemInfoToggles.length = data.length;
         this.itemInfoToggles.fill(false);
-        console.log(this.itemInfoToggles);
       }
     );
-
-    this.auth.uniqueID().then((uid) => {
-      this.user.following(uid).subscribe((items) => {
-          console.log(items);
-      });
-  });
     // this.itemListService.getItems().subscribe(
     //   (data) => {
     //     data.map((elem) => {
