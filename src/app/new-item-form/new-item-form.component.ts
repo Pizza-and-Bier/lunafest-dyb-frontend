@@ -89,6 +89,10 @@ export class NewItemFormComponent implements OnInit {
     console.log(this.fileList);
   }
 
+  public removeFile(index: number): void {
+    this.fileList.splice(index, 1);
+  }
+
   private buildForm(): void {
     this.newItemForm = this.fb.group({
       "name": ["", [

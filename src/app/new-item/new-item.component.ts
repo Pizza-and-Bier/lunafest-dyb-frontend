@@ -33,9 +33,14 @@ export class NewItemComponent implements OnInit {
     this.savingItem = true;
     this.newItemService.addNew(newItem).then(
       (data) => {
+        console.log("done adding");
+        this.itemSaveComplete = true;
         setTimeout(() => {
-          this.itemSaveComplete = true;
-        }, 2000);
+          this.router.navigate(["/user/items/list"]);
+        }, 1500);
+      },
+      (err) => {
+        console.log(err);
       }
     );
   }

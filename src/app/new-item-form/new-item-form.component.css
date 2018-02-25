@@ -16,6 +16,10 @@ form mat-form-field {
     min-width: 100%;
 }
 
+#image-input {
+    margin-top: 5px;
+}
+
 .file-list-header {
     padding: 0 16px;
 }
