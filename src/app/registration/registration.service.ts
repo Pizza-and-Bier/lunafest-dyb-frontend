@@ -16,7 +16,6 @@ export class RegistrationService {
   }
 
   public userExists(email: string): Observable<boolean> {
-    console.log("reg service exists");
     return this.authService.userExists(email);
   }
 

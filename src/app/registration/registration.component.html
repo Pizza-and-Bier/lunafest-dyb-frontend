@@ -24,7 +24,8 @@
                 <mat-error *ngIf="formErrors.loginInfo.confirmPassword">{{formErrors.loginInfo.confirmPassword}}</mat-error>
               </mat-form-field>
             </div>
-            <div fxFlexFill fxLayout="row" fxLayoutAlign="end center">
+            <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="end center">
+              <button mat-button type="button" role="button" (click)="cancel()">Cancel</button>
               <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('personalInfo')" [disabled]="registrationForm.get('loginInfo').invalid">Next</button>
             </div>
             
@@ -54,7 +55,7 @@
                 <mat-error *ngIf="formErrors.personalInfo.phoneNumber">{{formErrors.personalInfo.phoneNumber}}</mat-error>
               </mat-form-field>
               </div>
-            <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
               <button mat-raised-button type="button" role="button" (click)="previousStep('loginInfo')">Back</button>
               <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('contactInfo')" [disabled]="registrationForm.get('personalInfo').invalid">Next</button>
             </div>
@@ -92,7 +93,7 @@
                 <mat-error *ngIf="formErrors.contactInfo.state">{{formErrors.contactInfo.state}}</mat-error>
               </mat-form-field>
             </div>
-            <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
               <button mat-raised-button type="button" role="button" (click)="previousStep('personalInfo')">Back</button>
               <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('terms')" [disabled]="registrationForm.get('contactInfo').invalid">Next</button>
             </div>
@@ -104,8 +105,8 @@
             <p>
               <strong>Please note:</strong> If you are bidding remotely, you will need to send someone to pick up your items. The Lunafest committe will not be shipping your winnings.
             </p>
-            <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
-                <button mat-raised-button type="button" role="button" (click)="previousStep('contactInfo')">Back</button>
+            <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
+              <button mat-raised-button type="button" role="button" (click)="previousStep('contactInfo')">Back</button>
               <button mat-raised-button color="primary" type="button" role="button" (click)="signupUser()">Sign Up</button>
             </div>
           </div>

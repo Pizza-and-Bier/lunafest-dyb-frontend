@@ -93,6 +93,10 @@ export class RegistrationComponent implements OnInit {
     this.currentStep = "loginInfo";
   }
 
+  public cancel(): void {
+    this.router.navigate(["/login"]);
+  }
+
   public nextStep(stepName: string): void {
     this.currentStep = stepName;
   }
@@ -120,7 +124,7 @@ export class RegistrationComponent implements OnInit {
       (data) => {
         this.router.navigate(["/login"]);
       }
-    )
+    );
   }
 
   public updatePhoneValidators(event: {checked: boolean, source: MatCheckbox}): void {
@@ -193,16 +197,14 @@ export class RegistrationComponent implements OnInit {
       debounceTime(1000)
     ).subscribe(
       (data) => {
-        console.log("data change");
         const emailControl = this.registrationForm.get("loginInfo").get("email");
         this.registrationService.userExists(emailControl.value).subscribe(
           (taken) => {
-            console.log(taken);
             if (taken) {
               emailControl.setErrors({"usernameUnavailable": true});
             }
             else {
-              emailControl.setErrors;
+              emailControl.setErrors({"usernameUnavailable": null});
             }
           },
           (err) => {
