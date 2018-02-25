@@ -27,6 +27,10 @@ export class ItemListComponent implements OnInit {
     this.initItems();
   }
 
+  public uploadFile(event) {
+    console.log(event);
+  }
+
   public toggleDescription(index: number): void {
     this.itemInfoToggles[index] = !this.itemInfoToggles[index];
   }
@@ -61,4 +65,5 @@ export class ItemListComponent implements OnInit {
     //   }
     // )
   }
+
 }
