@@ -26,7 +26,6 @@ export class BaseAuthService {
     public userExists(email: string): Observable<any> {
         return Observable.create((obs) => {
             this.afAuth.auth.fetchProvidersForEmail(email).then((data) => {
-                console.log(data);
                 if (data.length == 0) obs.next(false);
                 else obs.next(true);
             }).catch((err) => {
