@@ -10,7 +10,7 @@ export class Item {
     public openingBid: number;
     public bidFloor: number;
     public categories?: string[];
-    public images?: string[];
+    public images?: any[];
     public bidders?: Object;
     public donor?: string;
 }
