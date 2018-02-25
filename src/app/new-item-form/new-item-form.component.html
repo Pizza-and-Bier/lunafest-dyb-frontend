@@ -40,6 +40,9 @@
       <mat-error *ngIf="formErrors.donorInfo">{{formErrors.donorInfo}}</mat-error>
     </mat-form-field>
   </div>
+  <div>
+    <mat-checkbox *ngFor="let category of categoryList" [formControlName]="{{category.controlName}}">{{category.label}}</mat-checkbox>
+  </div>
 </form>
 <div fxLayout="row" fxLayoutAlign="end center">
   <button mat-button type="button" role="button" (click)="cancelForm()">Cancel</button>

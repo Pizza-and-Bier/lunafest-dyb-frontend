@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { Item } from "../models";
 import { positiveNumbersOnly } from "./positive-numbers-only.validators";
+import { dybCategories } from "../models/categories.const";
 
 @Component({
   selector: 'dyb-new-item-form',
@@ -12,6 +13,8 @@ import { positiveNumbersOnly } from "./positive-numbers-only.validators";
 export class NewItemFormComponent implements OnInit {
 
   public newItemForm: FormGroup;
+
+  public categoryList: any[] = dybCategories;
 
   @Input() existingData: Item|null;
 
@@ -92,7 +95,27 @@ export class NewItemFormComponent implements OnInit {
       ]],
       "donorInfo": ["", [
 
-      ]]
+      ]],
+      "categories": this.fb.group({
+        "giftCertificate": [false, [
+
+        ]],
+        "jewelry": [false, [
+
+        ]],
+        "experiences": [false, [
+
+        ]],
+        "dining": [false, [
+
+        ]],
+        "sports": [false, [
+
+        ]],
+        "homeAndOffice": [false, [
+
+        ]]
+      })
     });
 
     this.newItemForm.statusChanges.subscribe((data) => {
