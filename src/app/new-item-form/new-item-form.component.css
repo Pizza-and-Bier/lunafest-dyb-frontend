@@ -2,3 +2,20 @@ form mat-form-field {
     margin: 3px 0;
     width: 100%;
 }
+
+.file-list-wrapper {
+    width: 60%;
+    margin-top: 5px;
+}
+
+.file-list-wrapper mat-list-item .mat-list-item-content {
+    width: 100%;
+}
+
+.file-name {
+    min-width: 100%;
+}
+
+.file-list-header {
+    padding: 0 16px;
+}

@@ -41,8 +41,26 @@
     </mat-form-field>
   </div>
   <div formGroupName="categories" fxLayout="column">
-    <h4>Categories</h4>
+    <h3>Categories</h3>
     <mat-checkbox *ngFor="let category of categoryList" [formControlName]="category.controlName">{{category.label}}</mat-checkbox>
+  </div>
+  <div>
+    <h3>Images</h3>
+    <input type="file" multiple (change)="newFile($event)"/>
+    <div class="file-list-wrapper" fxLayout="column">
+      <ng-container *ngIf="fileList.length > 0">
+        <mat-list>
+          <h4 mat-subheader>Filename</h4>
+          <mat-list-item *ngFor="let file of fileList; let last = last;">
+              <div class="file-name">{{file.name}}</div>
+              <div fxLayout="row" fxLayoutAlign="end center">
+                <button role="button" color="warn" type="button" mat-icon-button><mat-icon>delete</mat-icon></button>
+              </div>
+              <mat-divider *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </ng-container>
+    </div>
   </div>
 </form>
 <div fxLayout="row" fxLayoutAlign="end center">

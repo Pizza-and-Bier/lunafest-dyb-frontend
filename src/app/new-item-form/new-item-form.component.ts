@@ -17,6 +17,8 @@ export class NewItemFormComponent implements OnInit {
 
   public categoryList: any[] = dybCategories;
 
+  public fileList: File[] = [];
+
   @Input() existingData: Item|null;
 
   @Output() save: EventEmitter<NewItemFormOutput> = new EventEmitter();
@@ -65,11 +67,26 @@ export class NewItemFormComponent implements OnInit {
   }
 
   public saveForm(): void {
-    this.save.emit(this.newItemForm.value);
+    const newItem = this.newItemForm.value;
+    newItem.images = this.fileList;
+    this.save.emit(newItem);
   }
 
   public cancelForm(): void {
     this.cancel.emit();
+  }
+
+  public newFile(event: Event): void {
+    console.log(event);
+    const input = <HTMLInputElement> event.target;
+    if (input.files && input.files.length > 0) {
+      for (let i = 0; i < input.files.length; i ++) {
+        const file = input.files.item(i);
+        this.fileList.push(file);
+      }
+      input.value = null;
+    }
+    console.log(this.fileList);
   }
 
   private buildForm(): void {
