@@ -29,7 +29,7 @@ export class BaseAuthService {
                 if (data.length == 0) obs.next(false);
                 else obs.next(true);
             }).catch((err) => {
-                obs.throw(err);
+                obs.error(err);
             });
         });
     }
