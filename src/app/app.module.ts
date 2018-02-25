@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { HttpClientModule } from "@angular/common/http";
 import { CdkStepperModule } from "@angular/cdk/stepper";
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { InMemItemsService } from "./in-mem-db/in-mem-items.service";
@@ -17,9 +18,8 @@ import { RoutingModule } from "./routing/routing.module";
 
 import { BaseServicesModule } from "./base-services/base-services.module";
 
-import { ItemService } from "./services/item.service";
+import { LoginService } from "./services/login.service";
 import { ItemListService } from "./item-list/item-list.service";
-import { LoginService } from './services/login.service';
 import { UserBidService } from './my-bids/user-bid.service';
 import { RegistrationService } from "./registration/registration.service";
 import { PlaceABidService } from "./place-a-bid/place-a-bid.service";
@@ -67,11 +67,11 @@ import { EditItemComponent } from './edit-item/edit-item.component';
     FlexLayoutModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemItemsService),
-    BaseServicesModule
+    BaseServicesModule,
+    AngularFireStorageModule
   ],
   providers: [
     LoginService,
-    ItemService,
     ItemListService,
     UserBidService,
     RegistrationService,

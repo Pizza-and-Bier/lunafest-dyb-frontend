@@ -7,13 +7,13 @@
       </ng-container>
       <ng-container *ngIf="savingItem">
         <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill *ngIf="!itemSaveComplete">
-          <mat-spinner></mat-spinner>
+          <mat-spinner [diameter]="150"></mat-spinner>
         </div>
         <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill *ngIf="itemSaveComplete">
-          <div>
+          <div class="success-icon">
             <mat-icon>check</mat-icon>
           </div>
-          <div>
+          <div class="success-message">
             Item saved successfully!
           </div>
         </div>

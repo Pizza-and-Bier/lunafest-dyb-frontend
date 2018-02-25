@@ -1,34 +1,34 @@
 <form [formGroup]="newItemForm">
   <div>
     <mat-form-field>
-      <input type="text" matInput placeholder="Name" formControlName="name"/>
+      <input type="text" matInput placeholder="Name" formControlName="name" required aria-required="true"/>
       <mat-error *ngIf="formErrors.name">{{formErrors.name}}</mat-error>
     </mat-form-field>
     
   </div>
   <div>
     <mat-form-field>
-      <textarea matInput placeholder="Description" formControlName="description"></textarea>
+      <textarea matInput placeholder="Description" formControlName="description" aria-required="false"></textarea>
       <mat-error *ngIf="formErrors.description">{{formErrors.description}}</mat-error>
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input type="number" matInput placeholder="Estimated Worth" formControlName="estimatedWorth"/>
+      <input type="number" matInput placeholder="Estimated Worth" formControlName="estimatedWorth" aria-required="false"/>
       <span matPrefix>$</span>
       <mat-error *ngIf="formErrors.estimatedWorth">{{formErrors.estimatedWorth}}</mat-error>
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input type="number" matInput placeholder="Opening Bid" formControlName="openingBid"/>
+      <input type="number" matInput placeholder="Opening Bid" formControlName="openingBid" required aria-required="true"/>
       <span matPrefix>$</span>
       <mat-error *ngIf="formErrors.openingBid">{{formErrors.openingBid}}</mat-error>
     </mat-form-field>
   </div>
   <div>
     <mat-form-field>
-      <input type="number" matInput placeholder="Bid Floor" formControlName="bidFloor"/>
+      <input type="number" matInput placeholder="Bid Floor" formControlName="bidFloor" required aria-required="true"/>
       <span matPrefix>$</span>
       <mat-hint align="start">The minimum amount a new bid has to be. For example, entering "5" would mean you have to raise the bid by at least $5.</mat-hint>
       <mat-error *ngIf="formErrors.bidFloor">{{formErrors.bidFloor}}</mat-error>
@@ -36,16 +36,35 @@
   </div>
   <div>
     <mat-form-field>
-      <input type="text" matInput placeholder="Donor Information" formControlName="donorInfo"/>
+      <input type="text" matInput placeholder="Donor Information" formControlName="donorInfo" aria-required="false"/>
       <mat-error *ngIf="formErrors.donorInfo">{{formErrors.donorInfo}}</mat-error>
     </mat-form-field>
   </div>
   <div formGroupName="categories" fxLayout="column">
-    <h4>Categories</h4>
+    <h3>Categories</h3>
     <mat-checkbox *ngFor="let category of categoryList" [formControlName]="category.controlName">{{category.label}}</mat-checkbox>
+  </div>
+  <div fxLayout="column">
+    <h3>Images</h3>
+    <em>Note: At least 1 image is required.</em>
+    <input id="image-input" type="file" multiple (change)="newFile($event)"/>
+    <div class="file-list-wrapper" fxLayout="column">
+      <ng-container *ngIf="fileList.length > 0">
+        <mat-list>
+          <h4 mat-subheader>Filename</h4>
+          <mat-list-item *ngFor="let file of fileList; let i = index; let last = last;">
+              <div class="file-name">{{file.name}}</div>
+              <div fxLayout="row" fxLayoutAlign="end center">
+                <button role="button" color="warn" type="button" mat-icon-button (click)="removeFile(i)"><mat-icon>delete</mat-icon></button>
+              </div>
+              <mat-divider *ngIf="!last"></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </ng-container>
+    </div>
   </div>
 </form>
 <div fxLayout="row" fxLayoutAlign="end center">
   <button mat-button type="button" role="button" (click)="cancelForm()">Cancel</button>
-  <button mat-raised-button color="primary" type="button" role="button" [disabled]="newItemForm.invalid" (click)="saveForm()">Save</button>
+  <button mat-raised-button color="primary" type="button" role="button" [disabled]="newItemForm.invalid || fileList.length <= 0" (click)="saveForm()">Save</button>
 </div>
