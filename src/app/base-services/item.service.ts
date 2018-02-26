@@ -77,7 +77,7 @@ export class BaseItemService {
             if (image instanceof File)
                 files.push(image);
         }
-
+        console.log("files from update", files);
         // create a new Promise
         return new Promise((resolve, reject) => {
             if (files.length !== 0) {
