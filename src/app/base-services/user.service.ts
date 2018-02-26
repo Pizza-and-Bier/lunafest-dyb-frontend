@@ -14,12 +14,14 @@ export class BaseUserService {
     /**
      * @author Anthony Pizzimenti
      * @desc Creates a new user.
-     * @param {string} uID  New user's unique ID.
+     * @param {string} uID      New user's unique ID.
+     * @param {Object} prefs    New user's SMS/notification/etc. preferences.
      * @returns {undefined} 
      */
-    public create(uID: string): void {
+    public create(uID: string, prefs: Object): void {
         let user = new User();
         user.uid = uID;
+        user.preferences = prefs;
         this.db.object("/users/" + uID).set(user);
     }
 
@@ -90,7 +92,8 @@ export class BaseUserService {
      * @returns {Promise<any>}      Resolves if the bid was successful, rejects if not. 
      */
     public bid(uID: string, iID: string | number, bidValue: number): Promise<any> {
-        let itemReference: Reference = this.db.object<Item>("/items/" + iID.toString());
+        let itemReference: Reference = this.db.object<Item>("/items/" + iID.toString()),
+            __this = this;
 
         return new Promise((resolve, reject) => {
             itemReference.valueChanges().take(1).subscribe((item) => {
@@ -101,10 +104,16 @@ export class BaseUserService {
                         createdBy: uID
                     };
 
-                item.bidders[uID] = true;
+                if (item.bidders)
+                    item.bidders[uID] = true;
+                else {
+                    item.bidders = {};
+                    item.bidders[uID] = true;
+                }
 
                 itemReference.update({ currentBid: bid }).then((_) => {
                     itemReference.update({ bidders: item.bidders }).then((_) => {
+                        __this.follow(uID, iID).catch(_ => {});
                         resolve("Successful update.");
                     });
                 }).catch((err) => {
