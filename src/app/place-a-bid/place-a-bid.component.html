@@ -21,7 +21,12 @@
         </div>
         <div class="current-bid" fxLayout="column" fxLayoutAlign="start center">
           <div class="amount">
-            <strong>{{data?.item?.currentBid.amount | currency: 'USD': 2}}</strong>
+              <ng-container *ngIf="data?.item?.currentBid">
+                  <strong>{{data?.item?.currentBid.amount | currency: 'USD': 2}}</strong>
+              </ng-container>
+              <ng-container *ngIf="!data?.item?.currentBid">
+                  <strong>{{data?.item?.openingBid | currency: 'USD': 2}}</strong>
+              </ng-container>
           </div>
           <div>
             Current Bid
@@ -41,7 +46,12 @@
       </form>
     </div>
     <div class="total-wrapper">
-        <strong>Total:</strong> {{(data?.item?.currentBid.amount + bidForm.get("bidValue").value) | currency: "USD": 2}}
+        <ng-container *ngIf="data?.item?.currentBid">
+            <strong>Total:</strong> {{(data?.item?.currentBid.amount + bidForm.get("bidValue").value) | currency: "USD": 2}}
+        </ng-container>
+        <ng-container *ngIf="!data?.item?.currentBid">
+            <strong>Total:</strong> {{(data?.item?.openingBid + bidForm.get("bidValue").value) | currency: "USD": 2}}
+        </ng-container>
     </div>
   </div>
 </mat-dialog-content>
