@@ -26,10 +26,7 @@ export class NewItemComponent implements OnInit {
   }
 
   public save(formData: NewItemFormOutput): void {
-    const categories = this.extractCategories(formData.categories);
-    delete formData.categories;
     const newItem = SerializationHelper.toInstance(new Item(), formData);
-    newItem.categories = categories;
     this.savingItem = true;
     this.newItemService.addNew(newItem).then(
       (data) => {
@@ -48,7 +45,7 @@ export class NewItemComponent implements OnInit {
   public cancel(): void {
     let dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: "New Item Cancel",
+        title: "Cancel Add",
         content: "Are you sure you want to cancel adding this item? Any data you've entered will be lost."
       }
     });
@@ -58,15 +55,4 @@ export class NewItemComponent implements OnInit {
       }
     });
   }
-
-  private extractCategories(categories: any): string[] {
-    const chosen = [];
-    for (const key in categories) {
-      if (categories[key]) {
-        chosen.push(key);
-      }
-    }
-    return chosen;
-  }
-
 }

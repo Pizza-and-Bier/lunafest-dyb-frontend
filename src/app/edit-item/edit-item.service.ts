@@ -10,6 +10,10 @@ export class EditItemService {
   constructor(private itemService: BaseItemService) { }
 
   public getItem(itemId: string): Observable<Item> {
-    return this.itemService.one(itemId).snapshotChanges();
+    return this.itemService.one(itemId);
+  }
+
+  public updateItem(itemId: string, item: Item): Promise<Item> {
+    return this.itemService.update(itemId, item);
   }
 }

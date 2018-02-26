@@ -6,4 +6,5 @@ export class NewItemFormOutput {
     bidFloor?: number|null;
     donorInfo?: string|null;
     categories?: any;
+    images?: any;
 }

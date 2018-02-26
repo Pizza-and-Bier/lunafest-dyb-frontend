@@ -24,6 +24,7 @@ import { UserBidService } from './my-bids/user-bid.service';
 import { RegistrationService } from "./registration/registration.service";
 import { PlaceABidService } from "./place-a-bid/place-a-bid.service";
 import { NewItemService } from "./new-item/new-item.service";
+import { EditItemService } from './edit-item/edit-item.service';
 
 import { PhoneNumberFormatter } from "./util/directives/phone-number-formatter.directive";
 
@@ -76,7 +77,8 @@ import { EditItemComponent } from './edit-item/edit-item.component';
     UserBidService,
     RegistrationService,
     PlaceABidService,
-    NewItemService
+    NewItemService,
+    EditItemService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent ]
