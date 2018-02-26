@@ -27,6 +27,7 @@ export class NewItemComponent implements OnInit {
 
   public save(formData: NewItemFormOutput): void {
     const newItem = SerializationHelper.toInstance(new Item(), formData);
+    newItem.bidders = [];
     this.savingItem = true;
     this.newItemService.addNew(newItem).then(
       (data) => {
