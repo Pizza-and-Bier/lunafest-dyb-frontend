@@ -24,4 +24,8 @@ export class AuthWrapperComponent implements OnInit {
     
   }
 
+  public addNewItem(): void {
+    this.router.navigate(["user/admin/add"]);
+  }
+
 }

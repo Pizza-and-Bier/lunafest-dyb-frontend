@@ -33,7 +33,8 @@ import { MatToolbarModule,
     MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatMenuModule
   ],
   exports: [
     MatToolbarModule,
@@ -49,7 +50,8 @@ import { MatToolbarModule,
     MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatMenuModule
   ],
   declarations: []
 })

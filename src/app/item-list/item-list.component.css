@@ -20,11 +20,16 @@
 }
 
 .item-list-wrapper {
-    margin: 10px 10px;
+    margin: 15px 10px;
 }
 
 .item-list-wrapper mat-card {
-    margin-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.item-list-wrapper mat-card img {
+    height: 20%;
+    max-height: 250px;
 }
 
 .item-more-info {
@@ -33,4 +38,15 @@
 
 .item-description {
     margin-top: 5px;
+}
+
+.item-list-item {
+    position: relative;
+}
+
+.item-list-item .item-edit-button {
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    z-index: 100;
 }
