@@ -104,7 +104,12 @@ export class BaseUserService {
                         createdBy: uID
                     };
 
-                item.bidders[uID] = true;
+                if (item.bidders)
+                    item.bidders[uID] = true;
+                else {
+                    item.bidders = {};
+                    item.bidders[uID] = true;
+                }
 
                 itemReference.update({ currentBid: bid }).then((_) => {
                     itemReference.update({ bidders: item.bidders }).then((_) => {
