@@ -1,0 +1,5 @@
+<mat-grid-list cols="2" rowHeight="50px">
+  <mat-grid-tile (click)="selectImage(index)" *ngFor="let image of images; let i = index">
+    <img width="50" height="50" [src]="image" [ngClass]="{'image-selected': index === selectedImage}" />
+  </mat-grid-tile>
+</mat-grid-list>

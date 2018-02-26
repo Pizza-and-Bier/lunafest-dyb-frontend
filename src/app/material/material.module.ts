@@ -14,7 +14,8 @@ import { MatToolbarModule,
         MatButtonToggleModule,
         MatProgressSpinnerModule,
         MatAutocompleteModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatGridListModule
        } from "@angular/material";
 
 @NgModule({
@@ -34,7 +35,8 @@ import { MatToolbarModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule
   ],
   exports: [
     MatToolbarModule,
@@ -51,7 +53,8 @@ import { MatToolbarModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule
   ],
   declarations: []
 })

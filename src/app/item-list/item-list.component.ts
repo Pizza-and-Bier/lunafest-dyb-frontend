@@ -22,6 +22,8 @@ export class ItemListComponent implements OnInit {
 
   public itemInfoToggles: boolean[] = [];
 
+  public itemImageSelections: number[] = [];
+
   constructor(private itemListService: ItemListService, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
@@ -50,6 +52,10 @@ export class ItemListComponent implements OnInit {
     this.router.navigate(["/user/admin/edit", item.key]);
   }
 
+  public changeImageSource(newIndex: number, itemIndex: number): void {
+    this.itemImageSelections[itemIndex] = newIndex;
+  }
+
   private initItems(): void {
     console.log('getitems');
     this.itemList = this.itemListService.initConnection();
@@ -58,17 +64,10 @@ export class ItemListComponent implements OnInit {
         console.log("subscriiiibbee");
         this.itemInfoToggles.length = data.length;
         this.itemInfoToggles.fill(false);
+        this.itemImageSelections.length = data.length;
+        this.itemImageSelections.fill(0);
       }
     );
-    // this.itemListService.getItems().subscribe(
-    //   (data) => {
-    //     data.map((elem) => {
-    //       this.itemList.push(SerializationHelper.toInstance(new ItemListItem(), elem));
-    //     });
-    //     console.log(data);
-    //     console.log(this.itemList);
-    //   }
-    // )
   }
 
 }
