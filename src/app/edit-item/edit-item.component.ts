@@ -79,7 +79,7 @@ export class EditItemComponent implements OnInit {
     });
   }
 
-  private flattenImages(images: ({name: string}|File)[]): string[] {
+  private flattenImages(images: ({name: string, originalValue: string}|File)[]): string[] {
     const flatterImages = [];
     console.log("images in flatten", images);
     images.map((elem) => {
@@ -87,7 +87,7 @@ export class EditItemComponent implements OnInit {
         flatterImages.push(elem);
       }
       else {
-        flatterImages.push(elem.name);
+        flatterImages.push(elem.originalValue);
       }
     });
     return flatterImages;

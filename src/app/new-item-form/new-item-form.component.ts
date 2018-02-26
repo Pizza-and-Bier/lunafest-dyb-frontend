@@ -17,7 +17,7 @@ export class NewItemFormComponent implements OnInit {
 
   public categoryList: any[] = dybCategories;
 
-  public fileList: (File|{name: string})[] = [];
+  public fileList: (File|{name: string, originalValue: string})[] = [];
 
   @Input() existingData: Item|null;
 
@@ -142,11 +142,7 @@ export class NewItemFormComponent implements OnInit {
     if (this.existingData !== undefined && this.existingData !== null) {
       const imagesPatch = this.getExistingImages(this.existingData.images);
       this.newItemForm.patchValue(this.existingData);
-      this.fileList = imagesPatch.map((elem) => {
-        return {
-          name: elem
-        };
-      });
+      this.fileList = imagesPatch;
     }
 
     this.newItemForm.statusChanges.subscribe((data) => {
@@ -172,13 +168,14 @@ export class NewItemFormComponent implements OnInit {
     }
   }
 
-  private getExistingImages(images: string[]): string[] {
+  private getExistingImages(images: string[]): {name: string, originalValue: string}[] {
     const imagesPatch = [];
     images.forEach((elem) => {
       const badName = elem.split("/images%2F").pop();
-      console.log(badName);
-      imagesPatch.push(badName.split("?")[0]);
-      console.log(imagesPatch)
+      imagesPatch.push({
+        name: badName.split("?")[0],
+        originalValue: elem
+      });
     });
     return imagesPatch;
   }
