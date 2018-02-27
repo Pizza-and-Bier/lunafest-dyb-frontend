@@ -50,3 +50,7 @@
     top: -20px;
     z-index: 100;
 }
+
+.gallery-wrapper {
+    margin-bottom: 15px;
+}

@@ -16,9 +16,11 @@ export class ItemCardGalleryComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.images);
   }
 
   public selectImage(index: number) {
+    console.log(index);
     this.selectedImage = index;
     this.selected.emit(index);
   }

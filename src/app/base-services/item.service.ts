@@ -106,7 +106,7 @@ export class BaseItemService {
      * @desc Removes the given item.
      * @param {string | number} itemID  Unique ID for the item to be deleted.
      * @returns {Promise<any>}
-     */ 
+     */
     remove(itemID: string | number): Promise<any> {
         return this.db.list<Item>("/items").remove(itemID.toString());
     }

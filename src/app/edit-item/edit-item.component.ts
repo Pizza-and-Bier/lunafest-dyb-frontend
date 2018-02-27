@@ -38,16 +38,12 @@ export class EditItemComponent implements OnInit {
 
 
   public save(formData: NewItemFormOutput) {
-    console.log("formData": formData);
     const images = this.flattenImages(formData.images);
-    console.log("images after flatten", images);
     formData.images = images;
     const editItem = SerializationHelper.toInstance(new Item(), formData);
-    console.log("edit Item", editItem);
     this.savingItem = true;
     this.editItemService.updateItem(this.itemId, editItem).then(
       (data) => {
-        console.log("done adding");
         this.itemSaveComplete = true;
         setTimeout(() => {
           this.router.navigate(["/user/items/list"]);

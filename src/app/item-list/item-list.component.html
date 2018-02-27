@@ -29,7 +29,7 @@
         </div>
         <div class="item-more-info" *ngIf="itemInfoToggles[i]">
           <mat-divider [inset]="true"></mat-divider>
-          <div *ngIf="item?.images.length > 1">
+          <div class="gallery-wrapper" *ngIf="item?.images.length > 1">
             <h4>More images</h4>
             <dyb-item-card-gallery [images]="item?.images" [selectedImage]="itemImageSelections[i]" (selected)="changeImageSource($event, i)"></dyb-item-card-gallery>
           </div>
