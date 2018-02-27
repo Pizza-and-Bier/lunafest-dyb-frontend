@@ -1,0 +1,23 @@
+.new-item-wrapper {
+    margin-top: 10px;
+    
+}
+
+.new-item-card {
+    max-width: 50%;
+    width: 50%;
+    min-height: 80vh;
+}
+
+.new-item-card mat-card-content {
+    height: 100%;
+}
+
+.success-icon mat-icon {
+    font-size: 4rem;
+    color: green;
+}
+
+.success-message {
+    font-size: 2rem;
+}

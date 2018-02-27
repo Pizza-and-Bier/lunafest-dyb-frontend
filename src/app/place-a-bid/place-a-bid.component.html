@@ -1,5 +1,4 @@
-
-<h3 mat-dialog-title>New Bid</h3>
+<h4 mat-dialog-title>{{data?.item?.name}}</h4>
 <mat-dialog-content>
   <div *ngIf="bidPlaced">
     <div *ngIf="!bidComplete" class="bid-complete-progress">
@@ -16,38 +15,58 @@
         <img [src]="imageSrc" width="100" height="100"/>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlexFill>
-        <div>
-          {{data?.item?.name}}
-        </div>
+        <div class="estimated-worth">
+            <em>Estimated Worth:</em> <strong>{{data?.item?.estimatedWorth | currency: 'USD': 2}}</strong>
+          </div>
         <div class="current-bid" fxLayout="column" fxLayoutAlign="start center">
           <div class="amount">
-            <strong>{{data?.item?.currentBid.amount | currency: 'USD': 2}}</strong>
+              <ng-container *ngIf="data?.item?.currentBid">
+                  <strong>{{data?.item?.currentBid.amount | currency: 'USD': 2}}</strong>
+              </ng-container>
+              <ng-container *ngIf="!data?.item?.currentBid">
+                  <strong>{{data?.item?.openingBid | currency: 'USD': 2}}</strong>
+              </ng-container>
           </div>
           <div>
-            Current Bid
+            <em>Current Bid</em>
           </div>
         </div>
       </div>
     </div>
-    <div>
+    <div class="bid-form-wrapper">
       <form [formGroup]="bidForm">
-        <mat-form-field>
-          <span matPrefix>$ &nbsp;</span>
-          <input matInput onlyNumber formControlName="bidValue" type="number" aria-label="Bid Amount" aria-required="true" />
-          <mat-error *ngIf="formErrors.bidValue">
-            {{formErrors.bidValue}}
-          </mat-error>
-        </mat-form-field>
+        <div class="quick-bid-title">Quick Bid</div>
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1px">
+          <mat-button-toggle color="primary" [checked]="bidToggleValue === value" *ngFor="let value of bidButtonValues; let i = index;" (change)="toggleBidValue(value)" [value]="value">
+            ${{value}}
+          </mat-button-toggle>
+          <mat-button-toggle color="primary" [checked]="bidToggleValue === 'other'" (change)="toggleBidValue('other')" value="other">Other</mat-button-toggle>
+        </div>
+        <div *ngIf="bidToggleValue === 'other'">
+          <mat-form-field>
+            <span matPrefix>$ &nbsp;</span>
+            <input matInput onlyNumber formControlName="bidValue" min="1" type="number" aria-label="Bid Amount" aria-required="true" />
+            <mat-hint>Amount should be at least ${{data?.item?.bidFloor}}.</mat-hint>
+            <mat-error *ngIf="formErrors.bidValue">
+              {{formErrors.bidValue}}
+            </mat-error>
+          </mat-form-field>
+        </div>
       </form>
     </div>
     <div class="total-wrapper">
-        <strong>Total:</strong> {{(data?.item?.currentBid.amount + bidForm.get("bidValue").value) | currency: "USD": 2}}
+        <ng-container *ngIf="data?.item?.currentBid">
+            <strong>Total:</strong> {{(data?.item?.currentBid.amount + bidForm.get("bidValue").value) | currency: "USD": 2}}
+        </ng-container>
+        <ng-container *ngIf="!data?.item?.currentBid">
+            <strong>Total:</strong> {{(data?.item?.openingBid + bidForm.get("bidValue").value) | currency: "USD": 2}}
+        </ng-container>
     </div>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <div class="actions-wrapper" fxLayout="row" fxLayoutAlign="end center">
     <button mat-button (click)="cancel()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="placeBid()">Place bid</button>
+    <button mat-raised-button color="primary" [disabled]="bidForm.invalid" (click)="placeBid()">Place bid</button>
   </div>
 </mat-dialog-actions>

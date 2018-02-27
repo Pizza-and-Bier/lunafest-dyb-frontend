@@ -1,40 +1,47 @@
 <section class="item-list-wrapper">
-  <mat-card *ngFor="let item of itemList | async; let i = index">
-    <img mat-card-image [src]="item?.images[0]">
-    <mat-card-content>
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxLayout="column" fxLayoutAlign="start start">
-          <div class="item-name">
-            <strong>{{item?.name}}</strong>
+  <div class="item-list-item" *ngFor="let item of itemList | async; let i = index">
+    <button mat-mini-fab class="item-edit-button" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
+    <mat-card>
+      <!-- <img mat-card-image [src]=""> -->
+      <mat-card-content>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <div fxLayout="column" fxLayoutAlign="start start">
+            <div class="item-name">
+              <strong>{{item?.name}}</strong>
+            </div>
+            <div class="estimated-worth">
+              <em>Estimated Worth:</em> <strong>{{item?.estimatedWorth | currency: 'USD': 2}}</strong>
+            </div>
           </div>
-          <div class="estimated-worth">
-            <em>Estimated Worth:</em> <strong>{{item?.currentBid.amount | currency: 'USD': 2}}</strong>
+          <div class="current-bid" fxLayout="column" fxLayoutAlign="start end">
+            <div class="amount">
+              <ng-container *ngIf="item?.currentBid">
+                  <strong>{{item?.currentBid.amount | currency: 'USD': 2}}</strong>
+              </ng-container>
+              <ng-container *ngIf="!item?.currentBid">
+                  <strong>{{item?.openingBid | currency: 'USD': 2}}</strong>
+              </ng-container>
+            </div>
+            <div>
+              Current Bid
+            </div>
           </div>
         </div>
-        <div class="current-bid" fxLayout="column" fxLayoutAlign="start end">
-          <div class="amount">
-            <strong>{{item?.currentBid.amount | currency: 'USD': 2}}</strong>
-          </div>
-          <div>
-            Current Bid
+        <div class="item-more-info" *ngIf="itemInfoToggles[i]">
+          <mat-divider [inset]="true"></mat-divider>
+          <div class="item-description">
+              {{item?.description}}
           </div>
         </div>
-      </div>
-      <div class="item-more-info" *ngIf="itemInfoToggles[i]">
-        <mat-divider [inset]="true"></mat-divider>
-        <div class="item-description">
-            {{item?.description}}
-        </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-      <button mat-raised-button (click)="toggleDescription(i)">
-        Item Info
-      </button>
-      <button mat-raised-button color="primary" (click)="placeBid(item)">
-        Place Bid
-      </button>
-    </mat-card-actions>
-  </mat-card>
-  <input type="file" (change)="uploadFile($event)"/>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button (click)="toggleDescription(i)">
+          Item Info
+        </button>
+        <button mat-raised-button color="primary" (click)="placeBid(item)">
+          Place Bid
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </section>

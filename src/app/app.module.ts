@@ -18,16 +18,16 @@ import { RoutingModule } from "./routing/routing.module";
 
 import { BaseServicesModule } from "./base-services/base-services.module";
 
-import { ItemService } from "./services/item.service";
+import { LoginService } from "./services/login.service";
 import { ItemListService } from "./item-list/item-list.service";
-import { LoginService } from './services/login.service';
 import { UserBidService } from './my-bids/user-bid.service';
 import { RegistrationService } from "./registration/registration.service";
 import { PlaceABidService } from "./place-a-bid/place-a-bid.service";
+import { NewItemService } from "./new-item/new-item.service";
+import { EditItemService } from './edit-item/edit-item.service';
 
 import { PhoneNumberFormatter } from "./util/directives/phone-number-formatter.directive";
 
-import { ControlToolbarComponent } from './control-toolbar/control-toolbar.component';
 import { LoginComponent } from './login/login.component';
 import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
 import { AuthWrapperComponent } from './auth-wrapper/auth-wrapper.component';
@@ -36,11 +36,15 @@ import { MyBidsComponent } from "./my-bids/my-bids.component";
 import { RegistrationComponent } from './registration/registration.component';
 import { PlaceABidComponent } from './place-a-bid/place-a-bid.component';
 import { OnlyNumberDirective } from './util/directives/only-number.directive';
+import { NewItemComponent } from './new-item/new-item.component';
+import { AuctionWrapperComponent } from './auction-wrapper/auction-wrapper.component';
+import { NewItemFormComponent } from './new-item-form/new-item-form.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { EditItemComponent } from './edit-item/edit-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ControlToolbarComponent,
     LoginComponent,
     AuthWrapperComponent,
     ItemListComponent,
@@ -48,7 +52,12 @@ import { OnlyNumberDirective } from './util/directives/only-number.directive';
     RegistrationComponent,
     PhoneNumberFormatter,
     PlaceABidComponent,
-    OnlyNumberDirective
+    OnlyNumberDirective,
+    NewItemComponent,
+    AuctionWrapperComponent,
+    NewItemFormComponent,
+    ConfirmDialogComponent,
+    EditItemComponent
   ],
   imports: [
     BrowserModule,
@@ -64,13 +73,14 @@ import { OnlyNumberDirective } from './util/directives/only-number.directive';
   ],
   providers: [
     LoginService,
-    ItemService,
     ItemListService,
     UserBidService,
     RegistrationService,
-    PlaceABidService
+    PlaceABidService,
+    NewItemService,
+    EditItemService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ PlaceABidComponent ]
+  entryComponents: [ PlaceABidComponent, ConfirmDialogComponent ]
 })
 export class AppModule { }

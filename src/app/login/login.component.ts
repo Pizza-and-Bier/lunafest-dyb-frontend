@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
     this.loginService.attemptLogin(credentials).then(
       (data) => {
         console.log(data);
-        this.router.navigate(["/user/list"]);
+        this.router.navigate(["/user/items/list"]);
       }
     );
   }

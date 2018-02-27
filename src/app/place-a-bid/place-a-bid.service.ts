@@ -17,4 +17,12 @@ export class PlaceABidService {
     );
   }
 
+  public followItem(itemId: string): Promise<any> {
+    return this.authService.uniqueID().then(
+      (uid) => {
+        return this.userService.follow(uid, itemId);
+      }
+    );
+  }
+
 }

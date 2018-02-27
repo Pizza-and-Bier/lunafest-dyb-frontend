@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 import { MatDialogRef, MatDialog } from '@angular/material';
 import { Observable } from "rxjs/Observable";
 
@@ -21,7 +22,7 @@ export class ItemListComponent implements OnInit {
 
   public itemInfoToggles: boolean[] = [];
 
-  constructor(private itemListService: ItemListService, public dialog: MatDialog) { }
+  constructor(private itemListService: ItemListService, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
     this.initItems();
@@ -37,12 +38,16 @@ export class ItemListComponent implements OnInit {
 
   public placeBid(item: Item): void {
     let dialogRef = this.dialog.open(PlaceABidComponent, {
-      width: "300px",
+      width: "320px",
       height: "400px",
       data: {
         item: item
       }
     });
+  }
+
+  public editItem(item: Item): void {
+    this.router.navigate(["/user/admin/edit", item.key]);
   }
 
   private initItems(): void {
