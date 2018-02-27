@@ -21,8 +21,7 @@ export class BaseUserService {
     public create(uID: string, prefs: Object): void {
         let user = new User();
         user.uid = uID;
-        user.preferences = prefs;
-        this.db.object("/users/" + uID).set(user);
+        this.db.object("/users/" + uID).set(prefs);
     }
 
     /**
