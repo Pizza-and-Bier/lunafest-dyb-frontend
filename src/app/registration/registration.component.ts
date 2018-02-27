@@ -58,7 +58,8 @@ export class RegistrationComponent implements OnInit {
       },
       "password": {
         "required": "Required.",
-        "minlength": "At least 10 characters required."
+        "minlength": "At least 10 characters required.",
+        "pattern": "Password should container at least one letter and one number."
       },
       "confirmPassword": {
         "required": "Required.",
@@ -105,18 +106,10 @@ export class RegistrationComponent implements OnInit {
     this.currentStep = stepName;
   }
 
-  public setPhoneField(data): void {
-    console.log(data);
-    this.registrationForm.get("personalInfo").get("phoneNumber").markAsDirty();
-    this.registrationForm.get("personalInfo").get("phoneNumber").setValue(data);
-    this.registrationForm.get("personalInfo").get("phoneNumber").updateValueAndValidity();
-  }
-
   public signupUser(): void {
     const loginInfo = this.registrationForm.get("loginInfo").value;
     delete loginInfo.confirmPassword;
     const personalInfo = this.registrationForm.get("personalInfo").value;
-    delete personalInfo.smsOptIn;
     const contactInfo = this.registrationForm.get("contactInfo").value;
     const combined = Object.assign({}, loginInfo, personalInfo, contactInfo);
     const user = SerializationHelper.toInstance(new AuthenticatedUser(), combined);
@@ -127,20 +120,8 @@ export class RegistrationComponent implements OnInit {
     );
   }
 
-  public updatePhoneValidators(event: {checked: boolean, source: MatCheckbox}): void {
-    const phoneControl = this.registrationForm.get("personalInfo").get("phoneNumber");
-    if (event.checked) {
-      phoneControl.setValidators([Validators.required, validPhoneValidator()]);
-      phoneControl.updateValueAndValidity();
-    }
-    else {
-      phoneControl.setValidators([]);
-      phoneControl.updateValueAndValidity();
-    }
-  }
-
   private buildForm(): void {
-    const passwordPattern = new RegExp(/(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]*/g);
+    const passwordPattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]*$/g);
     this.registrationForm = this.fb.group({
       "loginInfo": this.fb.group({
         "email": ["", [
@@ -163,12 +144,6 @@ export class RegistrationComponent implements OnInit {
         ]],
         "lastName": ["", [
           Validators.required
-        ]],
-        "smsOptIn": [false, [
-
-        ]],
-        "phoneNumber": ["", [
-
         ]]
       }),
       "contactInfo": this.fb.group({

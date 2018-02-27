@@ -46,15 +46,6 @@
                 <mat-error *ngIf="formErrors.personalInfo.lastName">{{formErrors.personalInfo.lastName}}</mat-error>
               </mat-form-field>
             </div>
-            <div fxLayout="column" fxLayoutAlign="center center">
-              <mat-checkbox formControlName="smsOptIn" (change)="updatePhoneValidators($event)">
-                Recieve SMS bid updates
-              </mat-checkbox>
-              <mat-form-field *ngIf="registrationForm.get('personalInfo').get('smsOptIn').value">
-                <input dybPhoneNumber formControlName="phoneNumber" matInput placeholder="Phone Number" (onPhoneNumberChanged)="setPhoneField($event)" type="tel"/>
-                <mat-error *ngIf="formErrors.personalInfo.phoneNumber">{{formErrors.personalInfo.phoneNumber}}</mat-error>
-              </mat-form-field>
-              </div>
             <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
               <button mat-raised-button type="button" role="button" (click)="previousStep('loginInfo')">Back</button>
               <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('contactInfo')" [disabled]="registrationForm.get('personalInfo').invalid">Next</button>
