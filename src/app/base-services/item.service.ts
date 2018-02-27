@@ -47,8 +47,8 @@ export class BaseItemService {
                 return;
             }
 
-            // check if item has a list of images attached
-            if (item.hasOwnProperty("images") && !(item["images"] == [] || item["images"] == null)) {
+            // check if item has a non-empty, non-null list of images attached
+            if (item.hasOwnProperty("images") && item["images"] !== null && item["images"].length > 0) {
                 let __this = this;
 
                 this.convertAndUploadImages(item["images"], __this).subscribe((urls) => {

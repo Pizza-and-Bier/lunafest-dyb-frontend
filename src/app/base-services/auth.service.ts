@@ -39,15 +39,16 @@ export class BaseAuthService {
      * @desc Signs up a new user.
      * @param {string} email    Email for the new user.
      * @param {string} password Password for the new user.
+     * @param {Object} prefs    Object containing user preferences.
      * @returns {Promise<any>} 
      */
-    public signup(email: string, password: string): Promise<any> {
+    public signup(email: string, password: string, prefs: Object): Promise<any> {
         return new Promise((resolve, reject) => {
             let auth = this.afAuth.auth.createUserWithEmailAndPassword(email, password),
                 reason = "Account couldn't be created - ";
 
             auth.then((u) => {
-                this.userService.create(u.uid);
+                this.userService.create(u.uid, prefs);
                 resolve("User created successfully.");
             }).catch((err) => {
                 switch (err.code) {
