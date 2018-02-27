@@ -77,7 +77,6 @@ export class EditItemComponent implements OnInit {
 
   private flattenImages(images: ({name: string, originalValue: string}|File)[]): string[] {
     const flatterImages = [];
-    console.log("images in flatten", images);
     images.map((elem) => {
       if (elem instanceof File) {
         flatterImages.push(elem);

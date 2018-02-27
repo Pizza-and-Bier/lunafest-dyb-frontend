@@ -21,7 +21,7 @@ export class ItemListComponent implements OnInit {
   public itemList: Observable<Item[]>;
 
   public itemInfoToggles: boolean[] = [];
-
+  
   public itemImageSelections: number[] = [];
 
   constructor(private itemListService: ItemListService, public dialog: MatDialog, private router: Router) { }

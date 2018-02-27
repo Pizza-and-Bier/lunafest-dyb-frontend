@@ -16,7 +16,7 @@ export class NewItemFormComponent implements OnInit {
   public newItemForm: FormGroup;
 
   public categoryList: any[] = dybCategories;
-
+  
   public fileList: (File|{name: string, originalValue: string})[] = [];
 
   @Input() existingData: Item|null;
