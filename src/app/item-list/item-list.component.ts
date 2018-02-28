@@ -23,7 +23,7 @@ export class ItemListComponent implements OnInit {
 
   public itemInfoToggles: boolean[] = [];
 
-  public filterCategories: {[key: string]: boolean} = null;
+  public filterCategories: string[]|null = null;
 
   public filteredListingLength: number = null;
 
@@ -57,15 +57,20 @@ export class ItemListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(
-      (result: {[key: string]: boolean}|null) => {
+      (result: string[]|null) => {
         if (result === null) {
           return;
         }
-        this.itemList.subscribe((data) => {
-          this.filterCategories = result;
-          const pipe = new CategoriesPipe();
-          this.filteredListingLength = pipe.transform(data, this.filterCategories).length;
-        });
+        if (result.length <= 0) {
+          this.clearFilters();
+        }
+        else {
+          this.itemList.subscribe((data) => {
+            this.filterCategories = result;
+            const pipe = new CategoriesPipe();
+            this.filteredListingLength = pipe.transform(data, this.filterCategories).length;
+          });
+        }
       }
     );
   }
@@ -84,7 +89,6 @@ export class ItemListComponent implements OnInit {
     this.itemList = this.itemListService.initConnection();
     this.itemList.subscribe(
       (data) => {
-        console.log("subscriiiibbee");
         this.itemInfoToggles.length = data.length;
         this.itemInfoToggles.fill(false);
       }

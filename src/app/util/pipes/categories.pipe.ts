@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { intersection } from "lodash";
+import { unionBy } from "lodash";
 
 import { Item } from '../../models';
 
@@ -8,25 +8,22 @@ import { Item } from '../../models';
 })
 export class CategoriesPipe implements PipeTransform {
 
-  transform(items: Item[], selectedCategories: {[key: string]: boolean}|null): any {
+  transform(items: Item[], selectedCategories: string[] |null): any {
     if (selectedCategories === null) {
       return items;
     }
-    const newItems = items.filter(
-      (item) => {
-        if (item.categories === undefined) {
-          return true;
-        }
-        for (const key in selectedCategories) {
-          if (selectedCategories[key] !== item.categories[key]) {
-            return false;
-          }
-        }
-        return true;
+    let filteredItems = [];
+    for (let i = 0; i < selectedCategories.length; i++) {
+      const key = selectedCategories[i];
+      // If we already have all the items, no point in going on.
+      if (filteredItems.length === items.length) {
+        return filteredItems;
       }
-    );
-    console.log(newItems);
-    return newItems;
+      // unionBy will remove any duplications from joining our currently filtered items with any
+      // new items that have our category.
+      filteredItems = unionBy(filteredItems, items.filter(elem => elem.categories[key]), "key");
+    }
+    return filteredItems;
   }
 
 }

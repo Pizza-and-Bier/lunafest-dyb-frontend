@@ -19,24 +19,22 @@ export class ItemListFilterDialogComponent implements OnInit {
   private selectionBase: {[key: string]: boolean} = {};
 
   constructor(
-    @Inject(MAT_DIALOG_DATA)public data: {[key: string]: boolean},
+    @Inject(MAT_DIALOG_DATA)public data: string[] | null,
     public dialogRef: MatDialogRef<ItemListFilterDialogComponent>
   ) { }
 
   ngOnInit() {
     dybCategories.map(elem => this.selectionBase[elem.controlName] = false);
+    this.selectedMap = this.selectionBase;
     if (this.data !== undefined && this.data !== null) {
-      this.selectedMap = this.data;
-    }
-    else {
-      this.selectedMap = this.selectionBase;
+      this.data.map(e => this.selectedMap[e] = true);
     }
   }
 
   public apply(): void {
-    const chosenCategories = this.selectionBase;
+    const chosenCategories = [];
     this.selectionList.selectedOptions.selected.map((elem) => {
-      chosenCategories[elem.value] = true;
+      chosenCategories.push(elem.value);
     });
     this.dialogRef.close(chosenCategories);
   }
