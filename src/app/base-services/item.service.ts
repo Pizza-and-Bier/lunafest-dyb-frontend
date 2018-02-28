@@ -1,16 +1,19 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { AngularFireDatabase, AngularFireObject, AngularFireList } from "angularfire2/database";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { flatten, compact } from "lodash";
 import "rxjs/add/observable/forkJoin";
 import "rxjs/add/operator/take"
 
 import { BaseImageService } from "./image.service";
+import { Unsubscribe } from "./unsubscribe";
 import { Item } from '../models';
 
 
 @Injectable()
-export class BaseItemService {
+export class BaseItemService implements OnDestroy {
+
+    private subs: Subscription[] = [];
     constructor(private db: AngularFireDatabase, private image: BaseImageService) { }
 
     /**
@@ -51,10 +54,10 @@ export class BaseItemService {
             if (item.hasOwnProperty("images") && item["images"] !== null && item["images"].length > 0) {
                 let __this = this;
 
-                this.convertAndUploadImages(item["images"], __this).subscribe((urls) => {
+                this.subs.push(this.convertAndUploadImages(item["images"], __this).subscribe((urls) => {
                     item["images"] = urls;
                     this.transcribeObject(item, resolve, reject);
-                });
+                }));
             } else {
                 this.transcribeObject(item, resolve, reject);
             }
@@ -82,7 +85,7 @@ export class BaseItemService {
         return new Promise((resolve, reject) => {
             if (files.length !== 0) {
                 // if there are File objects in the list of images, store the images
-                this.convertAndUploadImages(files, __this).take(1).subscribe((urls) => {
+                this.subs.push(this.convertAndUploadImages(files, __this).take(1).subscribe((urls) => {
 
                     // flatten/remove falsy values from the list so it's flat in the db
                     item.images = compact(flatten(item.images.concat(urls)));
@@ -90,7 +93,7 @@ export class BaseItemService {
                         .then(_ => resolve(true))
                         .catch(err => reject(err));
                     return;
-                });
+                }));
             } else {
                 // otherwise, just update the existing values without changing images around
                 this.db.list<Item>("/items").update(itemID.toString(), item)
@@ -150,4 +153,6 @@ export class BaseItemService {
 
         return Observable.forkJoin(...uploads);
     }
+
+    ngOnDestroy () { }
 }

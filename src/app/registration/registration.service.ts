@@ -9,7 +9,7 @@ export class RegistrationService {
   constructor(private authService: BaseAuthService) { }
 
   public signupUser(user: AuthenticatedUser): Promise<void> {
-    return this.authService.signup(user.email, user.password);
+    return this.authService.signup(user.email, user.password, {});
   }
 
 }
