@@ -1,6 +1,13 @@
+section.registration-wrapper {
+    height: 80vh;
+}
+
 .registration-card {
     min-width: 90%;
     margin: 0 auto;
+}
+
+.registration-form {
 }
 
 .registration-form mat-form-field {
@@ -13,4 +20,12 @@
  
 .contact-inputs{
     width: 90%;
+}
+
+.name-inputs mat-form-field {
+    width: 50%;
+}
+
+.signup-error {
+    color: #f44336;
 }

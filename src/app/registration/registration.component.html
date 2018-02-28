@@ -1,108 +1,131 @@
-<section fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+<section class="registration-wrapper" fxLayout="column" fxLayoutAlign="center center">
   <mat-card class="registration-card">
     <mat-card-content>
-
-      <form class="registration-form" [formGroup]="registrationForm">
-        <ng-container *ngIf="currentStep == 'loginInfo'">
-          <div class="login-info" formGroupName="loginInfo" fxLayout="column"  fxLayoutAlign="center center">
-            <h3>Login Info</h3>
-            <div fxLayout="row" fxFlexFill fxLayoutAlign="center center">
-              <mat-form-field>
-                <input formControlName="email" matInput placeholder="Email" type="email">
-                <mat-error *ngIf="formErrors.loginInfo.email">{{formErrors.loginInfo.email}}</mat-error>
-              </mat-form-field>
+      <ng-container *ngIf="!registeringUser">
+        <form class="registration-form" [formGroup]="registrationForm">
+          <ng-container *ngIf="currentStep == 'loginInfo'">
+            <div class="login-info" formGroupName="loginInfo" fxLayout="column"  fxLayoutAlign="center center">
+              <h3>Login Information</h3>
+              <div fxLayout="row" fxFlexFill fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input formControlName="email" matInput placeholder="Email" type="email">
+                  <mat-error *ngIf="formErrors.loginInfo.email">{{formErrors.loginInfo.email}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input formControlName="password" matInput placeholder="Password" type="password">
+                  <mat-error *ngIf="formErrors.loginInfo.password">{{formErrors.loginInfo.password}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input formControlName="confirmPassword" matInput placeholder="Confirm Password" type="password">
+                  <mat-error *ngIf="formErrors.loginInfo.confirmPassword">{{formErrors.loginInfo.confirmPassword}}</mat-error>
+                </mat-form-field>
+              </div>
             </div>
-            <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input formControlName="password" matInput placeholder="Password" type="password">
-                <mat-error *ngIf="formErrors.loginInfo.password">{{formErrors.loginInfo.password}}</mat-error>
-              </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="currentStep == 'personalInfo'">
+            <h3>Personal Information</h3>
+            <div class="contact-inputs" formGroupName="personalInfo" fxLayout="column" fxLayoutAlign="start center">
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input formControlName="firstName" matInput placeholder="First Name" type="text">
+                  <mat-error *ngIf="formErrors.personalInfo.firstName">{{formErrors.personalInfo.firstName}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input formControlName="lastName" matInput placeholder="Last Name" type="text">
+                  
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input formControlName="phoneNumber" matInput placeholder="Phone Number" type="text">
+                  <mat-error *ngIf="formErrors.personalInfo.phoneNumber">{{formErrors.personalInfo.phoneNumber}}</mat-error>
+                </mat-form-field>
+              </div>
             </div>
-            <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input formControlName="confirmPassword" matInput placeholder="Confirm Password" type="password">
-                <mat-error *ngIf="formErrors.loginInfo.confirmPassword">{{formErrors.loginInfo.confirmPassword}}</mat-error>
-              </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="currentStep === 'contactInfo'">
+            <h3>Mailing Information</h3>
+            <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="start center">
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input formControlName="street" matInput placeholder="Street" type="text"/>
+                  <mat-error *ngIf="formErrors.contactInfo.street">{{formErrors.contactInfo.street}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input formControlName="city" matInput placeholder="City" type="text"/>
+                  <mat-error *ngIf="formErrors.contactInfo.city">{{formErrors.contactInfo.city}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input  formControlName="zip" matInput placeholder="Zip Code" type="text"/>
+                  <mat-error *ngIf="formErrors.contactInfo.zip">{{formErrors.contactInfo.zip}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input matInput placeholder="State" [formControl]="registrationForm.get('contactInfo').get('state')" type="text" [matAutocomplete]="stateAuto"/>
+                  <mat-autocomplete #stateAuto="matAutocomplete">
+                    <mat-option *ngFor="let state of filteredStates | async" [value]="state">
+                      {{state}}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <mat-error *ngIf="formErrors.contactInfo.state">{{formErrors.contactInfo.state}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
+              </div>
             </div>
-            <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="end center">
-              <button mat-button type="button" role="button" (click)="cancel()">Cancel</button>
-              <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('personalInfo')" [disabled]="registrationForm.get('loginInfo').invalid">Next</button>
+          </ng-container>
+          <ng-container *ngIf="currentStep === 'terms'">
+            <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="start center">
+              <h3>Disclaimer</h3>
+              <p>
+                <strong>Please note:</strong> If you are bidding remotely, you will need to send someone to pick up your items. The Lunafest committe will not be shipping your winnings.
+              </p>
             </div>
-            
+            <ng-container *ngIf="signUpErrorMsg.length > 0">
+              <div class="signup-error">
+                {{signUpErrorMsg}}
+              </div>
+            </ng-container>
+          </ng-container>
+        </form>
+      </ng-container>
+      <ng-container *ngIf="registeringUser">
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill *ngIf="!registrationSuccess">
+          <mat-spinner [diameter]="150"></mat-spinner>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill *ngIf="registrationSuccess">
+          <div class="success-icon">
+            <mat-icon>check</mat-icon>
           </div>
-        </ng-container>
-        <ng-container *ngIf="currentStep == 'personalInfo'">
-          <h3>Personal Information</h3>
-          <div class="contact-inputs" formGroupName="personalInfo" fxLayout="column" fxLayoutAlign="start center">
-            <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input formControlName="firstName" matInput placeholder="First Name" type="text">
-                <mat-error *ngIf="formErrors.personalInfo.firstName">{{formErrors.personalInfo.firstName}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input formControlName="lastName" matInput placeholder="Last Name" type="text">
-                <mat-error *ngIf="formErrors.personalInfo.lastName">{{formErrors.personalInfo.lastName}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
-              <button mat-raised-button type="button" role="button" (click)="previousStep('loginInfo')">Back</button>
-              <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('contactInfo')" [disabled]="registrationForm.get('personalInfo').invalid">Next</button>
-            </div>
+          <div class="success-message">
+            Success!
           </div>
-        </ng-container>
-        <ng-container *ngIf="currentStep === 'contactInfo'">
-          <h3>Contact Information</h3>
-          <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="start center">
-            <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input formControlName="street" matInput placeholder="Street" type="text"/>
-                <mat-error *ngIf="formErrors.contactInfo.street">{{formErrors.contactInfo.street}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input formControlName="city" matInput placeholder="City" type="text"/>
-                <mat-error *ngIf="formErrors.contactInfo.city">{{formErrors.contactInfo.city}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input  formControlName="zip" matInput placeholder="Zip Code" type="text"/>
-                <mat-error *ngIf="formErrors.contactInfo.zip">{{formErrors.contactInfo.zip}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="center center">
-              <mat-form-field>
-                <input matInput placeholder="State" [formControl]="registrationForm.get('contactInfo').get('state')" type="text" [matAutocomplete]="stateAuto"/>
-                <mat-autocomplete #stateAuto="matAutocomplete">
-                  <mat-option *ngFor="let state of filteredStates | async" [value]="state">
-                    {{state}}
-                  </mat-option>
-                </mat-autocomplete>
-                <mat-error *ngIf="formErrors.contactInfo.state">{{formErrors.contactInfo.state}}</mat-error>
-              </mat-form-field>
-            </div>
-            <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
-              <button mat-raised-button type="button" role="button" (click)="previousStep('personalInfo')">Back</button>
-              <button mat-raised-button color="primary" type="button" role="button" (click)="nextStep('terms')" [disabled]="registrationForm.get('contactInfo').invalid">Next</button>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="currentStep === 'terms'">
-          <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="start center">
-            <h3>Disclaimer</h3>
-            <p>
-              <strong>Please note:</strong> If you are bidding remotely, you will need to send someone to pick up your items. The Lunafest committe will not be shipping your winnings.
-            </p>
-            <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
-              <button mat-raised-button type="button" role="button" (click)="previousStep('contactInfo')">Back</button>
-              <button mat-raised-button color="primary" type="button" role="button" (click)="signupUser()">Sign Up</button>
-            </div>
-          </div>
-        </ng-container>
-      </form>
+        </div>
+      </ng-container>
     </mat-card-content>
+    <mat-card-actions *ngIf="!registeringUser">
+      <div class="action-buttons" *ngIf="currentStep !== 'terms'; else signUp" fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button type="button" role="button" (click)="previousStep()">Back</button>
+        <button mat-raised-button type="button" role="button" color="primary" (click)="nextStep()" [disabled]="getCurrentStepValidity()">Next</button>
+      </div>
+      <ng-template #signUp>
+        <div class="actions-wrapper" fxLayout="row"  fxLayoutAlign="space-between center">
+          <button mat-raised-button type="button" role="button" (click)="previousStep()">Back</button>
+          <button mat-raised-button type="button" role="button" (click)="signupUser()" [disabled]="registrationForm.invalid || signUpErrorMsg.length > 0">Sign up</button>  
+        </div>
+      </ng-template>
+    </mat-card-actions>
   </mat-card>
+  
 </section>
