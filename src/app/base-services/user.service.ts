@@ -3,7 +3,7 @@ import { Observable, Observer } from "rxjs";
 import { AngularFireDatabase } from "angularfire2/database"
 import "rxjs/add/operator/take";
 import { Reference } from "firebase/database";
-import { pull } from "lodash";
+import { pull, assign } from "lodash";
 
 import { User, Item, Bid } from "../models";
 
@@ -20,8 +20,9 @@ export class BaseUserService {
      */
     public create(uID: string, prefs: Object): void {
         let user = new User();
+        assign(user, prefs);
         user.uid = uID;
-        this.db.object("/users/" + uID).set(prefs);
+        this.db.object("/users/" + uID).set(user);
     }
 
     /**
