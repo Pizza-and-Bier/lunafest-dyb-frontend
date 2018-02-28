@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialogRef, MatDialog, MatListOption } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from "rxjs/Observable";
 
 import { Item } from "../models";
@@ -8,6 +9,7 @@ import { ItemListService } from "./item-list.service";
 import { ItemListItem } from './item-list-item';
 import { SerializationHelper } from "../util";
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
+import { ItemListFilterDialogComponent } from '../item-list-filter-dialog/item-list-filter-dialog.component';
 
 @Component({
   selector: 'app-item-list',
@@ -21,6 +23,8 @@ export class ItemListComponent implements OnInit {
   public itemList: Observable<Item[]>;
 
   public itemInfoToggles: boolean[] = [];
+
+  public filterCategories: string[];
 
   constructor(private itemListService: ItemListService, public dialog: MatDialog, private router: Router) { }
 
@@ -46,6 +50,17 @@ export class ItemListComponent implements OnInit {
     });
   }
 
+  public openFilterDialog(): void {
+    const dialogRef = this.dialog.open(ItemListFilterDialogComponent);
+
+    dialogRef.afterClosed().subscribe(
+      (result: string[]|null) => {
+        // this.filterCategories = result;
+        console.log(result);
+      }
+    );
+  }
+
   public editItem(item: Item): void {
     this.router.navigate(["/user/admin/edit", item.key]);
   }
@@ -60,15 +75,6 @@ export class ItemListComponent implements OnInit {
         this.itemInfoToggles.fill(false);
       }
     );
-    // this.itemListService.getItems().subscribe(
-    //   (data) => {
-    //     data.map((elem) => {
-    //       this.itemList.push(SerializationHelper.toInstance(new ItemListItem(), elem));
-    //     });
-    //     console.log(data);
-    //     console.log(this.itemList);
-    //   }
-    // )
   }
 
 }

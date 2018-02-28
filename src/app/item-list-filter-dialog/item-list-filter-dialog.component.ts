@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSelectionList, MatDialogRef } from "@angular/material";
+
+import { dybCategories } from "../models/categories.const";
 
 @Component({
   selector: 'dyb-item-list-filter-dialog',
@@ -7,9 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ItemListFilterDialogComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild(MatSelectionList) selectionList: MatSelectionList;
+
+  public categories = dybCategories.map(elem => elem.label);
+
+  constructor(public dialogRef: MatDialogRef<ItemListFilterDialogComponent>) { }
 
   ngOnInit() {
+  }
+
+  public apply(): void {
+    this.dialogRef.close(this.selectionList.selectedOptions.selected.map(elem => elem.value));
+  }
+
+  public cancel(): void {
+    this.dialogRef.close(null);
   }
 
 }

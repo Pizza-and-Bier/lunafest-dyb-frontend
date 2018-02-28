@@ -83,6 +83,6 @@ import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-li
     EditItemService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ PlaceABidComponent, ConfirmDialogComponent ]
+  entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]
 })
 export class AppModule { }

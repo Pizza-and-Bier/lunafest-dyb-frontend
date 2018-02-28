@@ -1,3 +1,11 @@
-<p>
-  item-list-filter-dialog works!
-</p>
+<mat-dialog-content>
+  <mat-selection-list >
+    <mat-list-option *ngFor="let category of categories" [value]="category">
+      {{category}}
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button type="button" role="button" (click)="cancel()">Cancel</button>
+  <button mat-button type="button" role="button" color="primary" (click)="apply()">Apply</button>
+</mat-dialog-actions>
