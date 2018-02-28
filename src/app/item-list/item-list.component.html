@@ -1,5 +1,8 @@
 <section class="item-list-wrapper">
-  <div class="item-list-item" *ngFor="let item of itemList | async; let i = index">
+  <div *ngIf="filterCategories !== null && filteredListing !== null">
+    Showing {{filteredListingLength}} out of {{itemInfoToggles.length}} items
+  </div>
+  <div class="item-list-item" *ngFor="let item of itemList | async | categories: filterCategories; let i = index">
     <button mat-mini-fab class="item-edit-button" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
     <mat-card>
       <!-- <img mat-card-image [src]=""> -->

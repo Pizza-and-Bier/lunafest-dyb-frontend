@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSelectionList, MatDialogRef } from "@angular/material";
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { MatSelectionList, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 
 import { dybCategories } from "../models/categories.const";
 
@@ -12,15 +12,34 @@ export class ItemListFilterDialogComponent implements OnInit {
 
   @ViewChild(MatSelectionList) selectionList: MatSelectionList;
 
-  public categories = dybCategories.map(elem => elem.label);
+  public categories = dybCategories;
 
-  constructor(public dialogRef: MatDialogRef<ItemListFilterDialogComponent>) { }
+  public selectedMap: {[key: string]: boolean} = null;
+
+  private selectionBase: {[key: string]: boolean} = {};
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA)public data: {[key: string]: boolean},
+    public dialogRef: MatDialogRef<ItemListFilterDialogComponent>
+  ) { }
 
   ngOnInit() {
+    dybCategories.map(elem => this.selectionBase[elem.controlName] = false);
+    if (this.data !== undefined && this.data !== null) {
+      this.selectedMap = this.data;
+    }
+    else {
+      this.selectedMap = this.selectionBase;
+    }
   }
 
   public apply(): void {
-    this.dialogRef.close(this.selectionList.selectedOptions.selected.map(elem => elem.value));
+    const chosenCategories = this.selectionBase;
+    this.selectionList.selectedOptions.selected.map((elem) => {
+      chosenCategories[elem.value] = true;
+    });
+    console.log(chosenCategories);
+    this.dialogRef.close(chosenCategories);
   }
 
   public cancel(): void {

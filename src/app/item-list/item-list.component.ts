@@ -10,6 +10,7 @@ import { ItemListItem } from './item-list-item';
 import { SerializationHelper } from "../util";
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
 import { ItemListFilterDialogComponent } from '../item-list-filter-dialog/item-list-filter-dialog.component';
+import { CategoriesPipe } from '../util/pipes/categories.pipe';
 
 @Component({
   selector: 'app-item-list',
@@ -18,13 +19,13 @@ import { ItemListFilterDialogComponent } from '../item-list-filter-dialog/item-l
 })
 export class ItemListComponent implements OnInit {
 
-  // Todo: can ItemListService be provided here when I'm not mocking the backend??
-
   public itemList: Observable<Item[]>;
 
   public itemInfoToggles: boolean[] = [];
 
-  public filterCategories: string[];
+  public filterCategories: {[key: string]: boolean} = null;
+
+  public filteredListingLength: number = null;
 
   constructor(private itemListService: ItemListService, public dialog: MatDialog, private router: Router) { }
 
@@ -51,12 +52,22 @@ export class ItemListComponent implements OnInit {
   }
 
   public openFilterDialog(): void {
-    const dialogRef = this.dialog.open(ItemListFilterDialogComponent);
+    const dialogRef = this.dialog.open(ItemListFilterDialogComponent, {
+      data: this.filterCategories
+    });
 
     dialogRef.afterClosed().subscribe(
-      (result: string[]|null) => {
+      (result: {[key: string]: boolean}|null) => {
         // this.filterCategories = result;
         console.log(result);
+        if (result === null) {
+          return;
+        }
+        this.itemList.subscribe((data) => {
+          this.filterCategories = result;
+          const pipe = new CategoriesPipe();
+          this.filteredListingLength = pipe.transform(data, this.filterCategories).length;
+        });
       }
     );
   }

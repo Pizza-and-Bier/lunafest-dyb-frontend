@@ -42,6 +42,8 @@ import { NewItemFormComponent } from './new-item-form/new-item-form.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-list-filter-dialog.component';
+import { CategoriesPipe } from './util/pipes/categories.pipe';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +61,8 @@ import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-li
     NewItemFormComponent,
     ConfirmDialogComponent,
     EditItemComponent,
-    ItemListFilterDialogComponent
+    ItemListFilterDialogComponent,
+    CategoriesPipe
   ],
   imports: [
     BrowserModule,
