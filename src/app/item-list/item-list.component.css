@@ -21,6 +21,7 @@
 
 .item-list-wrapper {
     margin: 15px 10px;
+    position: relative;
 }
 
 .item-list-wrapper mat-card {
@@ -49,4 +50,11 @@
     right: -20px;
     top: -20px;
     z-index: 100;
+}
+
+.filter-trigger {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 101;
 }
