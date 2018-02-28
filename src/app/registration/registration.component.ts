@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
@@ -14,7 +13,6 @@ import { SerializationHelper } from '../util';
 import { AuthenticatedUser } from '../models';
 import { stateAbbreviations } from "./states.const";
 import { BaseAuthService } from '../base-services';
-import { EmailTakenDialogComponent } from '../email-taken-dialog/email-taken-dialog.component';
 
 @Component({
   selector: 'dyb-registration',
@@ -100,8 +98,7 @@ export class RegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private registrationService: RegistrationService,
     private router: Router,
-    private authService: BaseAuthService,
-    private dialog: MatDialog
+    private authService: BaseAuthService
   ) { }
 
   ngOnInit() {
