@@ -23,14 +23,11 @@ export class BaseAuthService {
      * @param {string} email    Email to check.
      * @returns {Promise<boolean>}
      */
-    public userExists(email: string): Observable<any> {
-        return Observable.create((obs) => {
-            this.afAuth.auth.fetchProvidersForEmail(email).then((data) => {
-                if (data.length == 0) obs.next(false);
-                else obs.next(true);
-            }).catch((err) => {
-                obs.error(err);
-            });
+    public userExists(email: string): Promise<any> {
+        return this.afAuth.auth.fetchProvidersForEmail(email).then((data) => {
+            console.log("exists data", data);
+            if (data.length == 0) return false;
+            else return (true);
         });
     }
 
