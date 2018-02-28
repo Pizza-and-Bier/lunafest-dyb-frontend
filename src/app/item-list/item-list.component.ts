@@ -70,6 +70,11 @@ export class ItemListComponent implements OnInit {
     );
   }
 
+  public clearFilters(): void {
+    this.filteredListingLength = null;
+    this.filterCategories = null;
+  }
+
   public editItem(item: Item): void {
     this.router.navigate(["/user/admin/edit", item.key]);
   }
