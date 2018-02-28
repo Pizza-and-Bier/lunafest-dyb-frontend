@@ -6,7 +6,7 @@ import { dybCategories } from "../models/categories.const";
 @Component({
   selector: 'dyb-item-list-filter-dialog',
   templateUrl: './item-list-filter-dialog.component.html',
-  styleUrls: ['./item-list-filter-dialog.component.css']
+  styleUrls: ['./item-list-filter-dialog.component.scss']
 })
 export class ItemListFilterDialogComponent implements OnInit {
 
@@ -38,11 +38,11 @@ export class ItemListFilterDialogComponent implements OnInit {
     this.selectionList.selectedOptions.selected.map((elem) => {
       chosenCategories[elem.value] = true;
     });
-    console.log(chosenCategories);
     this.dialogRef.close(chosenCategories);
   }
 
   public cancel(): void {
+    // Don't give anything back, we shouldn't change any state if they cancel.
     this.dialogRef.close(null);
   }
 

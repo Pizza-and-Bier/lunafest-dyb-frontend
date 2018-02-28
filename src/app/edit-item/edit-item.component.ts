@@ -11,7 +11,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 @Component({
   selector: 'dyb-edit-item',
   templateUrl: './edit-item.component.html',
-  styleUrls: ['./edit-item.component.css']
+  styleUrls: ['./edit-item.component.scss']
 })
 export class EditItemComponent implements OnInit {
 

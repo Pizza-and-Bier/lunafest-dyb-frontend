@@ -15,7 +15,7 @@ import { CategoriesPipe } from '../util/pipes/categories.pipe';
 @Component({
   selector: 'app-item-list',
   templateUrl: './item-list.component.html',
-  styleUrls: ['./item-list.component.css'],
+  styleUrls: ['./item-list.component.scss'],
 })
 export class ItemListComponent implements OnInit {
 
@@ -58,8 +58,6 @@ export class ItemListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       (result: {[key: string]: boolean}|null) => {
-        // this.filterCategories = result;
-        console.log(result);
         if (result === null) {
           return;
         }

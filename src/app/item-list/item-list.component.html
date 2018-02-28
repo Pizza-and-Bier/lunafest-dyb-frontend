@@ -1,6 +1,9 @@
 <section class="item-list-wrapper">
-  <div *ngIf="filterCategories !== null && filteredListing !== null">
-    Showing {{filteredListingLength}} out of {{itemInfoToggles.length}} items
+  <div class="filter-information" *ngIf="filterCategories !== null && filteredListing !== null" fxLayout="row" fxLayoutAlign="space-between center">
+    <span>Showing {{filteredListingLength}} out of {{itemInfoToggles.length}} items</span>
+    <span></span>
+    <button mat-button (click)="clearFilters()">Clear Filters</button>
+   
   </div>
   <div class="item-list-item" *ngFor="let item of itemList | async | categories: filterCategories; let i = index">
     <button mat-mini-fab class="item-edit-button" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
