@@ -1,0 +1,17 @@
+<section fxLayout="column" fxLayoutAling="center center" fxFlexFill>
+  <mat-card class="card">
+    <mat-card-title>Lunafest 2018</mat-card-title>
+    <mat-card-content>
+      <div *ngIf="currentAuction" fxLayout="column" fxLayoutAlign="center center">
+        <div class="auction-status">
+          Status: {{currentAuction?.status}}
+        </div>
+        <div class="action-buttons" fxLayout="row" fxLayoutAlign="space-between center">
+          <button *ngIf="shouldShowButton('pause')" mat-raised-button (click)="pauseAuction()"><mat-icon>pause</mat-icon></button>
+          <button *ngIf="shouldShowButton('play')" mat-raised-button color="primary" (click)="startAuction()"><mat-icon>play_arrow</mat-icon></button>
+          <button *ngIf="shouldShowButton('stop')" mat-raised-button color="warn" (click)="stopAuction()"><mat-icon>stop</mat-icon></button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

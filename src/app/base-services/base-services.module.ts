@@ -9,6 +9,7 @@ import { BaseItemService } from './item.service';
 import { BaseAuthService } from './auth.service';
 import { BaseUserService } from "./user.service";
 import { BaseImageService } from "./image.service";
+import { BaseAuctionService } from "./auction.service";
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { BaseImageService } from "./image.service";
       BaseItemService,
       BaseAuthService,
       BaseUserService,
-      BaseImageService
+      BaseImageService,
+      BaseAuctionService
   ]
 })
 export class BaseServicesModule { }

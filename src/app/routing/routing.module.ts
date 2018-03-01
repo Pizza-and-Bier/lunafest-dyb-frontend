@@ -10,6 +10,7 @@ import { RegistrationComponent } from '../registration/registration.component';
 import { NewItemComponent } from '../new-item/new-item.component';
 import { AuctionWrapperComponent } from '../auction-wrapper/auction-wrapper.component';
 import { EditItemComponent } from '../edit-item/edit-item.component';
+import { AuctionAdminComponent } from '../auction-admin/auction-admin.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,7 +23,8 @@ const appRoutes: Routes = [
       ]},
       { path: "admin", children: [
         { path: "add", component: NewItemComponent },
-        { path: "edit/:id", component: EditItemComponent}
+        { path: "edit/:id", component: EditItemComponent},
+        { path: "auction", component: AuctionAdminComponent }
       ]}
     ]
   },

@@ -22,8 +22,11 @@ import { RegistrationService } from "./registration/registration.service";
 import { PlaceABidService } from "./place-a-bid/place-a-bid.service";
 import { NewItemService } from "./new-item/new-item.service";
 import { EditItemService } from './edit-item/edit-item.service';
+import { AuctionAdminService } from './auction-admin/auction-admin.service';
 
 import { PhoneNumberFormatter } from "./util/directives/phone-number-formatter.directive";
+
+import { CategoriesPipe } from './util/pipes/categories.pipe';
 
 import { LoginComponent } from './login/login.component';
 import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
@@ -40,7 +43,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { ItemCardGalleryComponent } from './item-card-gallery/item-card-gallery.component';
 import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-list-filter-dialog.component';
-import { CategoriesPipe } from './util/pipes/categories.pipe';
+import { AuctionAdminComponent } from './auction-admin/auction-admin.component';
+
 
 
 @NgModule({
@@ -61,7 +65,8 @@ import { CategoriesPipe } from './util/pipes/categories.pipe';
     EditItemComponent,
     ItemCardGalleryComponent,
     ItemListFilterDialogComponent,
-    CategoriesPipe
+    CategoriesPipe,
+    AuctionAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +86,8 @@ import { CategoriesPipe } from './util/pipes/categories.pipe';
     RegistrationService,
     PlaceABidService,
     NewItemService,
-    EditItemService
+    EditItemService,
+    AuctionAdminService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]
