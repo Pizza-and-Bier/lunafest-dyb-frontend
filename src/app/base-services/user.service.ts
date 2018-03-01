@@ -47,7 +47,15 @@ export class BaseUserService implements OnDestroy {
      * @returns {Observable<Item>} Emits Item objects as they're found.
      */
     public following(uID: string): Observable<any> {
-        return this.db.object(`/users/${uID}/following/`).valueChanges();
+        let userRef = this.db.object<User>("/users/" + uID);
+        return Observable.create((obs) => {
+            this.subs.push(userRef.valueChanges().subscribe((user) => {
+                if (user.following)
+                    obs.next(user.following)
+                else
+                    obs.next([]);
+            }));
+        });
     }
 
     /**
