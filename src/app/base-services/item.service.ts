@@ -80,7 +80,7 @@ export class BaseItemService implements OnDestroy {
             if (image instanceof File)
                 files.push(image);
         }
-
+        console.log("files from update", files);
         // create a new Promise
         return new Promise((resolve, reject) => {
             if (files.length !== 0) {
@@ -109,7 +109,7 @@ export class BaseItemService implements OnDestroy {
      * @desc Removes the given item.
      * @param {string | number} itemID  Unique ID for the item to be deleted.
      * @returns {Promise<any>}
-     */ 
+     */
     remove(itemID: string | number): Promise<any> {
         return this.db.list<Item>("/items").remove(itemID.toString());
     }

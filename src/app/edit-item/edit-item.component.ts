@@ -38,15 +38,12 @@ export class EditItemComponent implements OnInit {
 
 
   public save(formData: NewItemFormOutput) {
-    console.log(formData);
     const images = this.flattenImages(formData.images);
     formData.images = images;
     const editItem = SerializationHelper.toInstance(new Item(), formData);
-    console.log(editItem);
     this.savingItem = true;
     this.editItemService.updateItem(this.itemId, editItem).then(
       (data) => {
-        console.log("done adding");
         this.itemSaveComplete = true;
         setTimeout(() => {
           this.router.navigate(["/user/items/list"]);
@@ -78,14 +75,14 @@ export class EditItemComponent implements OnInit {
     });
   }
 
-  private flattenImages(images: ({name: string}|File)[]): string[] {
+  private flattenImages(images: ({name: string, originalValue: string}|File)[]): string[] {
     const flatterImages = [];
     images.map((elem) => {
       if (elem instanceof File) {
         flatterImages.push(elem);
       }
       else {
-        flatterImages.push(elem.name);
+        flatterImages.push(elem.originalValue);
       }
     });
     return flatterImages;
