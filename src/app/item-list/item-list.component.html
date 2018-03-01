@@ -2,7 +2,7 @@
   <div class="item-list-item" *ngFor="let item of itemList | async; let i = index">
     <button mat-mini-fab class="item-edit-button" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
     <mat-card>
-      <!-- <img mat-card-image [src]=""> -->
+      <img mat-card-image [src]="item?.images[itemImageSelections[i]]">
       <mat-card-content>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <div fxLayout="column" fxLayoutAlign="start start">
@@ -28,6 +28,11 @@
           </div>
         </div>
         <div class="item-more-info" *ngIf="itemInfoToggles[i]">
+          <mat-divider [inset]="true"></mat-divider>
+          <div class="gallery-wrapper" *ngIf="item?.images.length > 1">
+            <h4>More images</h4>
+            <dyb-item-card-gallery [images]="item?.images" [selectedImage]="itemImageSelections[i]" (selected)="changeImageSource($event, i)"></dyb-item-card-gallery>
+          </div>
           <mat-divider [inset]="true"></mat-divider>
           <div class="item-description">
               {{item?.description}}

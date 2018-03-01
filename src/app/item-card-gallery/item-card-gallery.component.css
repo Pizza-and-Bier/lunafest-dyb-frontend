@@ -1,0 +1,9 @@
+.image-selected {
+    border: 4px solid rgba(255, 255, 0, .5);
+}
+
+.gallery-image {
+    width: 80%;
+    min-height: 90%;
+    max-height: 90%;
+}
