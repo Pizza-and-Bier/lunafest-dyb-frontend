@@ -1,0 +1,31 @@
+<section>
+  <mat-card>
+    <mat-card-title>Winners</mat-card-title>
+    <mat-card-content>
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let winner of winnersList">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{winner?.winner?.name}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+              <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of winner?.items">
+                <div>
+                  {{item?.name}}
+                </div>
+                <div>
+                  {{item?.currentBid?.amount | currency: 'USD': 2}}
+                </div>
+              </div>
+              <div>
+                <strong>Total:</strong> {{winner?.items | winnerTotal | currency: 'USD': 2}}
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

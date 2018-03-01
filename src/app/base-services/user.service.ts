@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { Observable, Observer, Subscription } from "rxjs";
-import { AngularFireDatabase } from "angularfire2/database"
+import { AngularFireDatabase, AngularFireList } from "angularfire2/database"
 import "rxjs/add/operator/take";
 import { Reference } from "firebase/database";
 import { pull, assign } from "lodash";
@@ -38,6 +38,10 @@ export class BaseUserService implements OnDestroy {
      */
     public user(uID: string): Observable<User> {
         return this.db.object<User>("/users/" + uID).valueChanges();
+    }
+
+    public allUsers(): AngularFireList<User> {
+        return this.db.list<User>("/users");
     }
     
     /**

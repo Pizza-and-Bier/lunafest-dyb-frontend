@@ -44,6 +44,9 @@ import { EditItemComponent } from './edit-item/edit-item.component';
 import { ItemCardGalleryComponent } from './item-card-gallery/item-card-gallery.component';
 import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-list-filter-dialog.component';
 import { AuctionAdminComponent } from './auction-admin/auction-admin.component';
+import { ItemWinnersComponent } from './item-winners/item-winners.component';
+import { ItemWinnersService } from './item-winners/item-winners.service';
+import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
 
 
 
@@ -66,7 +69,9 @@ import { AuctionAdminComponent } from './auction-admin/auction-admin.component';
     ItemCardGalleryComponent,
     ItemListFilterDialogComponent,
     CategoriesPipe,
-    AuctionAdminComponent
+    AuctionAdminComponent,
+    ItemWinnersComponent,
+    WinnerTotalPipe
   ],
   imports: [
     BrowserModule,
@@ -87,7 +92,8 @@ import { AuctionAdminComponent } from './auction-admin/auction-admin.component';
     PlaceABidService,
     NewItemService,
     EditItemService,
-    AuctionAdminService
+    AuctionAdminService,
+    ItemWinnersService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]
