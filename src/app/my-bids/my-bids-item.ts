@@ -5,6 +5,9 @@ export class MyBidsItem extends Item {
         super();
     }
     public userWinningItem(userId: string): boolean {
+        if (this.currentBid === undefined || this.currentBid === null) {
+            return false;
+        }
         return this.currentBid.createdBy === userId;
     }
 }

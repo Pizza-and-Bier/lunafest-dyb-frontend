@@ -1,12 +1,17 @@
-<h4 mat-dialog-title>{{data?.item?.name}}</h4>
+<h4 *ngIf="!bidPlaced" mat-dialog-title>{{data?.item?.name}}</h4>
 <mat-dialog-content>
   <div *ngIf="bidPlaced">
     <div *ngIf="!bidComplete" class="bid-complete-progress">
       <mat-spinner></mat-spinner>
     </div>
-    <div *ngIf="bidComplete" class="bid-complete-confirm">
-      <mat-icon>check</mat-icon>
-      Bid Placed!
+    <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill *ngIf="bidComplete">
+      <div class="success-icon">
+        <mat-icon >check</mat-icon>
+      </div>
+      <div class="success-message">
+          Bid Placed!
+      </div>
+      
     </div>
   </div>
   <div *ngIf="!bidPlaced && !bidComplete">
@@ -65,7 +70,7 @@
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <div class="actions-wrapper" fxLayout="row" fxLayoutAlign="end center">
+  <div *ngIf="!bidPlaced" class="actions-wrapper" fxLayout="row" fxLayoutAlign="end center">
     <button mat-button (click)="cancel()">Cancel</button>
     <button mat-raised-button color="primary" [disabled]="bidForm.invalid" (click)="placeBid()">Place bid</button>
   </div>

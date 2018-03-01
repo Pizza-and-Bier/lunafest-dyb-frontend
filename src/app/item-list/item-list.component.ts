@@ -4,7 +4,7 @@ import { MatDialogRef, MatDialog, MatListOption } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from "rxjs/Observable";
 
-import { Item } from "../models";
+import { Item, User } from "../models";
 import { ItemListService } from "./item-list.service";
 import { ItemListItem } from './item-list-item';
 import { SerializationHelper } from "../util";
@@ -29,10 +29,13 @@ export class ItemListComponent implements OnInit {
 
   public filteredListingLength: number = null;
 
+  private currentUser: User;
+
   constructor(private itemListService: ItemListService, public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
     this.initItems();
+    this.initUser();
   }
 
   public uploadFile(event) {
@@ -48,7 +51,9 @@ export class ItemListComponent implements OnInit {
       width: "320px",
       height: "400px",
       data: {
-        item: item
+        item: item,
+        id: item.key,
+        user: this.currentUser
       }
     });
   }
@@ -99,6 +104,14 @@ export class ItemListComponent implements OnInit {
         this.itemInfoToggles.fill(false);
         this.itemImageSelections.length = data.length;
         this.itemImageSelections.fill(0);
+      }
+    );
+  }
+
+  private initUser(): void {
+    this.itemListService.getUser().subscribe(
+      (data) => {
+        this.currentUser = data;
       }
     );
   }

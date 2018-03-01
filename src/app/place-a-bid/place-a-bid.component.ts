@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef, MatButtonToggleChange } from "@angular/material";
 
-import { Item } from '../models';
+import { Item, User } from '../models';
 import { PlaceABidService } from './place-a-bid.service';
 import { positiveNumbersOnly } from '../new-item-form/positive-numbers-only.validators';
 import { overBidFloorValidator } from '../util/over-bid-floor-validator';
@@ -39,7 +39,7 @@ export class PlaceABidComponent implements OnInit {
     }
   };
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {item: Item, id: number},
+  constructor(@Inject(MAT_DIALOG_DATA) public data: {item: Item, id: string, user?: User},
   public dialogRef: MatDialogRef<PlaceABidComponent>,
   private fb: FormBuilder,
   private bidService: PlaceABidService) { }
@@ -92,9 +92,10 @@ export class PlaceABidComponent implements OnInit {
     console.log(this.data.item);
     this.bidService.placeBid(this.data.item.key, total).then(
       (data) => {
-        this.bidPlaced = false;
+        if (this.data.user && this.data.user.following.indexOf(this.data.item.key) === -1) {
+          this.bidService.followItem(this.data.item.key);
+        }
         this.bidComplete = true;
-        this.bidService.followItem(this.data.item.key);
         setTimeout(() => {
           this.dialogRef.close();
         }, 1000);

@@ -46,7 +46,7 @@ export class BaseUserService implements OnDestroy {
      * @param {string} uID A user's unique ID, as assigned by Google.
      * @returns {Observable<Item>} Emits Item objects as they're found.
      */
-    public following(uID: string): Observable<Item> {
+    public following(uID: string): Observable<Item[]> {
         let users: Observable<User> = this.user(uID);
         
         return Observable.create((obs) => {
@@ -184,9 +184,7 @@ export class BaseUserService implements OnDestroy {
                 let path = "/items/" + itemID.toString(),
                     itemQuery: Observable<Item> = this.db.object<Item>(path).valueChanges();
 
-                this.subs.push(itemQuery.subscribe((item) => {
-                    parent.next(item);
-                }));
+                parent.next(itemQuery);
             }
         }));
     }
