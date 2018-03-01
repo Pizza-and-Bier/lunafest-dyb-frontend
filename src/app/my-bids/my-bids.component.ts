@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from "@angular/material";
+import { Observable } from "rxjs/Observable";
 
 import { UserBidService } from "./user-bid.service";
-import { Item } from '../models';
+import { Item, User } from '../models';
 import { MyBidsItem } from './my-bids-item';
 import { SerializationHelper } from '../util/serialization-helper';
+import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
 
 @Component({
   selector: 'dyb-my-bids',
@@ -12,23 +15,60 @@ import { SerializationHelper } from '../util/serialization-helper';
 })
 export class MyBidsComponent implements OnInit {
 
-  public userBids: MyBidsItem[] = [];
+  public userBids: Observable<Item[]>;
 
-  public currentUser: number = 1;
+  public currentUser: User;
 
-  constructor(private userBidService: UserBidService) { }
+  public noBids = false;
+
+  constructor(private userBidService: UserBidService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.getUserBids();
   }
 
-  private getUserBids(): void {
-    this.userBidService.getUsersItems().subscribe(
+  public userWinningItem(item: Item): boolean {
+    if (item.currentBid) {
+      return item.currentBid.createdBy === this.currentUser.uid;
+    }
+    else {
+      return false;
+    }
+  }
+
+  public unfollowItem(item): void {
+    this.userBidService.unfollowItem(item.key).then(
       (data) => {
         console.log(data);
-        this.userBids.push(SerializationHelper.toInstance(new MyBidsItem(), data));
+      }
+    )
+  }
+
+  public placeBid(item: Item): void {
+    let dialogRef = this.dialog.open(PlaceABidComponent, {
+      data: {
+        item: item,
+        id: item.key,
+        user: this.currentUser
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(
+      (data) => {
+        console.log("I did it!");
       }
     );
+  }
+
+  private getUserBids(): void {
+    this.userBidService.getCurrentUser().subscribe(
+      (user) => {
+        this.currentUser = user;
+      }
+    );
+
+    this.userBids = this.userBidService.getUserBids();
+
   }
 
 }
