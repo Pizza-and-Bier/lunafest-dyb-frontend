@@ -46,12 +46,8 @@ export class BaseUserService implements OnDestroy {
      * @param {string} uID A user's unique ID, as assigned by Google.
      * @returns {Observable<Item>} Emits Item objects as they're found.
      */
-    public following(uID: string): Observable<Item[]> {
-        let users: Observable<User> = this.user(uID);
-        
-        return Observable.create((obs) => {
-            this.retrieveItemObject(users, obs);
-        });
+    public following(uID: string): Observable<any> {
+        return this.db.object(`/users/${uID}/following/`).valueChanges();
     }
 
     /**
@@ -169,6 +165,7 @@ export class BaseUserService implements OnDestroy {
     }
 
     /**
+     * @deprecated
      * @author Anthony Pizzimenti
      * @desc This does the grunt work for following().
      * @param {Observable<User>} users  Observable that contains a reference to a specific user.
