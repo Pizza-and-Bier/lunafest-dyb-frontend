@@ -6,7 +6,7 @@ import { LoginService } from '../services/login.service';
 @Component({
   selector: 'app-auth-wrapper',
   templateUrl: './auth-wrapper.component.html',
-  styleUrls: ['./auth-wrapper.component.css']
+  styleUrls: ['./auth-wrapper.component.scss']
 })
 export class AuthWrapperComponent implements OnInit {
 

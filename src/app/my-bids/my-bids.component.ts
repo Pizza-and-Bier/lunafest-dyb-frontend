@@ -8,7 +8,7 @@ import { SerializationHelper } from '../util/serialization-helper';
 @Component({
   selector: 'dyb-my-bids',
   templateUrl: './my-bids.component.html',
-  styleUrls: ['./my-bids.component.css']
+  styleUrls: ['./my-bids.component.scss']
 })
 export class MyBidsComponent implements OnInit {
 

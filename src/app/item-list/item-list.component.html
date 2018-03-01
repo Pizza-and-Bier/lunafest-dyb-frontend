@@ -1,5 +1,11 @@
+<div class="filter-information" *ngIf="filterCategories !== null && filteredListing !== null" fxLayout="row" fxLayoutAlign="space-between">
+  <div class="filter-info-text" fxLayout="column" fxLayoutAlign="center center">Showing {{filteredListingLength}} out of {{itemInfoToggles.length}} items</div>
+  <span></span>
+  <button mat-button (click)="clearFilters()">Clear Filters</button>
+  
+</div>
 <section class="item-list-wrapper">
-  <div class="item-list-item" *ngFor="let item of itemList | async; let i = index">
+  <div class="item-list-item" *ngFor="let item of itemList | async | categories: filterCategories; let i = index">
     <button mat-mini-fab class="item-edit-button" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
     <mat-card>
       <img mat-card-image [src]="item?.images[itemImageSelections[i]]">
@@ -49,4 +55,5 @@
       </mat-card-actions>
     </mat-card>
   </div>
+  <button class="filter-trigger" mat-fab type="button" role="button" (click)="openFilterDialog()"><mat-icon>filter_list</mat-icon></button>
 </section>

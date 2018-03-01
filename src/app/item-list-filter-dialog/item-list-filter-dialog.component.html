@@ -1,0 +1,12 @@
+<h3 mat-dialog-title>Filter by Category</h3>
+<mat-dialog-content>
+  <mat-selection-list >
+    <mat-list-option [selected]="selectedMap[category.controlName]" *ngFor="let category of categories" [value]="category.controlName">
+      {{category.label}}
+    </mat-list-option>
+  </mat-selection-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button type="button" role="button" (click)="cancel()">Cancel</button>
+  <button mat-button type="button" role="button" color="primary" (click)="apply()">Apply</button>
+</mat-dialog-actions>

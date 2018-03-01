@@ -42,6 +42,9 @@ import { NewItemFormComponent } from './new-item-form/new-item-form.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
 import { ItemCardGalleryComponent } from './item-card-gallery/item-card-gallery.component';
+import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-list-filter-dialog.component';
+import { CategoriesPipe } from './util/pipes/categories.pipe';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +62,9 @@ import { ItemCardGalleryComponent } from './item-card-gallery/item-card-gallery.
     NewItemFormComponent,
     ConfirmDialogComponent,
     EditItemComponent,
-    ItemCardGalleryComponent
+    ItemCardGalleryComponent,
+    ItemListFilterDialogComponent,
+    CategoriesPipe
   ],
   imports: [
     BrowserModule,
@@ -83,6 +88,6 @@ import { ItemCardGalleryComponent } from './item-card-gallery/item-card-gallery.
     EditItemService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ PlaceABidComponent, ConfirmDialogComponent ]
+  entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]
 })
 export class AppModule { }

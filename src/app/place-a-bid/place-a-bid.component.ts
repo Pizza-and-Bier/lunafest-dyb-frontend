@@ -10,7 +10,7 @@ import { overBidFloorValidator } from '../util/over-bid-floor-validator';
 @Component({
   selector: 'dyb-place-a-bid',
   templateUrl: './place-a-bid.component.html',
-  styleUrls: ['./place-a-bid.component.css']
+  styleUrls: ['./place-a-bid.component.scss']
 })
 export class PlaceABidComponent implements OnInit {
 

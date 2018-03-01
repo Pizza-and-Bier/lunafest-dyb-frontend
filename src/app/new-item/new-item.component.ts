@@ -12,7 +12,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 @Component({
   selector: 'dyb-new-item',
   templateUrl: './new-item.component.html',
-  styleUrls: ['./new-item.component.css']
+  styleUrls: ['./new-item.component.scss']
 })
 export class NewItemComponent implements OnInit {
 

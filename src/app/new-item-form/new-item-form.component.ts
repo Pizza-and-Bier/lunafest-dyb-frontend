@@ -9,7 +9,7 @@ import { NewItemFormOutput } from './new-item-form-output.model';
 @Component({
   selector: 'dyb-new-item-form',
   templateUrl: './new-item-form.component.html',
-  styleUrls: ['./new-item-form.component.css']
+  styleUrls: ['./new-item-form.component.scss']
 })
 export class NewItemFormComponent implements OnInit {
 

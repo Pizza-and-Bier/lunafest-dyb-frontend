@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialogRef, MatDialog, MatListOption } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from "rxjs/Observable";
 
 import { Item } from "../models";
@@ -8,21 +9,25 @@ import { ItemListService } from "./item-list.service";
 import { ItemListItem } from './item-list-item';
 import { SerializationHelper } from "../util";
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
+import { ItemListFilterDialogComponent } from '../item-list-filter-dialog/item-list-filter-dialog.component';
+import { CategoriesPipe } from '../util/pipes/categories.pipe';
 
 @Component({
   selector: 'app-item-list',
   templateUrl: './item-list.component.html',
-  styleUrls: ['./item-list.component.css'],
+  styleUrls: ['./item-list.component.scss'],
 })
 export class ItemListComponent implements OnInit {
-
-  // Todo: can ItemListService be provided here when I'm not mocking the backend??
 
   public itemList: Observable<Item[]>;
 
   public itemInfoToggles: boolean[] = [];
   
   public itemImageSelections: number[] = [];
+
+  public filterCategories: string[]|null = null;
+
+  public filteredListingLength: number = null;
 
   constructor(private itemListService: ItemListService, public dialog: MatDialog, private router: Router) { }
 
@@ -48,6 +53,35 @@ export class ItemListComponent implements OnInit {
     });
   }
 
+  public openFilterDialog(): void {
+    const dialogRef = this.dialog.open(ItemListFilterDialogComponent, {
+      data: this.filterCategories
+    });
+
+    dialogRef.afterClosed().subscribe(
+      (result: string[]|null) => {
+        if (result === null) {
+          return;
+        }
+        if (result.length <= 0) {
+          this.clearFilters();
+        }
+        else {
+          this.itemList.subscribe((data) => {
+            this.filterCategories = result;
+            const pipe = new CategoriesPipe();
+            this.filteredListingLength = pipe.transform(data, this.filterCategories).length;
+          });
+        }
+      }
+    );
+  }
+
+  public clearFilters(): void {
+    this.filteredListingLength = null;
+    this.filterCategories = null;
+  }
+
   public editItem(item: Item): void {
     this.router.navigate(["/user/admin/edit", item.key]);
   }
@@ -61,7 +95,6 @@ export class ItemListComponent implements OnInit {
     this.itemList = this.itemListService.initConnection();
     this.itemList.subscribe(
       (data) => {
-        console.log("subscriiiibbee");
         this.itemInfoToggles.length = data.length;
         this.itemInfoToggles.fill(false);
         this.itemImageSelections.length = data.length;
