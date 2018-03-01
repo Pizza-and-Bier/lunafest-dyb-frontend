@@ -1,14 +1,19 @@
-import { Injectable } from "@angular/core";
-import { Observable, Observer } from "rxjs";
+import { Injectable, OnDestroy } from "@angular/core";
+import { Observable, Observer, Subscription } from "rxjs";
 import { AngularFireDatabase } from "angularfire2/database"
 import "rxjs/add/operator/take";
 import { Reference } from "firebase/database";
 import { pull } from "lodash";
 
 import { User, Item, Bid } from "../models";
+import { Unsubscribe } from "./unsubscribe";
 
 @Injectable()
-export class BaseUserService {
+@Unsubscribe
+export class BaseUserService implements OnDestroy {
+
+    private subs: Subscription[] = [];
+
     constructor(private db: AngularFireDatabase) { };
 
     /**
@@ -96,7 +101,7 @@ export class BaseUserService {
             __this = this;
 
         return new Promise((resolve, reject) => {
-            itemReference.valueChanges().take(1).subscribe((item) => {
+            this.subs.push(itemReference.valueChanges().take(1).subscribe((item) => {
                 let time = Date.now(),
                     bid: Bid = {
                         amount: bidValue,
@@ -119,7 +124,7 @@ export class BaseUserService {
                 }).catch((err) => {
                     reject(err);
                 });
-            });
+            }));
         });
     }
 
@@ -140,7 +145,7 @@ export class BaseUserService {
     private followOrUnfollow(userReference: Reference, itemID: string, follow: boolean, resolve: Function, reject: Function): void {
         let observable = userReference.valueChanges().take(1);
 
-        observable.subscribe((user) => {
+        this.subs.push(observable.subscribe((user) => {
             if (!user.following) {
                 user.following = [];
             }
@@ -160,7 +165,7 @@ export class BaseUserService {
             }).catch((err) => {
                 reject(err);
             });
-        });
+        }));
     }
 
     /**
@@ -172,17 +177,19 @@ export class BaseUserService {
      * @private
      */
     private retrieveItemObject(users: Observable<User>, parent: Observer<any>): void {
-        users.subscribe((user) => {
+        this.subs.push(users.subscribe((user) => {
             let following = user.following ? user.following : [];
         
             for (let itemID of following) {
                 let path = "/items/" + itemID.toString(),
                     itemQuery: Observable<Item> = this.db.object<Item>(path).valueChanges();
 
-                itemQuery.subscribe((item) => {
+                this.subs.push(itemQuery.subscribe((item) => {
                     parent.next(item);
-                });
+                }));
             }
-        });
+        }));
     }
+
+    ngOnDestroy () { }
 }
