@@ -14,4 +14,8 @@ export class RegistrationService {
     return this.authService.signup(user.email, pass, user);
   }
 
+  public userExists(email: string): Promise<boolean> {
+    return this.authService.userExists(email);
+  }
+
 }

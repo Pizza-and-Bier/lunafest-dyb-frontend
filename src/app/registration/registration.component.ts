@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatCheckbox } from '@angular/material';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
+import { debounceTime } from "rxjs/operators/debounceTime";
 
 import { RegistrationService } from './registration.service';
 import { PasswordMatchValidator } from "../util/password-match-validator";
@@ -24,6 +24,12 @@ export class RegistrationComponent implements OnInit {
   public registrationForm: FormGroup;
 
   public currentStep = "";
+
+  public registeringUser = false;
+
+  public registrationSuccess = false;
+
+  public signUpErrorMsg = "";
 
   public filteredStates: Observable<string[]>;
 
@@ -48,6 +54,8 @@ export class RegistrationComponent implements OnInit {
 
   public states = stateAbbreviations;
 
+  private quotaExceeded = false;
+
   private validationMessages: any = {
     "loginInfo": {
       "email": {
@@ -57,7 +65,8 @@ export class RegistrationComponent implements OnInit {
       },
       "password": {
         "required": "Required.",
-        "minlength": "At least 10 characters required."
+        "minlength": "At least 10 characters required.",
+        "pattern": "Password should container at least one letter and one number."
       },
       "confirmPassword": {
         "required": "Required.",
@@ -85,65 +94,97 @@ export class RegistrationComponent implements OnInit {
   }
 
 
-  constructor(private fb: FormBuilder, private registrationService: RegistrationService, private router: Router, private authService: BaseAuthService) { }
+  constructor(
+    private fb: FormBuilder,
+    private registrationService: RegistrationService,
+    private router: Router,
+    private authService: BaseAuthService
+  ) { }
 
   ngOnInit() {
     this.buildForm();
     this.currentStep = "loginInfo";
   }
 
-  public nextStep(stepName: string): void {
-    this.currentStep = stepName;
+  public cancel(): void {
+    this.router.navigate(["/login"]);
   }
 
-  public previousStep(stepName: string): void {
-    this.currentStep = stepName;
+  public nextStep(): void {
+    // Doing it this way to eliminate some buttons from the UI.
+    switch (this.currentStep) {
+      case "loginInfo":
+        this.currentStep = "personalInfo";
+        break;
+      case "personalInfo":
+        this.currentStep = "contactInfo";
+        break;
+      case "contactInfo":
+        this.currentStep = "terms";
+        break;
+      case "terms":
+        break;
+      default:
+        break;
+    }
   }
 
-  public setPhoneField(data): void {
-    console.log(data);
-    this.registrationForm.get("personalInfo").get("phoneNumber").markAsDirty();
-    this.registrationForm.get("personalInfo").get("phoneNumber").setValue(data);
-    this.registrationForm.get("personalInfo").get("phoneNumber").updateValueAndValidity();
+  public previousStep(): void {
+    // Doing it this way to eliminate some buttons from the UI.
+    switch (this.currentStep) {
+      case "terms":
+        this.currentStep = "contactInfo";
+        break;
+      case "contactInfo":
+        this.currentStep = "personalInfo";
+        break;
+      case "personalInfo":
+        this.currentStep = "loginInfo";
+        break;
+      case "loginInfo":
+        break;
+      default:
+        break;
+    }
+  }
+
+  public getCurrentStepValidity(): boolean {
+    return (this.registrationForm.get(this.currentStep).invalid);
   }
 
   public signupUser(): void {
     const loginInfo = this.registrationForm.get("loginInfo").value;
     delete loginInfo.confirmPassword;
     const personalInfo = this.registrationForm.get("personalInfo").value;
-    delete personalInfo.smsOptIn;
     const contactInfo = this.registrationForm.get("contactInfo").value;
     const combined = Object.assign({}, loginInfo, personalInfo, contactInfo);
     const user = SerializationHelper.toInstance(new AuthenticatedUser(), combined);
+    this.registeringUser = true;
     this.registrationService.signupUser(user).then(
       (data) => {
-        this.router.navigate(["/login"]);
+        this.registrationSuccess = true;
+        setTimeout((_) => {
+          this.router.navigate(["/login"]);
+        }, 1000);
+      },
+      (err: string) => {
+        if (err.includes("email already in use.")) {
+          this.registeringUser = false;
+          this.registrationSuccess = false;
+          this.signUpErrorMsg = "It looks like this email is already in use. Try entering another email."
+        }
       }
-    )
-  }
-
-  public updatePhoneValidators(event: {checked: boolean, source: MatCheckbox}): void {
-    const phoneControl = this.registrationForm.get("personalInfo").get("phoneNumber");
-    if (event.checked) {
-      phoneControl.setValidators([Validators.required, validPhoneValidator()]);
-      phoneControl.updateValueAndValidity();
-    }
-    else {
-      phoneControl.setValidators([]);
-      phoneControl.updateValueAndValidity();
-    }
+    );
   }
 
   private buildForm(): void {
-    const passwordPattern = new RegExp(/(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]*/g);
+    const passwordPattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]*$/g);
     this.registrationForm = this.fb.group({
       "loginInfo": this.fb.group({
         "email": ["", [
           Validators.required,
           Validators.email
-        ],
-          // UsernameAvaialableValidator.createValidator(this.authService)
-        ],
+        ]],
         "password": ["", [
           Validators.required,
           Validators.minLength(10),
@@ -151,8 +192,9 @@ export class RegistrationComponent implements OnInit {
         ]],
         "confirmPassword": ["", [
           Validators.required,
-        ]],
-      }, {validator: PasswordMatchValidator.matchPasswords("password", "confirmPassword")}),
+        ]]
+      }, {validator: PasswordMatchValidator.matchPasswords("password", "confirmPassword")
+      }),
       "personalInfo": this.fb.group({
         "firstName": ["", [
           Validators.required
@@ -160,11 +202,8 @@ export class RegistrationComponent implements OnInit {
         "lastName": ["", [
           Validators.required
         ]],
-        "smsOptIn": [false, [
-
-        ]],
         "phoneNumber": ["", [
-
+          validPhoneValidator()
         ]]
       }),
       "contactInfo": this.fb.group({
@@ -189,6 +228,39 @@ export class RegistrationComponent implements OnInit {
       }
     );
 
+    this.registrationForm.get("loginInfo").get("email").valueChanges.pipe(
+      debounceTime(900)
+    ).subscribe(
+      (data) => {
+        console.log("value change");
+        const emailControl = this.registrationForm.get("loginInfo").get("email");
+        if (!this.quotaExceeded) {
+          this.registrationService.userExists(emailControl.value).then(
+            (taken) => {
+              if (taken) {
+                emailControl.setErrors({"usernameUnavailable": true});
+              }
+              else {
+                emailControl.setErrors(null);
+              }
+            },
+            (err) => {
+              if (err.code === "auth/quota-exceeded") {
+                this.quotaExceeded = true;
+                console.error(err);
+              }
+              else if (err.code !== "auth/invalid-email") {
+                console.error(err);
+              }
+              else {
+                emailControl.setErrors({"email": false});
+              }
+            }
+          )
+        }
+      }
+    )
+
     this.filteredStates = this.registrationForm.get("contactInfo").get("state").valueChanges
       .pipe(
         startWith('IA'),
@@ -206,28 +278,17 @@ export class RegistrationComponent implements OnInit {
     if (!this.registrationForm) { return; }
     const form = this.registrationForm;
     for (const field in this.formErrors) {
-      if (field === "loginInfo" || field === "personalInfo") {
-        if (form.get(field) !== null && form.get(field) !== undefined) {
-          for (const nestedField in this.formErrors[field]) {
-            this.formErrors[field][nestedField] = '';
-            const control = form.get(field).get(nestedField);
-            if (control && control.dirty && !control.valid) {
-              const messages = this.validationMessages[field][nestedField];
-              for (const key in control.errors) {
+      if (form.get(field) !== null && form.get(field) !== undefined) {
+        for (const nestedField in this.formErrors[field]) {
+          this.formErrors[field][nestedField] = '';
+          const control = form.get(field).get(nestedField);
+          if (control && control.dirty && !control.valid) {
+            const messages = this.validationMessages[field][nestedField];
+            for (const key in control.errors) {
+              if (control.errors[key] !== null) {
                 this.formErrors[field][nestedField] += messages[key] + ' ';
               }
             }
-          }
-        }
-      }
-      else {
-        // clear previous error message (if any)
-        this.formErrors[field] = '';
-        const control = form.get(field);
-        if (control && control.dirty && !control.valid) {
-          const messages = this.validationMessages[field];
-          for (const key in control.errors) {
-            this.formErrors[field] += messages[key] + ' ';
           }
         }
       }

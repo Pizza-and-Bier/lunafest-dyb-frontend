@@ -3,7 +3,7 @@ import { Observable, Observer, Subscription } from "rxjs";
 import { AngularFireDatabase } from "angularfire2/database"
 import "rxjs/add/operator/take";
 import { Reference } from "firebase/database";
-import { pull } from "lodash";
+import { pull, assign } from "lodash";
 
 import { User, Item, Bid } from "../models";
 import { Unsubscribe } from "./unsubscribe";
@@ -25,8 +25,8 @@ export class BaseUserService implements OnDestroy {
      */
     public create(uID: string, prefs: Object): void {
         let user = new User();
+        assign(user, prefs);
         user.uid = uID;
-        user.preferences = prefs;
         this.db.object("/users/" + uID).set(user);
     }
 
