@@ -47,13 +47,17 @@ export class BaseUserService implements OnDestroy {
      * @returns {Observable<Item>} Emits Item objects as they're found.
      */
     public following(uID: string): Observable<any> {
-        let userRef = this.db.object<User>("/users/" + uID);
+        let userRef = this.db.object<User>("/users/" + uID),
+            __this = this;
+
         return Observable.create((obs) => {
             this.subs.push(userRef.valueChanges().subscribe((user) => {
-                if (user.following)
-                    obs.next(user.following)
-                else
-                    obs.next([]);
+                if (user.following) {
+                    this.subs.push(__this.retrieveItemObjects(user.following).subscribe((items) => {
+                        obs.next(items);
+                    }));
+                } else
+                    obs.next(null);
             }));
         });
     }
@@ -173,25 +177,22 @@ export class BaseUserService implements OnDestroy {
     }
 
     /**
-     * @deprecated
      * @author Anthony Pizzimenti
      * @desc This does the grunt work for following().
-     * @param {Observable<User>} users  Observable that contains a reference to a specific user.
-     * @param {Observer<any>} parent    Parent observable through which we emit Items.
-     * @returns {undefined}
+     * @param {string[]} itemIDs    A list of item unique IDs.
+     * @returns {Observable<any>}
      * @private
      */
-    private retrieveItemObject(users: Observable<User>, parent: Observer<any>): void {
-        this.subs.push(users.subscribe((user) => {
-            let following = user.following ? user.following : [];
-        
-            for (let itemID of following) {
-                let path = "/items/" + itemID.toString(),
-                    itemQuery: Observable<Item> = this.db.object<Item>(path).valueChanges();
+    private retrieveItemObjects(itemIDs: string[]): Observable<any> {
+        let items: Observable<any>[] = [],
+            __this = this,
+            sub: Subscription,
+            obs: Observable<any>;
+            
+        for (let id of itemIDs)
+            items.push(__this.db.object<Item>("/items/" + id).valueChanges());
 
-                parent.next(itemQuery);
-            }
-        }));
+        return Observable.combineLatest(...items);
     }
 
     ngOnDestroy () { }

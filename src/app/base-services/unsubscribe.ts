@@ -14,7 +14,6 @@ export function Unsubscribe (constructor: Function): void {
      * @returns {undefined}
      */
     constructor.prototype.ngOnDestroy = function () {
-        console.log("called");
         for (let sub in this.subs) {
             if (sub) {
                 sub["unsubscribe"]();
