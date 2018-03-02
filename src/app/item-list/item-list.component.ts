@@ -11,6 +11,7 @@ import { SerializationHelper } from "../util";
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
 import { ItemListFilterDialogComponent } from '../item-list-filter-dialog/item-list-filter-dialog.component';
 import { CategoriesPipe } from '../util/pipes/categories.pipe';
+import { AuctionStatus } from '../models/auction-status.enum';
 
 @Component({
   selector: 'app-item-list',
@@ -36,6 +37,7 @@ export class ItemListComponent implements OnInit {
   ngOnInit() {
     this.initItems();
     this.initUser();
+    this.checkAuction();
   }
 
   public uploadFile(event) {
@@ -112,6 +114,16 @@ export class ItemListComponent implements OnInit {
     this.itemListService.getUser().subscribe(
       (data) => {
         this.currentUser = data;
+      }
+    );
+  }
+
+  private checkAuction(): void {
+    this.itemListService.getAuction().subscribe(
+      (data) => {
+        if (data.status !== AuctionStatus.STARTED && data.status !== AuctionStatus.ENTERING_DATA) {
+          this.router.navigate(["/auction-closed"]);
+        }
       }
     );
   }

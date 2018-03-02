@@ -3,13 +3,14 @@ import { Observable } from "rxjs/Observable";
 import { fromPromise } from "rxjs/observable/fromPromise";
 import { mergeMap } from "rxjs/operators";
 
-import { Item, User } from '../models';
+import { Item, User, Auction } from '../models';
 import { BaseUserService, BaseAuthService, BaseItemService } from '../base-services';
+import { BaseAuctionService } from '../base-services/auction.service';
 
 @Injectable()
 export class UserBidService {
 
-  constructor( private auth: BaseAuthService, private user: BaseUserService, private itemService: BaseItemService) { }
+  constructor( private auth: BaseAuthService, private user: BaseUserService, private itemService: BaseItemService, private auctionService: BaseAuctionService) { }
 
   // Todo: Error handling for auth.
 
@@ -32,6 +33,14 @@ export class UserBidService {
           return this.user.following(id);
         }
       )
+    );
+  }
+
+  public getAuction(): Observable<Auction> {
+    return this.auctionService.getAuction().snapshotChanges().map(
+      (changes) => {
+        return changes.payload.val();
+      }
     );
   }
 
