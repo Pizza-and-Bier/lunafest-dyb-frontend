@@ -45,6 +45,7 @@ import { ItemCardGalleryComponent } from './item-card-gallery/item-card-gallery.
 import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-list-filter-dialog.component';
 import { AuctionAdminComponent } from './auction-admin/auction-admin.component';
 import { AuthGuard } from './routing/auth.guard';
+import { AuctionClosedComponent } from './auction-closed/auction-closed.component';
 
 
 
@@ -67,7 +68,8 @@ import { AuthGuard } from './routing/auth.guard';
     ItemCardGalleryComponent,
     ItemListFilterDialogComponent,
     CategoriesPipe,
-    AuctionAdminComponent
+    AuctionAdminComponent,
+    AuctionClosedComponent
   ],
   imports: [
     BrowserModule,

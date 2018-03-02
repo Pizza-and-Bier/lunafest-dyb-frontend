@@ -13,13 +13,16 @@ import { EditItemComponent } from '../edit-item/edit-item.component';
 import { AuctionAdminComponent } from '../auction-admin/auction-admin.component';
 import { AuthGuard } from './auth.guard';
 import { AdminGuard } from './admin.guard';
+import { AuctionClosedComponent } from '../auction-closed/auction-closed.component';
+import { AuctionGuard } from './auction.guard';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'auction-closed', component: AuctionClosedComponent},
   { path: "sign-up", component: RegistrationComponent },
   { path: 'user', component: AuthWrapperComponent, canActivate: [ AuthGuard ],
     children: [
-      { path: "items", component: AuctionWrapperComponent, canActivateChild: [AuthGuard], children: [
+      { path: "items", component: AuctionWrapperComponent, canActivateChild: [AuthGuard, AuctionGuard], children: [
         { path: "list", component: ItemListComponent },
         { path: "bids", component: MyBidsComponent }
       ]},
@@ -42,6 +45,6 @@ const appRoutes: Routes = [
   exports: [
     RouterModule
   ],
-  providers: [AuthGuard, AdminGuard]
+  providers: [AuthGuard, AdminGuard, AuctionGuard]
 })
 export class RoutingModule { }
