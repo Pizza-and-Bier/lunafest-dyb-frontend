@@ -92,7 +92,7 @@ export class PlaceABidComponent implements OnInit {
     console.log(this.data.item);
     this.bidService.placeBid(this.data.item.key, total).then(
       (data) => {
-        if (this.data.user && this.data.user.following.indexOf(this.data.item.key) === -1) {
+        if (this.data.user && this.data.user.following && this.data.user.following.indexOf(this.data.item.key) === -1) {
           this.bidService.followItem(this.data.item.key);
         }
         this.bidComplete = true;
