@@ -3,6 +3,6 @@
   {{data.content}}
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-  <button mat-button [mat-dialog-close]="false">Continue Editing</button>
-  <button mat-button [mat-dialog-close]="true">Leave</button>
+  <button mat-button [mat-dialog-close]="false">{{data?.cancelText}}</button>
+  <button mat-button [mat-dialog-close]="true">{{data?.acceptText}}</button>
 </mat-dialog-actions>
