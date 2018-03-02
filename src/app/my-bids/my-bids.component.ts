@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material";
 import { Observable } from "rxjs/Observable";
 
@@ -7,6 +8,7 @@ import { Item, User } from '../models';
 import { MyBidsItem } from './my-bids-item';
 import { SerializationHelper } from '../util/serialization-helper';
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
+import { AuctionStatus } from '../models/auction-status.enum';
 
 @Component({
   selector: 'dyb-my-bids',
@@ -21,7 +23,7 @@ export class MyBidsComponent implements OnInit {
 
   public noBids = false;
 
-  constructor(private userBidService: UserBidService, private dialog: MatDialog) { }
+  constructor(private userBidService: UserBidService, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
     this.getUserBids();
@@ -69,6 +71,16 @@ export class MyBidsComponent implements OnInit {
 
     this.userBids = this.userBidService.getUserBids();
 
+  }
+
+  private checkAuction(): void {
+    this.userBidService.getAuction().subscribe(
+      (data) => {
+        if (data.status !== AuctionStatus.STARTED && data.status !== AuctionStatus.ENTERING_DATA) {
+          this.router.navigate(["/auction-closed"]);
+        }
+      }
+    );
   }
 
 }
