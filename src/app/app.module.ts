@@ -46,6 +46,9 @@ import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-li
 import { AuctionAdminComponent } from './auction-admin/auction-admin.component';
 import { AuthGuard } from './routing/auth.guard';
 import { AuctionClosedComponent } from './auction-closed/auction-closed.component';
+import { ItemWinnersComponent } from './item-winners/item-winners.component';
+import { ItemWinnersService } from './item-winners/item-winners.service';
+import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
 
 
 
@@ -70,6 +73,8 @@ import { AuctionClosedComponent } from './auction-closed/auction-closed.componen
     CategoriesPipe,
     AuctionAdminComponent,
     AuctionClosedComponent
+    ItemWinnersComponent,
+    WinnerTotalPipe
   ],
   imports: [
     BrowserModule,
@@ -90,7 +95,8 @@ import { AuctionClosedComponent } from './auction-closed/auction-closed.componen
     PlaceABidService,
     NewItemService,
     EditItemService,
-    AuctionAdminService
+    AuctionAdminService,
+    ItemWinnersService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]

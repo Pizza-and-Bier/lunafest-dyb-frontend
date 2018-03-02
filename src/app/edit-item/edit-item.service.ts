@@ -16,4 +16,8 @@ export class EditItemService {
   public updateItem(itemId: string, item: Item): Promise<Item> {
     return this.itemService.update(itemId, item);
   }
+
+  public deleteItem(itemId: string): Promise<any> {
+    return this.itemService.remove(itemId);
+  }
 }
