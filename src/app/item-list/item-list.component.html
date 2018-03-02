@@ -1,4 +1,4 @@
-<div class="filter-information" *ngIf="filterCategories !== null && filteredListing !== null" fxLayout="row" fxLayoutAlign="space-between">
+<div class="filter-information" *ngIf="filterCategories !== null " fxLayout="row" fxLayoutAlign="space-between">
   <div class="filter-info-text" fxLayout="column" fxLayoutAlign="center center">Showing {{filteredListingLength}} out of {{itemInfoToggles.length}} items</div>
   <span></span>
   <button mat-button (click)="clearFilters()">Clear Filters</button>
