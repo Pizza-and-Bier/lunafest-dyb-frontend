@@ -3,6 +3,9 @@
     <mat-card-title>Edit {{existingItem?.name}}</mat-card-title>
     <mat-card-content>
       <ng-container *ngIf="!savingItem">
+        <div class="delete-item" fxLayout="row" fxLayoutAlign="end center">
+          <button mat-raised-button color="warn" (click)="deleteItem()">Delete Item</button>
+        </div>
           <dyb-new-item-form *ngIf="existingItem" [existingData]="existingItem" (cancel)="cancel()" (save)="save($event)"></dyb-new-item-form>
       </ng-container>
       <ng-container *ngIf="savingItem">

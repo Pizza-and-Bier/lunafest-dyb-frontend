@@ -1,0 +1,39 @@
+<section fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+  <mat-card class="winner-card">
+    <mat-card-title>Winners</mat-card-title>
+    <mat-card-content>
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let winner of winnersList">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{winner?.winner?.name}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-divider inset="true"></mat-divider>
+            <div>
+              <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of winner?.items">
+                <div>
+                  {{item?.name}}
+                </div>
+                <div>
+                  {{item?.currentBid?.amount | currency: 'USD': 2}}
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span></span>
+                <span>
+                  <strong>Total:</strong> {{winner?.items | winnerTotal | currency: 'USD': 2}}
+                </span>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+                <button *ngIf="winner?.winner?.paid" mat-raised-button color="warn" type="button" role="button" (click)="reverseMarkAsPaid(winner)">Undo Mark Paid</button>
+                <button *ngIf="!winner?.winner?.paid" mat-raised-button color="primary" type="button" role="button" (click)="markAsPaid(winner)">Mark Paid</button>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

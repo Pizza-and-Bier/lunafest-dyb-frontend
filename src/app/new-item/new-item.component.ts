@@ -47,7 +47,9 @@ export class NewItemComponent implements OnInit {
     let dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: "Cancel Add",
-        content: "Are you sure you want to cancel adding this item? Any data you've entered will be lost."
+        content: "Are you sure you want to cancel adding this item? Any data you've entered will be lost.",
+        acceptText: "Leave",
+        cancelText: "Continue Adding"
       }
     });
     dialogRef.afterClosed().subscribe((result) => {
