@@ -72,7 +72,7 @@ import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
     ItemListFilterDialogComponent,
     CategoriesPipe,
     AuctionAdminComponent,
-    AuctionClosedComponent
+    AuctionClosedComponent,
     ItemWinnersComponent,
     WinnerTotalPipe
   ],
