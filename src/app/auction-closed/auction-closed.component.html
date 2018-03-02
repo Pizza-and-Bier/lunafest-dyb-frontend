@@ -1,3 +1,20 @@
-<p>
-  auction-closed works!
-</p>
+<section fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+  <mat-card class="status-card">
+    <mat-card-content fxFlexFill>
+      <ng-container *ngIf="status === 'PAUSED'">
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+          <p>
+            The auction is currently paused. Enjoy the film!!
+          </p>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="status === 'STOPPED'">
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+          <p>
+            The auction is over! Thank you for your participation!
+          </p>
+        </div>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</section>
