@@ -26,17 +26,10 @@ export class UserBidService {
   }
 
   public getUserBids(): Observable<Item[]> {
-    return this.getCurrentUser().pipe(
+    return Observable.fromPromise(this.getCurrentUserId()).pipe(
       mergeMap(
-        (user) => {
-          return this.getItems().map(
-            (items) => {
-              if (user.following === undefined) {
-                return [];
-              }
-              return items.filter(item => user.following.indexOf(item.key) > -1);
-            }
-          );
+        (id) => {
+          return this.user.following(id);
         }
       )
     );
