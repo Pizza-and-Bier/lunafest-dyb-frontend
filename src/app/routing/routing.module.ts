@@ -11,17 +11,18 @@ import { NewItemComponent } from '../new-item/new-item.component';
 import { AuctionWrapperComponent } from '../auction-wrapper/auction-wrapper.component';
 import { EditItemComponent } from '../edit-item/edit-item.component';
 import { AuctionAdminComponent } from '../auction-admin/auction-admin.component';
+import { AuthGuard } from './auth.guard';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: "sign-up", component: RegistrationComponent },
-  { path: 'user', component: AuthWrapperComponent,
+  { path: 'user', component: AuthWrapperComponent, canActivate: [ AuthGuard ],
     children: [
-      { path: "items", component: AuctionWrapperComponent, children: [
+      { path: "items", component: AuctionWrapperComponent, canActivateChild: [AuthGuard], children: [
         { path: "list", component: ItemListComponent },
         { path: "bids", component: MyBidsComponent }
       ]},
-      { path: "admin", children: [
+      { path: "admin", canActivateChild: [AuthGuard], children: [
         { path: "add", component: NewItemComponent },
         { path: "edit/:id", component: EditItemComponent},
         { path: "auction", component: AuctionAdminComponent }
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
   ],
   exports: [
     RouterModule
-  ]
+  ],
+  providers: [AuthGuard]
 })
 export class RoutingModule { }

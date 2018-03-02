@@ -44,6 +44,7 @@ import { EditItemComponent } from './edit-item/edit-item.component';
 import { ItemCardGalleryComponent } from './item-card-gallery/item-card-gallery.component';
 import { ItemListFilterDialogComponent } from './item-list-filter-dialog/item-list-filter-dialog.component';
 import { AuctionAdminComponent } from './auction-admin/auction-admin.component';
+import { AuthGuard } from './routing/auth.guard';
 
 
 
