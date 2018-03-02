@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ItemWinnersService } from './item-winners.service';
+import { WinnerGroup } from './winner-group.model';
 
 @Component({
   selector: 'dyb-item-winners',
@@ -9,12 +10,19 @@ import { ItemWinnersService } from './item-winners.service';
 })
 export class ItemWinnersComponent implements OnInit {
 
-  public winnersList: any[] = [];
+  public winnersList: WinnerGroup[] = [];
 
   constructor(private itemWinnersService: ItemWinnersService) { }
 
   ngOnInit() {
     this.getAndOrganizeItems();
+  }
+
+  public markAsPaid(winner: WinnerGroup): void {
+    winner.items.map((elem) => {
+      elem.paidFor = true;
+    });
+
   }
 
   private getAndOrganizeItems(): void {
@@ -31,7 +39,8 @@ export class ItemWinnersComponent implements OnInit {
               this.winnersList.push({
                 winner: {
                   id: elem.currentBid.createdBy,
-                  name: ""
+                  name: "",
+                  paid: false
                 },
                 items: [
                   elem
