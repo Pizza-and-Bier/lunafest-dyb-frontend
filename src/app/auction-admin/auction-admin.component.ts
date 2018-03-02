@@ -27,16 +27,12 @@ export class AuctionAdminComponent implements OnInit {
     switch (button) {
       case "pause":
         return this.currentAuction.status === AuctionStatus.STARTED;
-        break;
       case "play":
         return (this.currentAuction.status === AuctionStatus.PAUSED || this.currentAuction.status === AuctionStatus.STOPPED);
-        break;
       case "stop":
         return (this.currentAuction.status === AuctionStatus.PAUSED || this.currentAuction.status === AuctionStatus.STARTED);
-        break;
       default:
         return true;
-        break;
     }
   }
 

@@ -1,12 +1,16 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "angularfire2/auth";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import * as firebase from "firebase/app";
 
 import { BaseUserService } from "./user.service";
+import { Unsubscribe } from "./unsubscribe";
 
 @Injectable()
+@Unsubscribe
 export class BaseAuthService {
+
+    private subs: Subscription[] = [];
     constructor(private afAuth: AngularFireAuth, private userService: BaseUserService) { }
     
     public attemptLogin(email: string, password: string): Promise<firebase.User> {
@@ -96,4 +100,6 @@ export class BaseAuthService {
             });
         });
     }
+
+    ngOnDestroy() { }
 }
