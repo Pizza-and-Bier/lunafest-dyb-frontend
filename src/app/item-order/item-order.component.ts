@@ -26,6 +26,9 @@ export class ItemOrderComponent implements OnInit {
         const dropped = this.items.filter(item => item.key === e.attributes['item-id'].value).pop();
         const index = this.items.indexOf(dropped);
         dropped.order = index;
+        if (!dropped.ordered) {
+          dropped.ordered = true;
+        }
         this.itemOrderService.updateItem(dropped);
       }
     );
