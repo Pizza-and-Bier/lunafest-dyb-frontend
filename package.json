@@ -28,8 +28,9 @@
     "core-js": "^2.4.1",
     "firebase": "^4.9.0",
     "hammerjs": "^2.0.8",
-    "libphonenumber-js": "^1.0.8",
+    "libphonenumber-js": "^1.0.24",
     "lodash": "^4.17.5",
+    "ng2-dragula": "^1.5.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },

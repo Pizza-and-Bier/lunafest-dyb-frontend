@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "dyb",
       "styles": [
-        "styles.scss"
+        "styles.scss",
+        "../node_modules/dragula/dist/dragula.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
