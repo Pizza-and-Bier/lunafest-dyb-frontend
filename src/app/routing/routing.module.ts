@@ -20,10 +20,10 @@ import { ItemOrderComponent } from '../item-order/item-order.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'auction-closed', component: AuctionClosedComponent},
   { path: "sign-up", component: RegistrationComponent },
   { path: 'user', component: AuthWrapperComponent, canActivate: [ AuthGuard ],
     children: [
+      { path: 'auction-closed', component: AuctionClosedComponent},
       { path: "items", component: AuctionWrapperComponent, canActivateChild: [AuthGuard, AuctionGuard], children: [
         { path: "list", component: ItemListComponent },
         { path: "bids", component: MyBidsComponent }
@@ -33,7 +33,7 @@ const appRoutes: Routes = [
         { path: "edit/:id", component: EditItemComponent},
         { path: "auction", component: AuctionAdminComponent },
         { path: "winners", component: ItemWinnersComponent },
-        { path: "item-order", component: ItemOrderComponent}
+        { path: "item-order", component: ItemOrderComponent }
       ]}
     ]
   },

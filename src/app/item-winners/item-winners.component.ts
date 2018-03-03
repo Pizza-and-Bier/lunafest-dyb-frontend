@@ -20,7 +20,7 @@ export class ItemWinnersComponent implements OnInit {
 
   public markAsPaid(winner: WinnerGroup): void {
     winner.items.map((elem) => {
-      elem.paidFor = true;
+      
     });
 
   }
