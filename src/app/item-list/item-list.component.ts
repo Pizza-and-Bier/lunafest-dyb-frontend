@@ -93,8 +93,8 @@ export class ItemListComponent implements OnInit {
     this.router.navigate(["/user/admin/edit", item.key]);
   }
 
-  public changeImageSource(newIndex: number, itemIndex: number): void {
-    this.itemImageSelections[itemIndex] = newIndex;
+  public changeImageSource(newImage: number, itemIndex: number): void {
+    this.itemImageSelections[itemIndex] = newImage;
   }
 
   private initItems(): void {
@@ -105,7 +105,16 @@ export class ItemListComponent implements OnInit {
         this.itemInfoToggles.length = data.length;
         this.itemInfoToggles.fill(false);
         this.itemImageSelections.length = data.length;
-        this.itemImageSelections.fill(0);
+        data.forEach((elem, index) => {
+          console.log(elem);
+          for (let i = 0; i < elem.images.length; i++) {
+
+            if (elem.images[i] !== undefined && elem.images[i] !== null) {
+              this.itemImageSelections[index] = i;
+              break;
+            }
+          }
+        });
       }
     );
   }

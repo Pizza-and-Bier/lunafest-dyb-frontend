@@ -170,12 +170,14 @@ export class NewItemFormComponent implements OnInit {
 
   private getExistingImages(images: string[]): {name: string, originalValue: string}[] {
     const imagesPatch = [];
-    images.forEach((elem) => {
-      const badName = elem.split("/images%2F").pop();
-      imagesPatch.push({
-        name: badName.split("?")[0],
-        originalValue: elem
-      });
+    images.forEach((elem, index) => {
+      if (elem !== null) {
+        const badName = elem.split("/images%2F").pop();
+        imagesPatch.push({
+          name: badName.split("?")[0],
+          originalValue: elem
+        });
+      }
     });
     return imagesPatch;
   }
