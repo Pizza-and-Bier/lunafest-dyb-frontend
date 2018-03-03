@@ -65,11 +65,24 @@ export class MyBidsComponent implements OnInit {
   private getUserBids(): void {
     this.userBidService.getCurrentUser().subscribe(
       (user) => {
+        console.log(user);
         this.currentUser = user;
       }
     );
 
     this.userBids = this.userBidService.getUserBids();
+
+    this.userBids.subscribe(
+      (data) => {
+        console.log(data);
+        if (data === null) {
+          this.noBids = true;
+        }
+        else {
+          this.noBids = false;
+        }
+      }
+    );
 
   }
 

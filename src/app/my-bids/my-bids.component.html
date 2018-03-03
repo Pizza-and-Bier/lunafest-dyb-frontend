@@ -1,21 +1,18 @@
-<section class="my-bids-wrapper">
+<section class="my-bids-wrapper" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
   <ng-container *ngIf="noBids; else bidList">
-    <mat-card>
+    <mat-card class="no-bids-card">
       <mat-card-content>
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <img width="100" height="100" src="https://ih1.redbubble.net/image.437583169.0368/flat,800x800,075,t.jpg"/>
-        </div>
         <p>
           <em>It looks like you're not following any items.</em>
         </p>
         <p>
-          Bid on an item or follow it in the item list to see it here!
+          Bid on an item to see it here!
         </p>
       </mat-card-content>
     </mat-card>
   </ng-container>
   <ng-template #bidList>
-    <mat-list role="list">
+    <mat-list role="list" class="bid-list">
       <mat-list-item class="dyb-list-item my-bids-list-item" *ngFor="let item of userBids | async">
         <img *ngIf="item?.images[0]" matListAvatar [src]="item?.images[0]"/>
         <div matLine>
