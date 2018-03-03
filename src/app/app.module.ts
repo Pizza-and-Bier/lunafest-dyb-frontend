@@ -49,6 +49,8 @@ import { AuctionClosedComponent } from './auction-closed/auction-closed.componen
 import { ItemWinnersComponent } from './item-winners/item-winners.component';
 import { ItemWinnersService } from './item-winners/item-winners.service';
 import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
+import { ItemOrderComponent } from './item-order/item-order.component';
+import { ItemOrderService } from './item-order/item-order.service';
 
 
 
@@ -74,7 +76,8 @@ import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
     AuctionAdminComponent,
     AuctionClosedComponent,
     ItemWinnersComponent,
-    WinnerTotalPipe
+    WinnerTotalPipe,
+    ItemOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +99,8 @@ import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
     NewItemService,
     EditItemService,
     AuctionAdminService,
-    ItemWinnersService
+    ItemWinnersService,
+    ItemOrderService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]

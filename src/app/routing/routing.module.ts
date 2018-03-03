@@ -16,6 +16,7 @@ import { AdminGuard } from './admin.guard';
 import { AuctionClosedComponent } from '../auction-closed/auction-closed.component';
 import { AuctionGuard } from './auction.guard';
 import { ItemWinnersComponent } from '../item-winners/item-winners.component';
+import { ItemOrderComponent } from '../item-order/item-order.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
         { path: "add", component: NewItemComponent },
         { path: "edit/:id", component: EditItemComponent},
         { path: "auction", component: AuctionAdminComponent },
-        { path: "winners", component: ItemWinnersComponent }
+        { path: "winners", component: ItemWinnersComponent },
+        { path: "item-order", component: ItemOrderComponent}
       ]}
     ]
   },
