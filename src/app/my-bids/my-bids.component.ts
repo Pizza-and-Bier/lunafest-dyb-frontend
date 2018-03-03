@@ -23,6 +23,8 @@ export class MyBidsComponent implements OnInit {
 
   public noBids = false;
 
+  public displayedImages: number[] = [];
+
   constructor(private userBidService: UserBidService, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
@@ -81,6 +83,14 @@ export class MyBidsComponent implements OnInit {
         else {
           this.noBids = false;
         }
+        data.map((elem) => {
+          for (let i = 0; i < elem.images.length; i++) {
+            if (elem.images[i] !== undefined && elem.images[i] !== null) {
+              this.displayedImages.push(i);
+              break;
+            }
+          }
+        });
       }
     );
 

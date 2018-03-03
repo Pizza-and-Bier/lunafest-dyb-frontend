@@ -13,8 +13,8 @@
   </ng-container>
   <ng-template #bidList>
     <mat-list role="list" class="bid-list">
-      <mat-list-item class="dyb-list-item my-bids-list-item" *ngFor="let item of userBids | async">
-        <img *ngIf="item?.images[0]" matListAvatar [src]="item?.images[0]"/>
+      <mat-list-item class="dyb-list-item my-bids-list-item" *ngFor="let item of userBids | async; let i = index">
+        <img *ngIf="item?.images[displayedImages[i]]" matListAvatar [src]="item?.images[displayedImages[i]]"/>
         <div matLine>
           <div fxLayout="row" fxLayoutAlign="space-between center">
             <div fxLayout="column" fxLayoutAlign="center center" class="item-text">
