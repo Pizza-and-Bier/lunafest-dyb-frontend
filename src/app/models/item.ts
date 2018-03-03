@@ -12,5 +12,6 @@ export class Item {
     public images?: any[];
     public bidders?: Object;
     public donorInfo?: string;
-    public paidFor?: boolean;
+    public ordered?: boolean;
+    public order?: number;
 }

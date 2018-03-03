@@ -41,13 +41,17 @@ export class BaseItemService implements OnDestroy {
      * @param {Object} item     Item object.
      * @returns {Promise<any>} Creates a new object in the database.
      */
-    create(item: Object): Promise<any> {
+    create(item: Item): Promise<any> {
         return new Promise((resolve, reject) => {
 
             // check if item contains required properties
             if (!(item.hasOwnProperty("name") || item.hasOwnProperty("openingBid") || item.hasOwnProperty("bidFloor"))) {
                 reject("The provided Item object does not contain the required properties.");
                 return;
+            }
+
+            if (!(item.hasOwnProperty('ordered'))) {
+                item.ordered = false;
             }
 
             // check if item has a non-empty, non-null list of images attached

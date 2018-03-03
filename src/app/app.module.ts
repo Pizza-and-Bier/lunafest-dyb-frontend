@@ -6,6 +6,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { HttpClientModule } from "@angular/common/http";
 import { CdkStepperModule } from "@angular/cdk/stepper";
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { DragulaModule } from "ng2-dragula";
 
 import { AppComponent } from './app.component';
 
@@ -24,9 +25,8 @@ import { NewItemService } from "./new-item/new-item.service";
 import { EditItemService } from './edit-item/edit-item.service';
 import { AuctionAdminService } from './auction-admin/auction-admin.service';
 
-import { PhoneNumberFormatter } from "./util/directives/phone-number-formatter.directive";
-
 import { CategoriesPipe } from './util/pipes/categories.pipe';
+import { ItemOrderPipe } from './util/pipes/item-order.pipe';
 
 import { LoginComponent } from './login/login.component';
 import { fakeBackendProvider } from "./mocks/fake-backend-interceptor";
@@ -49,8 +49,8 @@ import { AuctionClosedComponent } from './auction-closed/auction-closed.componen
 import { ItemWinnersComponent } from './item-winners/item-winners.component';
 import { ItemWinnersService } from './item-winners/item-winners.service';
 import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
-
-
+import { ItemOrderComponent } from './item-order/item-order.component';
+import { ItemOrderService } from './item-order/item-order.service';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,6 @@ import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
     ItemListComponent,
     MyBidsComponent,
     RegistrationComponent,
-    PhoneNumberFormatter,
     PlaceABidComponent,
     OnlyNumberDirective,
     NewItemComponent,
@@ -74,7 +73,9 @@ import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
     AuctionAdminComponent,
     AuctionClosedComponent,
     ItemWinnersComponent,
-    WinnerTotalPipe
+    WinnerTotalPipe,
+    ItemOrderComponent,
+    ItemOrderPipe
   ],
   imports: [
     BrowserModule,
@@ -85,7 +86,8 @@ import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
     FlexLayoutModule,
     HttpClientModule,
     BaseServicesModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    DragulaModule
   ],
   providers: [
     LoginService,
@@ -96,7 +98,8 @@ import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
     NewItemService,
     EditItemService,
     AuctionAdminService,
-    ItemWinnersService
+    ItemWinnersService,
+    ItemOrderService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]

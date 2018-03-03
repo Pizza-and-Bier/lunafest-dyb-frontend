@@ -20,7 +20,7 @@ export class AuctionGuard implements CanActivate, CanActivateChild {
           return true;
         }
         else {
-          this.router.navigate(["/auction-closed"]);
+          this.router.navigate(["/user/auction-closed"]);
           return false;
         }
       }

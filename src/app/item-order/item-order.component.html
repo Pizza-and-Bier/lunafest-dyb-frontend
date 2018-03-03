@@ -1,0 +1,26 @@
+<section fxLayout="column" fxLayoutAlign="center center" fxFlexfill>
+  <mat-card class="order-card">
+    <mat-card-content>
+      <p>
+        Drag items to reorder them. Note: The order will update the item list in real time.
+      </p>
+      <mat-list [dragula]="'bag-one'" [dragulaModel]="items">
+        <mat-list-item [attr.item-id]="item.key" *ngFor="let item of items | itemOrder">
+          <div>
+            {{item.name}}
+          </div>
+          <div>
+            <button mat-icon-button role="buton" type="button" (click)="editItem(item)" color="accent" matTooltip="Edit Item">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button type="button" role="button" color="primary" (click)="done()">Done</button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</section>
