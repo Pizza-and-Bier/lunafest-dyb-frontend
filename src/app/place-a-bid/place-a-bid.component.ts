@@ -45,7 +45,6 @@ export class PlaceABidComponent implements OnInit {
   private bidService: PlaceABidService) { }
 
   ngOnInit() {
-    console.log(this.data);
     this.buildForm();
     this.getImageSource();
     this.setBidFloorValues();
@@ -56,12 +55,10 @@ export class PlaceABidComponent implements OnInit {
       return elem !== null && elem !== undefined;
     });
     this.imageSrc = keys[0];
-    console.log(this.imageSrc);
   }
 
   public toggleBidValue(change: number|string): void {
     const bidValueControl = this.bidForm.get("bidValue");
-    console.log(change);
     this.bidToggleValue = change;
     if (change !== 'other') {
       bidValueControl.clearValidators();
@@ -89,7 +86,6 @@ export class PlaceABidComponent implements OnInit {
     else {
       total = this.bidForm.get("bidValue").value + this.data.item.openingBid;
     }
-    console.log(this.data.item);
     this.bidService.placeBid(this.data.item.key, total).then(
       (data) => {
         if (this.data.user && this.data.user.following && this.data.user.following.indexOf(this.data.item.key) === -1) {
