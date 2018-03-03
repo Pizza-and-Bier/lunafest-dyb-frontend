@@ -142,7 +142,7 @@ export class RegistrationComponent implements OnInit {
         this.currentStep = "loginInfo";
         break;
       case "loginInfo":
-        break;
+        this.router.navigate(["/login"]);
       default:
         break;
     }
@@ -178,7 +178,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   private buildForm(): void {
-    const passwordPattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]*$/g);
+    const passwordPattern = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9]*.*$/);
     this.registrationForm = this.fb.group({
       "loginInfo": this.fb.group({
         "email": ["", [
