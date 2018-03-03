@@ -6,7 +6,7 @@
 </div>
 <section class="item-list-wrapper">
   <div class="item-list-item" *ngFor="let item of itemList | async | categories: filterCategories; let i = index">
-    <button mat-mini-fab class="item-edit-button" matTooltip="Edit Item" matTooltipPosition="left" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
+    <button mat-mini-fab color="accent" class="item-edit-button" matTooltip="Edit Item" matTooltipPosition="left" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
     <mat-card>
       <img mat-card-image [src]="item?.images[itemImageSelections[i]]">
       <mat-card-content>
@@ -55,5 +55,5 @@
       </mat-card-actions>
     </mat-card>
   </div>
-  <button class="filter-trigger" mat-fab type="button" role="button" (click)="openFilterDialog()"><mat-icon>filter_list</mat-icon></button>
+  <button class="filter-trigger" color="accent" mat-fab type="button" role="button" (click)="openFilterDialog()"><mat-icon>filter_list</mat-icon></button>
 </section>
