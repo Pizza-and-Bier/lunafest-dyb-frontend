@@ -2,9 +2,9 @@
   <mat-card class="winner-card">
     <mat-card-title>Winners</mat-card-title>
     <mat-card-content>
-      <div>
+      <div *ngIf="!loading">
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let keys of winnerKeys">
+          <mat-expansion-panel *ngFor="let key of winnerKeys">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 {{winnersList[key]?.winner}}
@@ -12,7 +12,15 @@
             </mat-expansion-panel-header>
             <mat-divider inset="true"></mat-divider>
             <div>
-              <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of winnersList[key]?.items">
+              <div class="summary-header" fxLayout="row" fxLayoutAlign="space-between center">
+                <div>
+                  <strong>Item</strong>
+                </div>
+                <div>
+                  <strong>Final Bid</strong>
+                </div>
+              </div>
+              <div class="summary-item" fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of winnersList[key]?.items">
                 <div>
                   {{item?.name}}
                 </div>
@@ -20,7 +28,7 @@
                   {{item?.amount | currency: 'USD': 2}}
                 </div>
               </div>
-              <div fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="summary-total" fxLayout="row" fxLayoutAlign="space-between center">
                 <span></span>
                 <span>
                   <strong>Total:</strong> {{winnersList[key]?.items | winnerTotal | currency: 'USD': 2}}

@@ -14,6 +14,8 @@ export class ItemWinnersComponent implements OnInit {
 
   public winnerKeys: string[] = [];
 
+  public loading = true;
+
   constructor(private itemWinnersService: ItemWinnersService) { }
 
   ngOnInit() {
@@ -32,6 +34,7 @@ export class ItemWinnersComponent implements OnInit {
       (data) => {
         data.forEach((elem) => {
           if (this.winnersList[elem.uid] !== undefined) {
+            console.log(this.winnersList[elem.uid]);
             this.winnersList[elem.uid].items.push({name: elem.itemName, amount: elem.amount});
           }
           else {
@@ -46,6 +49,7 @@ export class ItemWinnersComponent implements OnInit {
             };
           }
         });
+        this.loading = false;
         this.winnerKeys = Object.keys(this.winnersList);
         console.log(this.winnersList);
         console.log(this.winnerKeys);
