@@ -51,6 +51,7 @@ import { ItemWinnersService } from './item-winners/item-winners.service';
 import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
 import { ItemOrderComponent } from './item-order/item-order.component';
 import { ItemOrderService } from './item-order/item-order.service';
+import { GroupWinnersPipe } from './item-winners/group-winners.pipe';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { ItemOrderService } from './item-order/item-order.service';
     ItemWinnersComponent,
     WinnerTotalPipe,
     ItemOrderComponent,
-    ItemOrderPipe
+    ItemOrderPipe,
+    GroupWinnersPipe
   ],
   imports: [
     BrowserModule,

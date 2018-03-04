@@ -4,4 +4,5 @@ export class ItemWinner {
     public paid?: boolean;
     public itemName: string;
     public amount?: number;
+    public uid?: string;
 }

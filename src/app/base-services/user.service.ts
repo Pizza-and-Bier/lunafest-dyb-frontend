@@ -4,11 +4,12 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject } from "angular
 import "rxjs/add/operator/take";
 import { Reference } from "firebase/database";
 import { pull, assign } from "lodash";
+import { DataSnapshot } from "@firebase/database";
 
 import { User, Item, Bid } from "../models";
 import { Unsubscribe } from "./unsubscribe";
-import { ItemWinner } from "../item-winners/item-winner.model";
-import { DataSnapshot } from "@firebase/database";
+import { ItemWinner } from "../models/item-winner.model";
+
 
 @Injectable()
 @Unsubscribe
@@ -126,12 +127,18 @@ export class BaseUserService implements OnDestroy {
 
                 itemReference.transaction(
                     (currentData: Item) => {
+                        // Have to account for null values during transactions
+                        // due to latency.
                         if (currentData) {
+                            // Decide if this is the first time
+                            // this item has bee bid on.
                             if (currentData.currentBid) {
+                                // If a bid is higher than the current one, we should just take that.
                                 if (currentData.currentBid.amount < bid.amount) {
                                     currentData.currentBid = bid;
                                     currentData.bidders[user.uid] = true;
                                 }
+                                // Otherwise, we should take the latest one.
                                 else if (currentData.currentBid.createdAt < bid.createdAt) {
                                     currentData.currentBid = bid;
                                     if (currentData.bidders) {
@@ -141,10 +148,10 @@ export class BaseUserService implements OnDestroy {
                                         currentData.bidders = {};
                                         currentData.bidders[user.uid] = true;
                                     }
-                                    
-                                   
                                 }
                             }
+                            // This is the case where it's the very first bid on an
+                            // item.
                             else {
                                 currentData.currentBid = bid;
                                 if (currentData.bidders) {
@@ -166,20 +173,18 @@ export class BaseUserService implements OnDestroy {
                         }
                         if (committed) {
                             const item = snapshot.val();
-                            console.log('snapshot item', item);
                             winnerRef.set(snapshot.key, {
                                 itemName: item.name,
                                 winner: `${user.firstName} ${user.lastName}`,
                                 amount: item.currentBid.amount,
-                                paid: false
+                                paid: false,
+                                uid: user.uid
                             });
                             resolve("Bid success");
                         }
                         else {
                             reject("Uncommitted")
                         }
-                        console.log("committed", committed);
-                        console.log("snap", snapshot);
                     }
                 );
             // }));

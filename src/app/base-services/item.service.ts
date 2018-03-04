@@ -8,7 +8,7 @@ import "rxjs/add/operator/take"
 import { BaseImageService } from "./image.service";
 import { Unsubscribe } from "./unsubscribe";
 import { Item } from '../models';
-import { ItemWinner } from "../item-winners/item-winner.model";
+import { ItemWinner } from "../models/item-winner.model";
 
 
 @Injectable()
