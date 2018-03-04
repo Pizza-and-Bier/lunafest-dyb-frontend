@@ -22,5 +22,9 @@ export const dybCategories = [
     {
         label: "Home & Office",
         controlName: "homeAndOffice"
+    },
+    {
+        label: "Pets",
+        controlName: "pets"
     }
 ];

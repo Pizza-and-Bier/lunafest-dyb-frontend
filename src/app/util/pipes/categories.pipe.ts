@@ -21,7 +21,14 @@ export class CategoriesPipe implements PipeTransform {
       }
       // unionBy will remove any duplications from joining our currently filtered items with any
       // new items that have our category.
-      filteredItems = unionBy(filteredItems, items.filter(elem => elem.categories[key]), "key");
+      filteredItems = unionBy(filteredItems, items.filter(elem => {
+        if (elem.categories[key] !== undefined) {
+          return elem.categories[key];
+        }
+        else {
+          return false;
+        }
+      }), "key");
     }
     return filteredItems;
   }
