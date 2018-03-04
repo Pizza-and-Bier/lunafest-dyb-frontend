@@ -4,31 +4,31 @@
     <mat-card-content>
       <div>
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let winner of winnersList">
+          <mat-expansion-panel *ngFor="let keys of winnerKeys">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                {{winner?.winner?.name}}
+                {{winnersList[key]?.winner}}
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-divider inset="true"></mat-divider>
             <div>
-              <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of winner?.items">
+              <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of winnersList[key]?.items">
                 <div>
                   {{item?.name}}
                 </div>
                 <div>
-                  {{item?.currentBid?.amount | currency: 'USD': 2}}
+                  {{item?.amount | currency: 'USD': 2}}
                 </div>
               </div>
               <div fxLayout="row" fxLayoutAlign="space-between center">
                 <span></span>
                 <span>
-                  <strong>Total:</strong> {{winner?.items | winnerTotal | currency: 'USD': 2}}
+                  <strong>Total:</strong> {{winnersList[key]?.items | winnerTotal | currency: 'USD': 2}}
                 </span>
               </div>
               <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
-                <button *ngIf="winner?.winner?.paid" mat-raised-button color="warn" type="button" role="button" (click)="reverseMarkAsPaid(winner)">Undo Mark Paid</button>
-                <button *ngIf="!winner?.winner?.paid" mat-raised-button color="primary" type="button" role="button" (click)="markAsPaid(winner)">Mark Paid</button>
+                <button *ngIf="winnersList[key]?.paid" mat-raised-button color="warn" type="button" role="button" (click)="reverseMarkAsPaid(winnersList[key])">Undo Mark Paid</button>
+                <button *ngIf="!winnersList[key]?.paid" mat-raised-button color="primary" type="button" role="button" (click)="markAsPaid(winnersList[key])">Mark Paid</button>
               </div>
             </div>
           </mat-expansion-panel>
