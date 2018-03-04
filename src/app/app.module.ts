@@ -51,7 +51,6 @@ import { ItemWinnersService } from './item-winners/item-winners.service';
 import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
 import { ItemOrderComponent } from './item-order/item-order.component';
 import { ItemOrderService } from './item-order/item-order.service';
-import { GroupWinnersPipe } from './item-winners/group-winners.pipe';
 
 @NgModule({
   declarations: [
@@ -76,8 +75,7 @@ import { GroupWinnersPipe } from './item-winners/group-winners.pipe';
     ItemWinnersComponent,
     WinnerTotalPipe,
     ItemOrderComponent,
-    ItemOrderPipe,
-    GroupWinnersPipe
+    ItemOrderPipe
   ],
   imports: [
     BrowserModule,
@@ -101,7 +99,7 @@ import { GroupWinnersPipe } from './item-winners/group-winners.pipe';
     EditItemService,
     AuctionAdminService,
     ItemWinnersService,
-    ItemOrderService
+    ItemOrderService,
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]
