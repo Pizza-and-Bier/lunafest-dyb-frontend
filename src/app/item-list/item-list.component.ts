@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { MatDialogRef, MatDialog, MatListOption } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from "rxjs/Observable";
+import { take } from "rxjs/operators";
 
 import { Item, User } from "../models";
 import { ItemListService } from "./item-list.service";
