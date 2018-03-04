@@ -108,6 +108,7 @@ export class PlaceABidComponent implements OnInit {
         }, 1000);
       }
     ).catch((err) => {
+      console.log(err);
       this.showBidConflict = true;
     });
   }

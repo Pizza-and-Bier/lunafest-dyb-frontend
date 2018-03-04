@@ -7,6 +7,8 @@ import { pull, assign } from "lodash";
 
 import { User, Item, Bid } from "../models";
 import { Unsubscribe } from "./unsubscribe";
+import { ItemWinner } from "../item-winners/item-winner.model";
+import { DataSnapshot } from "@firebase/database";
 
 @Injectable()
 @Unsubscribe
@@ -108,9 +110,10 @@ export class BaseUserService implements OnDestroy {
      * @param {number} bidValue     The amount to be bid.
      * @returns {Promise<any>}      Resolves if the bid was successful, rejects if not. 
      */
-    public bid(uID: string, iID: string | number, bidValue: number): Promise<any> {
+    public bid(user: User, iID: string | number, bidValue: number): Promise<any> {
         let itemReference: Reference<Item> = this.db.database.ref("/items/" + iID.toString()),
-            __this = this;
+            __this = this,
+            winnerRef = this.db.list<ItemWinner>('/winners');
 
         return new Promise((resolve, reject) => {
             // this.subs.push(itemReference.valueChanges().take(1).subscribe((item) => {
@@ -118,34 +121,58 @@ export class BaseUserService implements OnDestroy {
                     bid: Bid = {
                         amount: bidValue,
                         createdAt: time,
-                        createdBy: uID
+                        createdBy: user.uid
                     };
-            //     else {
-            //         item.bidders = {};
-            //         item.bidders[uID] = true;
-            //     }
 
                 itemReference.transaction(
-                    (currentData) => {
+                    (currentData: Item) => {
                         if (currentData) {
                             if (currentData.currentBid) {
                                 if (currentData.currentBid.amount < bid.amount) {
                                     currentData.currentBid = bid;
+                                    currentData.bidders[user.uid] = true;
                                 }
                                 else if (currentData.currentBid.createdAt < bid.createdAt) {
                                     currentData.currentBid = bid;
-                                    currentData.bidders[uID] = true;
+                                    if (currentData.bidders) {
+                                        currentData.bidders[user.uid] = true;
+                                    }
+                                    else {
+                                        currentData.bidders = {};
+                                        currentData.bidders[user.uid] = true;
+                                    }
+                                    
+                                   
                                 }
+                            }
+                            else {
+                                currentData.currentBid = bid;
+                                if (currentData.bidders) {
+                                    currentData.bidders[user.uid] = true;
+                                }
+                                else {
+                                    currentData.bidders = {};
+                                    currentData.bidders[user.uid] = true;
+                                }
+                                
                             }
                         }
                         return currentData;
                     },
-                    (err, committed, snapshot) => {
+                    (err: Error|null, committed: boolean, snapshot: DataSnapshot) => {
                         console.log("err", err);
                         if (err) {
                             reject(err);
                         }
                         if (committed) {
+                            const item = snapshot.val();
+                            console.log('snapshot item', item);
+                            winnerRef.set(snapshot.key, {
+                                itemName: item.name,
+                                winner: `${user.firstName} ${user.lastName}`,
+                                amount: item.currentBid.amount,
+                                paid: false
+                            });
                             resolve("Bid success");
                         }
                         else {

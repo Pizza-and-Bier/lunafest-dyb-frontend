@@ -8,6 +8,7 @@ import "rxjs/add/operator/take"
 import { BaseImageService } from "./image.service";
 import { Unsubscribe } from "./unsubscribe";
 import { Item } from '../models';
+import { ItemWinner } from "../item-winners/item-winner.model";
 
 
 @Injectable()
@@ -134,7 +135,6 @@ export class BaseItemService implements OnDestroy {
      */
     private transcribeObject (item: Object, resolve: Function, reject: Function): void {
         let I = new Item();
-
         // assign properties to new Item object
         for (let key in item) {
             I[key] = item[key];
