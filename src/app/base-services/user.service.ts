@@ -148,6 +148,9 @@ export class BaseUserService implements OnDestroy {
                         if (committed) {
                             resolve("Bid success");
                         }
+                        else {
+                            reject("Uncommitted")
+                        }
                         console.log("committed", committed);
                         console.log("snap", snapshot);
                     }
