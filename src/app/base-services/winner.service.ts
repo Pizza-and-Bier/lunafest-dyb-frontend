@@ -32,7 +32,7 @@ export class BaseWinnerService {
         .subscribe(
           (data: ItemWinner[]) => {
             data.map((elem) => {
-              this.db.list<PaymentRecord>("/payments").set(elem.key, {paid: false}).catch(err => reject(err));
+              this.db.list<PaymentRecord>("/payments").set(elem.uid, {paid: false}).catch(err => reject(err));
             });
             resolve("Created");
           }

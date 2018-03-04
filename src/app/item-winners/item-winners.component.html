@@ -7,7 +7,10 @@
           <mat-expansion-panel *ngFor="let key of winnerKeys">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                {{winnersList[key]?.winner}}
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+                  <div>{{winnersList[key]?.winner}}</div>
+                  <div class="paid-tag" *ngIf="payments[key]?.paid">Paid</div>
+                </div>
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-divider inset="true"></mat-divider>

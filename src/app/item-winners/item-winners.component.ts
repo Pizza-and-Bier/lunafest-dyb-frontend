@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ItemWinnersService } from './item-winners.service';
-import { WinnerGroup } from './winner-group.model';
+import { PaymentRecord } from '../models/payment-record';
+import { WinnerGrouping } from './winner-grouping';
 
 @Component({
   selector: 'dyb-item-winners',
@@ -14,19 +15,34 @@ export class ItemWinnersComponent implements OnInit {
 
   public winnerKeys: string[] = [];
 
+  public payments: {[uid: string]: PaymentRecord} = {};
+
   public loading = true;
 
   constructor(private itemWinnersService: ItemWinnersService) { }
 
   ngOnInit() {
     this.getAndOrganizeItems();
+    this.getPayments();
   }
 
-  public markAsPaid(winner: WinnerGroup): void {
-    winner.items.map((elem) => {
-      
-    });
+  public markAsPaid(winner: WinnerGrouping): void {
+    this.itemWinnersService.markAsPaid(winner.uid).then(
+      (_) => {
+        console.log(`winner group ${winner.winner} marked as paid`);
+      }
+    )
 
+  }
+
+  private getPayments(): void {
+    this.itemWinnersService.getPaymentRecords().subscribe(
+      (data) => {
+        data.map((elem) => {
+          this.payments[elem.uid] = elem;
+        });
+      }
+    )
   }
 
   private getAndOrganizeItems(): void {
