@@ -73,7 +73,7 @@ export class ItemListComponent implements OnInit {
           this.clearFilters();
         }
         else {
-          this.itemList.subscribe((data) => {
+          this.itemList.take(1).subscribe((data) => {
             this.filterCategories = result;
             const pipe = new CategoriesPipe();
             this.filteredListingLength = pipe.transform(data, this.filterCategories).length;
@@ -105,7 +105,6 @@ export class ItemListComponent implements OnInit {
         this.itemInfoToggles.fill(false);
         this.itemImageSelections.length = data.length;
         data.forEach((elem, index) => {
-          console.log(elem);
           for (let i = 0; i < elem.images.length; i++) {
 
             if (elem.images[i] !== undefined && elem.images[i] !== null) {

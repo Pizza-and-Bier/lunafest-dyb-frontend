@@ -4,7 +4,7 @@ export const dybCategories = [
         controlName: "giftCertificates"
     },
     {
-        label: "Jewelry",
+        label: "Fashion and Accessories",
         controlName: "jewelry"
     },
     {
@@ -12,11 +12,11 @@ export const dybCategories = [
         controlName: "experiences"
     },
     {
-        label: "Dining",
+        label: "Food and Drink",
         controlName: "dining"
     },
     {
-        label: "Sports",
+        label: "Athletics",
         controlName: "sports"
     },
     {
@@ -26,5 +26,17 @@ export const dybCategories = [
     {
         label: "Pets",
         controlName: "pets"
+    },
+    {
+        label: "Literature and Stationary",
+        controlName: "literatureAndStationary"
+    },
+    {
+        label: "Health and Fitness",
+        controlName: "healthAndFitness"
+    },
+    {
+        label: "Salon and Spa",
+        controlName: "salonAndSpa"
     }
 ];

@@ -139,6 +139,15 @@ export class NewItemFormComponent implements OnInit {
         ]],
         "pets": [false, [
           
+        ]],
+        "literatureAndStationary": [false, [
+
+        ]],
+        "healthAndFitness": [false, [
+
+        ]],
+        "salonAndSpa": [false, [
+          
         ]]
       })
     });

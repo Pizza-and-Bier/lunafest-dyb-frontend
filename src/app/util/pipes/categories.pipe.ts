@@ -9,7 +9,7 @@ import { Item } from '../../models';
 export class CategoriesPipe implements PipeTransform {
 
   transform(items: Item[], selectedCategories: string[] |null): any {
-    if (selectedCategories === null) {
+    if (selectedCategories === null || selectedCategories.length <= 0) {
       return items;
     }
     let filteredItems = [];
