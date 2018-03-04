@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { Observable, Observer, Subscription } from "rxjs";
-import { AngularFireDatabase, AngularFireList } from "angularfire2/database"
+import { AngularFireDatabase, AngularFireList, AngularFireObject } from "angularfire2/database"
 import "rxjs/add/operator/take";
 import { Reference } from "firebase/database";
 import { pull, assign } from "lodash";
@@ -109,34 +109,53 @@ export class BaseUserService implements OnDestroy {
      * @returns {Promise<any>}      Resolves if the bid was successful, rejects if not. 
      */
     public bid(uID: string, iID: string | number, bidValue: number): Promise<any> {
-        let itemReference: Reference = this.db.object<Item>("/items/" + iID.toString()),
+        let itemReference: Reference<Item> = this.db.database.ref("/items/" + iID.toString()),
             __this = this;
 
         return new Promise((resolve, reject) => {
-            this.subs.push(itemReference.valueChanges().take(1).subscribe((item) => {
+            // this.subs.push(itemReference.valueChanges().take(1).subscribe((item) => {
                 let time = Date.now(),
                     bid: Bid = {
                         amount: bidValue,
                         createdAt: time,
                         createdBy: uID
                     };
+            //     else {
+            //         item.bidders = {};
+            //         item.bidders[uID] = true;
+            //     }
 
-                if (item.bidders)
-                    item.bidders[uID] = true;
-                else {
-                    item.bidders = {};
-                    item.bidders[uID] = true;
-                }
-
-                itemReference.update({ currentBid: bid }).then((_) => {
-                    itemReference.update({ bidders: item.bidders }).then((_) => {
-                        __this.follow(uID, iID).catch(_ => {});
-                        resolve("Successful update.");
-                    });
-                }).catch((err) => {
-                    reject(err);
-                });
-            }));
+                itemReference.transaction(
+                    (currentData) => {
+                        if (currentData) {
+                            if (currentData.currentBid) {
+                                if (currentData.currentBid.amount < bid.amount) {
+                                    currentData.currentBid = bid;
+                                }
+                                else if (currentData.currentBid.createdAt < bid.createdAt) {
+                                    currentData.currentBid = bid;
+                                    currentData.bidders[uID] = true;
+                                }
+                            }
+                        }
+                        return currentData;
+                    },
+                    (err, committed, snapshot) => {
+                        console.log("err", err);
+                        if (err) {
+                            reject(err);
+                        }
+                        if (committed) {
+                            resolve("Bid success");
+                        }
+                        else {
+                            reject("Uncommitted")
+                        }
+                        console.log("committed", committed);
+                        console.log("snap", snapshot);
+                    }
+                );
+            // }));
         });
     }
 

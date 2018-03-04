@@ -53,7 +53,6 @@ export class ItemListComponent implements OnInit {
       width: "320px",
       height: "400px",
       data: {
-        item: item,
         id: item.key,
         user: this.currentUser
       }

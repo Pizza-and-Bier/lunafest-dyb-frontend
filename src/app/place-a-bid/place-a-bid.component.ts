@@ -7,12 +7,15 @@ import { PlaceABidService } from './place-a-bid.service';
 import { positiveNumbersOnly } from '../new-item-form/positive-numbers-only.validators';
 import { overBidFloorValidator } from '../util/over-bid-floor-validator';
 
+
 @Component({
   selector: 'dyb-place-a-bid',
   templateUrl: './place-a-bid.component.html',
   styleUrls: ['./place-a-bid.component.scss']
 })
 export class PlaceABidComponent implements OnInit {
+
+  public item: Item;
 
   public imageSrc: string;
 
@@ -24,6 +27,8 @@ export class PlaceABidComponent implements OnInit {
 
   public bidToggleValue: number|string = 0;
 
+  public showBidConflict = false;
+
   private bidForm: FormGroup;
 
   private formErrors: {[key: string]: any} = {
@@ -34,8 +39,7 @@ export class PlaceABidComponent implements OnInit {
     "bidValue": {
       "required": "Required.",
       "pattern": "Only whole dollar amounts allowed.",
-      "positiveNumbersOnly": "Dollar ammounts cannot be negative.",
-      "overBidFloor": `Bid should be above \$${this.data.item.bidFloor}`
+      "positiveNumbersOnly": "Dollar ammounts cannot be negative."
     }
   };
 
@@ -45,23 +49,27 @@ export class PlaceABidComponent implements OnInit {
   private bidService: PlaceABidService) { }
 
   ngOnInit() {
-    console.log(this.data);
+    console.log(this.data.id);
+    this.getItem();
     this.buildForm();
-    this.getImageSource();
-    this.setBidFloorValues();
   }
 
   public getImageSource(): void {
-    const keys = this.data.item.images.filter((elem) => {
+    const keys = this.item.images.filter((elem) => {
       return elem !== null && elem !== undefined;
     });
     this.imageSrc = keys[0];
-    console.log(this.imageSrc);
+  }
+
+  public reBid(): void {
+    this.bidComplete = false;
+    this.showBidConflict = false;
+    this.bidPlaced = false;
+    this.getItem();
   }
 
   public toggleBidValue(change: number|string): void {
     const bidValueControl = this.bidForm.get("bidValue");
-    console.log(change);
     this.bidToggleValue = change;
     if (change !== 'other') {
       bidValueControl.clearValidators();
@@ -73,7 +81,7 @@ export class PlaceABidComponent implements OnInit {
         Validators.required,
         positiveNumbersOnly,
         Validators.pattern(/^[0-9]+$/),
-        overBidFloorValidator(this.data.item.bidFloor)
+        overBidFloorValidator(this.item.bidFloor)
       ]);
       bidValueControl.setValue(0);
       bidValueControl.updateValueAndValidity();
@@ -83,32 +91,45 @@ export class PlaceABidComponent implements OnInit {
   public placeBid(): void {
     this.bidPlaced = true;
     let total;
-    if (this.data.item.currentBid !== undefined && this.data.item.currentBid !== null) {
-      total = this.bidForm.get("bidValue").value + this.data.item.currentBid.amount;
+    if (this.item.currentBid !== undefined && this.item.currentBid !== null) {
+      total = this.bidForm.get("bidValue").value + this.item.currentBid.amount;
     }
     else {
-      total = this.bidForm.get("bidValue").value + this.data.item.openingBid;
+      total = this.bidForm.get("bidValue").value + this.item.openingBid;
     }
-    console.log(this.data.item);
-    this.bidService.placeBid(this.data.item.key, total).then(
+    this.bidService.placeBid(this.item.key, total).then(
       (data) => {
-        if (this.data.user && this.data.user.following && this.data.user.following.indexOf(this.data.item.key) === -1) {
-          this.bidService.followItem(this.data.item.key);
+        if (this.data.user && this.data.user.following && this.data.user.following.indexOf(this.item.key) === -1) {
+          this.bidService.followItem(this.item.key);
         }
         this.bidComplete = true;
         setTimeout(() => {
           this.dialogRef.close();
         }, 1000);
       }
-    );
+    ).catch((err) => {
+      this.showBidConflict = true;
+    });
   }
 
   public cancel(): void {
     this.dialogRef.close();
   }
 
+  private getItem(): void {
+    this.bidService.getItem(this.data.id).subscribe(
+      (itemData) => {
+        console.log(this.item);
+        this.item = itemData;
+        this.getImageSource();
+        this.setBidFloorValues();
+        this.validationMessages["overBidFloor"] = `Bid should be above \$${this.item.bidFloor}`;
+      }
+    );
+  }
+
   private setBidFloorValues(): void {
-    const bidFloor = this.data.item.bidFloor;
+    const bidFloor = this.item.bidFloor;
 
     if (bidFloor !== undefined && bidFloor !== null) {
       let factor = 1;
@@ -125,8 +146,9 @@ export class PlaceABidComponent implements OnInit {
   }
 
   private buildForm(): void {
+    console.log("build form");
     this.bidForm = this.fb.group({
-      "bidValue": [0, [
+      "bidValue": [1, [
       ]]
     });
 

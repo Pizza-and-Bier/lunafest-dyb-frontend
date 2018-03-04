@@ -1,7 +1,7 @@
-<h4 *ngIf="!bidPlaced" mat-dialog-title>{{data?.item?.name}}</h4>
+<h4 *ngIf="!bidPlaced" mat-dialog-title>{{item?.name}}</h4>
 <mat-dialog-content>
-  <div *ngIf="bidPlaced">
-    <div *ngIf="!bidComplete" class="bid-complete-progress">
+  <div *ngIf="bidPlaced" fxLayout="column" fxFlexFill fxLayoutAlign="center center">
+    <div *ngIf="!bidComplete && !showBidConflict" class="bid-complete-progress">
       <mat-spinner></mat-spinner>
     </div>
     <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill *ngIf="bidComplete">
@@ -13,6 +13,13 @@
       </div>
       
     </div>
+    <div *ngIf="showBidConflict" fxLayout="column" fxLayoutAlign="center center">
+      <p>Oh no! It looks like someone outbid you while we were submitting your bid. Bid again?</p>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <button type="button" role="button" mat-raised-button (click)="cancel()">Nevermind</button>
+        <button type="button" role="button" mat-raised-button color="primary" (click)="reBid()">Bid again</button>
+      </div>
+    </div>
   </div>
   <div *ngIf="!bidPlaced && !bidComplete">
     <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="3px" >
@@ -21,15 +28,15 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px" fxFlexFill>
         <div class="estimated-worth">
-            <em>Estimated Worth:</em> <strong>{{data?.item?.estimatedWorth | currency: 'USD': 2}}</strong>
+            <em>Estimated Worth:</em> <strong>{{item?.estimatedWorth | currency: 'USD': 2}}</strong>
           </div>
         <div class="current-bid" fxLayout="column" fxLayoutAlign="start center">
           <div class="amount">
-              <ng-container *ngIf="data?.item?.currentBid">
-                  <strong>{{data?.item?.currentBid.amount | currency: 'USD': 2}}</strong>
+              <ng-container *ngIf="item?.currentBid">
+                  <strong>{{item?.currentBid.amount | currency: 'USD': 2}}</strong>
               </ng-container>
-              <ng-container *ngIf="!data?.item?.currentBid">
-                  <strong>{{data?.item?.openingBid | currency: 'USD': 2}}</strong>
+              <ng-container *ngIf="!item?.currentBid">
+                  <strong>{{item?.openingBid | currency: 'USD': 2}}</strong>
               </ng-container>
           </div>
           <div>
@@ -51,7 +58,7 @@
           <mat-form-field>
             <span matPrefix>$ &nbsp;</span>
             <input matInput onlyNumber formControlName="bidValue" min="1" type="number" aria-label="Bid Amount" aria-required="true" />
-            <mat-hint>Amount should be at least ${{data?.item?.bidFloor}}.</mat-hint>
+            <mat-hint>Amount should be at least ${{item?.bidFloor}}.</mat-hint>
             <mat-error *ngIf="formErrors.bidValue">
               {{formErrors.bidValue}}
             </mat-error>
@@ -60,11 +67,11 @@
       </form>
     </div>
     <div class="total-wrapper">
-        <ng-container *ngIf="data?.item?.currentBid">
-            <strong>Total:</strong> {{(data?.item?.currentBid.amount + bidForm.get("bidValue").value) | currency: "USD": 2}}
+        <ng-container *ngIf="item?.currentBid">
+            <strong>Total:</strong> {{(item?.currentBid.amount + bidForm.get("bidValue").value) | currency: "USD": 2}}
         </ng-container>
-        <ng-container *ngIf="!data?.item?.currentBid">
-            <strong>Total:</strong> {{(data?.item?.openingBid + bidForm.get("bidValue").value) | currency: "USD": 2}}
+        <ng-container *ngIf="!item?.currentBid">
+            <strong>Total:</strong> {{(item?.openingBid + bidForm.get("bidValue").value) | currency: "USD": 2}}
         </ng-container>
     </div>
   </div>

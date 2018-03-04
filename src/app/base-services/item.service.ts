@@ -35,6 +35,10 @@ export class BaseItemService implements OnDestroy {
         return this.db.object<Item>("/items/" + itemID).valueChanges().take(1);
     }
 
+    oneWithSubscribe(itemId: string | number): AngularFireObject<Item> {
+        return this.db.object<Item>("/items/" + itemId);
+    }
+
     /**
      * @author Anthony Pizzimenti
      * @desc Creates an item.

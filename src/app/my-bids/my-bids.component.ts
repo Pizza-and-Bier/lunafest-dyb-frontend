@@ -51,7 +51,6 @@ export class MyBidsComponent implements OnInit {
   public placeBid(item: Item): void {
     let dialogRef = this.dialog.open(PlaceABidComponent, {
       data: {
-        item: item,
         id: item.key,
         user: this.currentUser
       }
