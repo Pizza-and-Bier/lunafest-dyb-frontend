@@ -10,7 +10,9 @@ import { WinnerGroup } from './winner-group.model';
 })
 export class ItemWinnersComponent implements OnInit {
 
-  public winnersList: WinnerGroup[] = [];
+  public winnersList: {} = {};
+
+  public winnerKeys: string[] = [];
 
   constructor(private itemWinnersService: ItemWinnersService) { }
 
@@ -27,41 +29,26 @@ export class ItemWinnersComponent implements OnInit {
 
   private getAndOrganizeItems(): void {
     this.itemWinnersService.getItems().subscribe(
-      (items) => {
-        items.map(
-          (elem) => {
-            const filteredList = this.winnersList.filter(w => w.winner.id === elem.currentBid.createdBy);
-            if (filteredList.length > 0) {
-              const existing = filteredList[0];
-              this.winnersList[this.winnersList.indexOf(existing)].items.push(elem);
-            }
-            else {
-              this.winnersList.push({
-                winner: {
-                  id: elem.currentBid.createdBy,
-                  name: "",
-                  paid: false
-                },
-                items: [
-                  elem
-                ]
-              });
-            }
+      (data) => {
+        data.forEach((elem) => {
+          if (this.winnersList[elem.uid] !== undefined) {
+            this.winnersList[elem.uid].items.push({name: elem.itemName, amount: elem.amount});
           }
-        );
-        this.itemWinnersService.getAllUsers().subscribe(
-          (users) => {
-            users.map(
-              (user) => {
-                const filteredList = this.winnersList.filter(w => w.winner.id === user.uid);
-                if (filteredList.length > 0) {
-                  const existing = filteredList[0];
-                  this.winnersList[this.winnersList.indexOf(existing)].winner.name = `${user.firstName} ${user.lastName}`;
-                }
-              }
-            );
+          else {
+            this.winnersList[elem.uid] = {
+              uid: elem.uid,
+              winner: elem.winner,
+              items: [{
+                name: elem.itemName,
+                amount: elem.amount
+              }],
+              paid: false
+            };
           }
-        );
+        });
+        this.winnerKeys = Object.keys(this.winnersList);
+        console.log(this.winnersList);
+        console.log(this.winnerKeys);
       }
     );
   }

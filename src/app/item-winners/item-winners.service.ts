@@ -10,7 +10,7 @@ export class ItemWinnersService {
 
   constructor(private winnerService: BaseWinnerService) { }
 
-  public getItems(): Observable<Item[]> {
+  public getItems(): Observable<ItemWinner[]> {
     return this.winnerService.getWinners().snapshotChanges().take(1).map(
       (changes) => {
         return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
