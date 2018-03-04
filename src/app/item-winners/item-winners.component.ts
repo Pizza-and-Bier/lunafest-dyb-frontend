@@ -35,6 +35,14 @@ export class ItemWinnersComponent implements OnInit {
 
   }
 
+  public reverseMarkAsPaid(winner: WinnerGrouping): void {
+    this.itemWinnersService.undoPayment(winner.uid).then(
+      (_) => {
+        console.log(`undoing payment for ${winner.winner}`);
+      }
+    );
+  }
+
   private getPayments(): void {
     this.itemWinnersService.getPaymentRecords().subscribe(
       (data) => {

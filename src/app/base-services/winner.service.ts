@@ -17,8 +17,8 @@ export class BaseWinnerService {
     return this.db.list<PaymentRecord>("/payments");
   }
 
-  public markAsPaid(userId: string): Promise<any> {
-    return this.db.object<PaymentRecord>(`/payments/${userId}`).update({paid: true});
+  public togglePayment(userId: string, paid: boolean): Promise<any> {
+    return this.db.object<PaymentRecord>(`/payments/${userId}`).update({paid: paid});
   }
 
   public createPaymentRecords(): Promise<any> {

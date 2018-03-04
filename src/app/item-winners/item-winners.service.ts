@@ -28,6 +28,10 @@ export class ItemWinnersService {
   }
 
   public markAsPaid(uid: string): Promise<any> {
-    return this.winnerService.markAsPaid(uid);
+    return this.winnerService.togglePayment(uid, true);
+  }
+
+  public undoPayment(uid: string) : Promise<any> {
+    return this.winnerService.togglePayment(uid, false);
   }
 }

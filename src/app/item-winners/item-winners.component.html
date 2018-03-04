@@ -38,8 +38,8 @@
                 </span>
               </div>
               <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
-                <button *ngIf="winnersList[key]?.paid" mat-raised-button color="warn" type="button" role="button" (click)="reverseMarkAsPaid(winnersList[key])">Undo Mark Paid</button>
-                <button *ngIf="!winnersList[key]?.paid" mat-raised-button color="primary" type="button" role="button" (click)="markAsPaid(winnersList[key])">Mark Paid</button>
+                <button *ngIf="payments[key]?.paid" mat-raised-button color="warn" type="button" role="button" (click)="reverseMarkAsPaid(winnersList[key])">Undo Mark Paid</button>
+                <button *ngIf="!payments[key]?.paid" mat-raised-button color="primary" type="button" role="button" (click)="markAsPaid(winnersList[key])">Mark Paid</button>
               </div>
             </div>
           </mat-expansion-panel>
