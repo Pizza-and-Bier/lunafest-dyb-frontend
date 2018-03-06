@@ -4,10 +4,10 @@
   <button mat-button (click)="clearFilters()">Clear Filters</button>
   
 </div>
-<section class="item-list-wrapper">
-  <div class="item-list-item" *ngFor="let item of itemList | async | categories: filterCategories | itemOrder; let i = index">
+<section class="item-list-wrapper" fxLayout="column" fxLayoutAlign="center center" fxLayout.lg="row" fxLayoutWrap.lg fxLayoutGap.lg="5px">
+  <div fxFlex.lg="30" fxFlex="90" class="item-list-item" ngClass.sm="mobile" ngClass.xs="mobile"  *ngFor="let item of itemList | async | categories: filterCategories | itemOrder; let i = index">
     <button mat-mini-fab color="accent" class="item-edit-button" matTooltip="Edit Item" matTooltipPosition="left" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
-    <mat-card>
+    <mat-card class="item-card">
       <img mat-card-image [src]="item?.images[itemImageSelections[i]]">
       <mat-card-content>
         <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -55,5 +55,6 @@
       </mat-card-actions>
     </mat-card>
   </div>
+
   <button class="filter-trigger" color="accent" mat-fab type="button" role="button" (click)="openFilterDialog()"><mat-icon>filter_list</mat-icon></button>
 </section>

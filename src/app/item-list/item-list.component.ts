@@ -13,6 +13,7 @@ import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
 import { ItemListFilterDialogComponent } from '../item-list-filter-dialog/item-list-filter-dialog.component';
 import { CategoriesPipe } from '../util/pipes/categories.pipe';
 import { AuctionStatus } from '../models/auction-status.enum';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-item-list',
@@ -31,9 +32,42 @@ export class ItemListComponent implements OnInit {
 
   public filteredListingLength: number = null;
 
+  public mobile = false;
+
+
   private currentUser: User;
 
-  constructor(private itemListService: ItemListService, public dialog: MatDialog, private router: Router) { }
+  constructor(
+    private itemListService: ItemListService,
+    public dialog: MatDialog,
+    private router: Router,
+    public breakpointObserver: BreakpointObserver
+  ) {
+    breakpointObserver.observe([
+      Breakpoints.Web,
+    ]).subscribe((result) => {
+      if (result.matches) {
+        this.mobile = false;
+      }
+
+    });
+    breakpointObserver.observe([
+      Breakpoints.TabletPortrait,
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      if (result.matches) {
+        this.mobile = true;
+      }
+    })
+    breakpointObserver.observe([
+      Breakpoints.TabletLandscape
+    ]).subscribe(result => {
+      if (result.matches) {
+        this.mobile = true;
+      }
+    });
+
+   }
 
   ngOnInit() {
     this.initItems();

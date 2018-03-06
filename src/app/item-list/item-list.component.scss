@@ -53,6 +53,11 @@
 
 .item-list-item {
     position: relative;
+    max-height: 417.5px;
+}
+
+.item-list-item.mobile mat-card.item-card {
+    min-width: 270px;
 }
 
 .item-list-item .item-edit-button {
