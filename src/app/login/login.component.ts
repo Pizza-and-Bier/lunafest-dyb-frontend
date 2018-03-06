@@ -38,6 +38,12 @@ export class LoginComponent implements OnInit {
     this.buildForm();
   }
 
+  public loginFromEnter(event: KeyboardEvent) {
+    if (event.keyCode === 13) {
+      this.attemptLogin();
+    }
+  }
+
   public attemptLogin(): void {
     const credentials = this.loginForm.value;
     this.loggingIn = true;
