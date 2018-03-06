@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
 
   public invalidLogin: boolean = false;
 
+  public loggingIn = false;
+
   public formErrors: any = {
     "email": "",
     "password": ""
@@ -37,11 +39,17 @@ export class LoginComponent implements OnInit {
   }
 
   public attemptLogin(): void {
-    let credentials = this.loginForm.value;
+    const credentials = this.loginForm.value;
+    this.loggingIn = true;
     this.loginService.attemptLogin(credentials).then(
       (data) => {
-        console.log(data);
         this.router.navigate(["/user/items/list"]);
+      },
+      (err) => {
+        console.log(err);
+        if (err.code === "auth/wrong-password") {
+          this.invalidLogin = true;
+        }
       }
     );
   }

@@ -1,5 +1,5 @@
 .login-card {
-    min-width: 90%;
+    width: 90vw;
     margin: 0 auto;
 }
 
@@ -17,4 +17,15 @@
 
 .login-form mat-form-field {
     width: 90%;
+}
+
+.login-invalid {
+    color: #f44336;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 1280px) {
+    .login-card {
+        max-width: 30vw;
+    }   
 }
