@@ -136,6 +136,18 @@ export class NewItemFormComponent implements OnInit {
         ]],
         "homeAndOffice": [false, [
 
+        ]],
+        "pets": [false, [
+          
+        ]],
+        "literatureAndStationary": [false, [
+
+        ]],
+        "healthAndFitness": [false, [
+
+        ]],
+        "salonAndSpa": [false, [
+          
         ]]
       })
     });
