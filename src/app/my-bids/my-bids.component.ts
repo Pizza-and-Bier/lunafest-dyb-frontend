@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { MatDialog } from "@angular/material";
 import { Observable } from "rxjs/Observable";
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 import { UserBidService } from "./user-bid.service";
 import { Item, User } from '../models';
@@ -9,6 +10,7 @@ import { MyBidsItem } from './my-bids-item';
 import { SerializationHelper } from '../util/serialization-helper';
 import { PlaceABidComponent } from '../place-a-bid/place-a-bid.component';
 import { AuctionStatus } from '../models/auction-status.enum';
+
 
 @Component({
   selector: 'dyb-my-bids',
@@ -23,9 +25,33 @@ export class MyBidsComponent implements OnInit {
 
   public noBids = false;
 
+  public mobile = false;
+
   public displayedImages: number[] = [];
 
-  constructor(private userBidService: UserBidService, private dialog: MatDialog, private router: Router) { }
+  constructor(
+    private userBidService: UserBidService,
+    private dialog: MatDialog,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    breakpointObserver.observe([
+      Breakpoints.Web,
+    ]).subscribe((result) => {
+      if (result.matches) {
+        this.mobile = false;
+      }
+
+    });
+    breakpointObserver.observe([
+      Breakpoints.Tablet,
+      Breakpoints.Handset
+    ]).subscribe(result => {
+      if (result.matches) {
+        this.mobile = true;
+      }
+    });
+   }
 
   ngOnInit() {
     this.getUserBids();

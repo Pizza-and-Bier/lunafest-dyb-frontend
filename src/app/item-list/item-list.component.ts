@@ -34,7 +34,6 @@ export class ItemListComponent implements OnInit {
 
   public mobile = false;
 
-
   private currentUser: User;
 
   constructor(
@@ -52,15 +51,8 @@ export class ItemListComponent implements OnInit {
 
     });
     breakpointObserver.observe([
-      Breakpoints.TabletPortrait,
+      Breakpoints.Tablet,
       Breakpoints.Handset
-    ]).subscribe(result => {
-      if (result.matches) {
-        this.mobile = true;
-      }
-    })
-    breakpointObserver.observe([
-      Breakpoints.TabletLandscape
     ]).subscribe(result => {
       if (result.matches) {
         this.mobile = true;
