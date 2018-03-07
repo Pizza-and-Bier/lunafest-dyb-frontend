@@ -84,7 +84,7 @@ export class BaseUserService implements OnDestroy {
     }
 
     /**
-     * @author Anthony Pizzimenti
+     * @author Cale Bierman, Anthony Pizzimenti
      * @desc Given a user's unique ID and an item number, remove that item from the user's follow-item
      * list if it exists there.
      * @param {string} uID              A user's unique ID, as assigned by Google.
@@ -113,49 +113,43 @@ export class BaseUserService implements OnDestroy {
             __this = this;
 
         return new Promise((resolve, reject) => {
-            // this.subs.push(itemReference.valueChanges().take(1).subscribe((item) => {
-                let time = Date.now(),
-                    bid: Bid = {
-                        amount: bidValue,
-                        createdAt: time,
-                        createdBy: uID
-                    };
-            //     else {
-            //         item.bidders = {};
-            //         item.bidders[uID] = true;
-            //     }
+            let time = Date.now(),
+                bid: Bid = {
+                    amount: bidValue,
+                    createdAt: time,
+                    createdBy: uID
+                };
 
-                itemReference.transaction(
-                    (currentData) => {
-                        if (currentData) {
-                            if (currentData.currentBid) {
-                                if (currentData.currentBid.amount < bid.amount) {
-                                    currentData.currentBid = bid;
-                                }
-                                else if (currentData.currentBid.createdAt < bid.createdAt) {
-                                    currentData.currentBid = bid;
-                                    currentData.bidders[uID] = true;
-                                }
+            itemReference.transaction(
+                (currentData) => {
+                    if (currentData) {
+                        if (currentData.currentBid) {
+                            if (currentData.currentBid.amount < bid.amount) {
+                                currentData.currentBid = bid;
+                            }
+                            else if (currentData.currentBid.createdAt < bid.createdAt) {
+                                currentData.currentBid = bid;
+                                currentData.bidders[uID] = true;
                             }
                         }
-                        return currentData;
-                    },
-                    (err, committed, snapshot) => {
-                        console.log("err", err);
-                        if (err) {
-                            reject(err);
-                        }
-                        if (committed) {
-                            resolve("Bid success");
-                        }
-                        else {
-                            reject("Uncommitted")
-                        }
-                        console.log("committed", committed);
-                        console.log("snap", snapshot);
                     }
-                );
-            // }));
+                    return currentData;
+                },
+                (err, committed, snapshot) => {
+                    console.log("err", err);
+                    if (err) {
+                        reject(err);
+                    }
+                    if (committed) {
+                        resolve("Bid success");
+                    }
+                    else {
+                        reject("Uncommitted")
+                    }
+                    console.log("committed", committed);
+                    console.log("snap", snapshot);
+                }
+            );
         });
     }
 

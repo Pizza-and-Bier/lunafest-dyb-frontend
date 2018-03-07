@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "angularfire2/auth";
 import { Observable, Subscription } from "rxjs";
-import * as firebase from "firebase/app";
+import { User as fbUser} from "firebase/app";
 
 import { BaseUserService } from "./user.service";
 import { Unsubscribe } from "./unsubscribe";
@@ -13,7 +13,7 @@ export class BaseAuthService {
     private subs: Subscription[] = [];
     constructor(private afAuth: AngularFireAuth, private userService: BaseUserService) { }
     
-    public attemptLogin(email: string, password: string): Promise<firebase.User> {
+    public attemptLogin(email: string, password: string): Promise<fbUser> {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password);
     }
     
@@ -90,13 +90,82 @@ export class BaseAuthService {
     /**
      * @author Anthony Pizzimenti
      * @desc Returns an authenticated user object.
-     * @returns {Promise<firebase.User>} 
+     * @returns {Promise<fbUser>} 
      */
-    public user(): Promise<firebase.User> {
+    public user(): Promise<fbUser> {
         return new Promise((resolve, reject) => {
             this.afAuth.auth.onAuthStateChanged((user) => {
                 if (!user) reject(null);
                 else resolve(user);
+            });
+        });
+    }
+
+    /**
+     * @author Anthony Pizzimenti
+     * @desc Sends a password reset email to the provided address.
+     * @param {string} uID      A user's unique ID.
+     * @param {string} email    The email provided by the user.
+     * @returns {Promise<any>} Resolves if the email is sent successfully.
+     */
+    public sendPasswordResetEmail(uID: string, email: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.subs.push(this.userService.user(uID).take(1).subscribe((user) => {
+                let sent = this.afAuth.auth.sendPasswordResetEmail(email ? email : user.email),
+                    reason = "Password reset email not sent - ";
+
+                sent.then(_ => resolve(true)).catch((err) => {
+                    switch (err.code) {
+                        case "auth/invalid-email":
+                            reject(reason + "invalid email.");
+                            break;
+                        case "auth/missing-android-pkg-name":
+                            reject(reason + "missing Android package name.");
+                            break;
+                        case "auth/missing-continue-uri":
+                            reject(reason + "a continue (redirect) URL wasn't provided.");
+                            break;
+                        case "auth/missing-ios-bundle-id":
+                            reject(reason + "iOS bundle ID wasn't provided.");
+                            break;
+                        case "auth/invalid-continue-uri":
+                            reject(reason + "the continue URL was bad.");
+                            break;
+                        case "auth/unauthorized-continue-uri":
+                            reject(reason + "whitelist the domain of the continue URL in the firebase console.");
+                            break;
+                        case "auth/user-not-found":
+                            reject(reason + "there is no user with this email.");
+                            break;
+                    }
+                });
+            }));
+        });
+    }
+
+    public resetPassword(actionCode: string, newPassword: string) {
+        return new Promise((resolve, reject) => {
+            let reset = this.afAuth.auth.confirmPasswordReset(actionCode, newPassword),
+                reason = "Password couldn't be reset - ";
+
+            reset.then(_ => resolve(true)).catch((err) => {
+                switch (err.code) {
+                    case "auth/expired-action-code":
+                        reject(reason + "the action code provided has expired.");
+                        break;
+                    case "auth/invalid-action-code":
+                        reject(reason + "the action code provided is invalid.");
+                        break;
+                    case "auth/user-disabled":
+                        reject(reason + "this user's account has been disabled.");
+                        break;
+                    case "auth/user-not-found":
+                        reject(reason + "no user corresponds to this action code.");
+                        break;
+                    case "auth/weak-password":
+                        reject(reason + "sucky password.");
+                        break;
+                }
             });
         });
     }
