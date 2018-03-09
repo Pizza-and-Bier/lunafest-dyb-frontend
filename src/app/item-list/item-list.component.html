@@ -53,7 +53,7 @@
           <div *ngIf="item?.categories">
             <div class="categories-wrapper">
               <mat-chip-list>
-                <mat-chip color="primary" *ngFor="let category of item?.categories | categoryNames">{{category}}</mat-chip>
+                <mat-chip class="category-chip" color="primary" disabled *ngFor="let category of item?.categories | categoryNames">{{category}}</mat-chip>
               </mat-chip-list>
             </div>
           </div>
