@@ -45,8 +45,10 @@ export class ItemListComponent implements OnInit {
     breakpointObserver.observe([
       Breakpoints.Web,
     ]).subscribe((result) => {
+      
       if (result.matches) {
         this.mobile = false;
+        console.log("web result", this.mobile);
       }
 
     });
@@ -56,6 +58,7 @@ export class ItemListComponent implements OnInit {
     ]).subscribe(result => {
       if (result.matches) {
         this.mobile = true;
+        console.log("mobile result", this.mobile);
       }
     });
 

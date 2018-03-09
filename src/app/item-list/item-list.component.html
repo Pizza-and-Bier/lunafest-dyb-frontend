@@ -4,15 +4,15 @@
   <button mat-button (click)="clearFilters()">Clear Filters</button>
   
 </div>
-<section class="item-list-wrapper" fxLayout="column" fxLayoutAlign="center center" fxLayout.lg="row" fxLayout.md="row" fxLayoutWrap.lg fxLayoutWrap.md fxLayoutGap.md="10px" fxLayoutGap.lg="5px">
-  <div fxFlex.lg="30" fxFlex.md="45" fxFlex="90" class="item-list-item" ngClass.sm="mobile" ngClass.xs="mobile"  *ngFor="let item of itemList | async | categories: filterCategories | itemOrder; let i = index">
+<section class="item-list-wrapper" fxLayout.lt-md="column" fxLayoutAlign="center stretch" fxLayout.gt-md="row" fxLayout.md="row" fxLayoutWrap.gt-md fxLayoutWrap.md fxLayoutGap.md="10px" fxLayoutGap.gt-md="5px">
+  <div fxFlex.gt-md="30" fxFlex.md="45" fxFlex.lt-md="90" class="item-list-item" [ngClass.gt-md]="{'opened': itemInfoToggles[i]}" ngClass.sm="mobile" ngClass.xs="mobile"  *ngFor="let item of itemList | async | categories: filterCategories | itemOrder; let i = index">
     <button *ngIf="currentUser && currentUser.role === 'admin'" mat-mini-fab color="accent" class="item-edit-button" matTooltip="Edit Item" matTooltipPosition="left" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
     <mat-card class="item-card">
       <img mat-card-image [src]="item?.images[itemImageSelections[i]]">
       <mat-card-content>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <div fxLayout="column" fxLayoutAlign="start start">
-            <div class="item-name">
+            <div class="item-name" [ngClass.gt-md]="{'big-name': item?.name.length > 55}">
               <strong>{{item?.name}}</strong>
             </div>
             <div class="estimated-worth">
