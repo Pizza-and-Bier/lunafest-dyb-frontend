@@ -34,15 +34,30 @@
           </div>
         </div>
         <div class="item-more-info" *ngIf="itemInfoToggles[i]">
-          <mat-divider [inset]="true"></mat-divider>
           <div class="gallery-wrapper" *ngIf="item?.images.length > 1">
+            <mat-divider [inset]="true"></mat-divider>
             <h4>More images</h4>
             <dyb-item-card-gallery [images]="item?.images" (selected)="changeImageSource($event, i)"></dyb-item-card-gallery>
           </div>
-          <mat-divider [inset]="true"></mat-divider>
-          <div class="item-description">
-              {{item?.description}}
+          <div *ngIf="item?.description.length > 0">
+            <mat-divider [inset]="true"></mat-divider>
+            <div class="item-description">
+                {{item?.description}}
+            </div>
           </div>
+          <div *ngIf="item?.donorInfo">
+            <div class="donor-info">
+              <em>Graciously donated by {{item?.donorInfo}}</em>
+            </div>
+          </div>
+          <div *ngIf="item?.categories">
+            <div class="categories-wrapper">
+              <mat-chip-list>
+                <mat-chip color="primary" *ngFor="let category of item?.categories | categoryNames">{{category}}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+          
         </div>
       </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">

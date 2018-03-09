@@ -17,7 +17,8 @@ import { MatToolbarModule,
         MatCheckboxModule,
         MatGridListModule,
         MatExpansionModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatChipsModule
        } from "@angular/material";
 
 import { LayoutModule } from '@angular/cdk/layout';
@@ -43,7 +44,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatGridListModule,
     MatExpansionModule,
     MatTooltipModule,
-    LayoutModule
+    LayoutModule,
+    MatChipsModule
   ],
   exports: [
     MatToolbarModule,
@@ -64,7 +66,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatGridListModule,
     MatExpansionModule,
     MatTooltipModule,
-    LayoutModule
+    LayoutModule,
+    MatChipsModule
   ],
   declarations: []
 })

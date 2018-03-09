@@ -83,8 +83,12 @@
     z-index: 100;
 }
 
-.gallery-wrapper {
+.gallery-wrapper, .item-description, .donor-info {
     margin-bottom: 15px;
+}
+
+.categories-wrapper {
+    padding-top: 5px;
 }
 
 .filter-trigger {
