@@ -54,6 +54,7 @@ export class LoginComponent implements OnInit {
       (err) => {
         console.log(err);
         if (err.code === "auth/wrong-password") {
+          this.loggingIn = false;
           this.invalidLogin = true;
         }
       }
