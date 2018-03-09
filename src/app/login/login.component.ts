@@ -42,6 +42,10 @@ export class LoginComponent implements OnInit {
       (data) => {
         console.log(data);
         this.router.navigate(["/user/items/list"]);
+      }, err => {
+        if (err.code === 'auth/user-not-found') {
+          this.invalidLogin = true;
+        }
       }
     );
   }
