@@ -57,7 +57,12 @@ export class BaseUserService implements OnDestroy {
         return Observable.create((obs) => {
             this.subs.push(userRef.valueChanges().subscribe((user) => {
                 if (user.following) {
-                    this.subs.push(__this.retrieveItemObjects(user.following).subscribe((items) => {
+                    this.subs.push(__this.retrieveItemObjects(user.following).map(
+                        (changes) => {
+                            return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+                        }
+                    )
+                    .subscribe((items) => {
                         obs.next(items);
                     }));
                 } else
@@ -207,7 +212,7 @@ export class BaseUserService implements OnDestroy {
             obs: Observable<any>;
             
         for (let id of itemIDs)
-            items.push(__this.db.object<Item>("/items/" + id).valueChanges());
+            items.push(__this.db.object<Item>("/items/" + id).snapshotChanges());
 
         return Observable.combineLatest(...items);
     }
