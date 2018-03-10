@@ -3,7 +3,7 @@ section.registration-wrapper {
 }
 
 .registration-card {
-    min-width: 90%;
+    width: 90%;
     margin: 0 auto;
 }
 
@@ -28,4 +28,11 @@ section.registration-wrapper {
 
 .signup-error {
     color: #f44336;
+}
+
+@media (min-width: 1280px) {
+    .registration-card {
+        max-width: 30vw;
+    }
+    
 }

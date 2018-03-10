@@ -2,33 +2,44 @@
   <mat-card class="winner-card">
     <mat-card-title>Winners</mat-card-title>
     <mat-card-content>
-      <div>
+      <div *ngIf="!loading">
         <mat-accordion>
-          <mat-expansion-panel *ngFor="let winner of winnersList">
+          <mat-expansion-panel *ngFor="let key of winnerKeys">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                {{winner?.winner?.name}}
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+                  <div>{{winnersList[key]?.winner}}</div>
+                  <div class="paid-tag" *ngIf="payments[key]?.paid">Paid</div>
+                </div>
               </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-divider inset="true"></mat-divider>
             <div>
-              <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of winner?.items">
+              <div class="summary-header" fxLayout="row" fxLayoutAlign="space-between center">
+                <div>
+                  <strong>Item</strong>
+                </div>
+                <div>
+                  <strong>Final Bid</strong>
+                </div>
+              </div>
+              <div class="summary-item" fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let item of winnersList[key]?.items">
                 <div>
                   {{item?.name}}
                 </div>
                 <div>
-                  {{item?.currentBid?.amount | currency: 'USD': 2}}
+                  {{item?.amount | currency: 'USD': 2}}
                 </div>
               </div>
-              <div fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="summary-total" fxLayout="row" fxLayoutAlign="space-between center">
                 <span></span>
                 <span>
-                  <strong>Total:</strong> {{winner?.items | winnerTotal | currency: 'USD': 2}}
+                  <strong>Total:</strong> {{winnersList[key]?.items | winnerTotal | currency: 'USD': 2}}
                 </span>
               </div>
               <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
-                <button *ngIf="winner?.winner?.paid" mat-raised-button color="warn" type="button" role="button" (click)="reverseMarkAsPaid(winner)">Undo Mark Paid</button>
-                <button *ngIf="!winner?.winner?.paid" mat-raised-button color="primary" type="button" role="button" (click)="markAsPaid(winner)">Mark Paid</button>
+                <button *ngIf="payments[key]?.paid" mat-raised-button color="warn" type="button" role="button" (click)="reverseMarkAsPaid(winnersList[key])">Undo Mark Paid</button>
+                <button *ngIf="!payments[key]?.paid" mat-raised-button color="primary" type="button" role="button" (click)="markAsPaid(winnersList[key])">Mark Paid</button>
               </div>
             </div>
           </mat-expansion-panel>

@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
 
   public invalidLogin: boolean = false;
 
+  public loggingIn = false;
+
   public formErrors: any = {
     "email": "",
     "password": ""
@@ -36,19 +38,24 @@ export class LoginComponent implements OnInit {
     this.buildForm();
   }
 
+  public loginFromEnter(event: KeyboardEvent) {
+    if (event.keyCode === 13) {
+      this.attemptLogin();
+    }
+  }
+
   public attemptLogin(): void {
-    let credentials = this.loginForm.value;
+    const credentials = this.loginForm.value;
+    this.loggingIn = true;
     this.loginService.attemptLogin(credentials).then(
       (data) => {
-        console.log(data);
         this.router.navigate(["/user/items/list"]);
-      }, err => {
-        if (err.code === 'auth/user-not-found') {
-          this.formErrors.email = 'Unable to locate this email.  Have you registered?';
-          return;
-        }
-        if (err.code === 'auth/wrong-password') {
-          this.formErrors.password = 'Wrong password.  Please try again.';
+      },
+      (err) => {
+        console.log(err);
+        if (err.code === "auth/wrong-password") {
+          this.loggingIn = false;
+          this.invalidLogin = true;
         }
       }
     );

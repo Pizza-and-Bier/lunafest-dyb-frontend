@@ -3,10 +3,14 @@
     Lunafest 2018
   </div>
   <div>
-    <button type="button" role="button" mat-icon-button (click)="addNewItem()" matTooltipPosition="below" matTooltip="Add new Item"><mat-icon>playlist_add</mat-icon></button>
-    <!-- <button type="button" role="button" mat-button [matMenuTriggerFor]="userMenu"><mat-icon>account_circle</mat-icon></button>
-    <mat-menu #menu="userMenu">
-    </mat-menu> -->
+    <ng-container *ngIf="user && user.role === 'admin'">
+      <button type="button" role="button" mat-icon-button [matMenuTriggerFor]="userMenu"><mat-icon>security</mat-icon></button>
+      <mat-menu #userMenu="matMenu">
+        <button role="button" type="button" mat-menu-item routerLink="/user/admin/add"><mat-icon>playlist_add</mat-icon> Add new item</button>
+        <button role="button" type="button" mat-menu-item routerLink="/user/admin/auction"><mat-icon>gavel</mat-icon> Manage Auction</button>
+        <button role="button" type="button" mat-menu-item routerLink="/user/admin/winners"><mat-icon>show_chart</mat-icon>View winners</button>
+      </mat-menu>
+    </ng-container>
     <button type="button" role="button" mat-button (click)="logout()">
       Logout
       <mat-icon aria-label="Logout">exit_to_app</mat-icon>

@@ -27,21 +27,22 @@
             </div>
           </ng-container>
           <ng-container *ngIf="currentStep == 'personalInfo'">
-            <h3>Personal Information</h3>
-            <div class="contact-inputs" formGroupName="personalInfo" fxLayout="column" fxLayoutAlign="start center">
-              <div fxLayout="row" fxLayoutAlign="center center">
+            <div formGroupName="personalInfo" fxLayout="column" fxLayoutAlign="center center">
+              <h3>Personal Information</h3>
+            
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
                 <mat-form-field>
                   <input formControlName="firstName" matInput placeholder="First Name" type="text">
                   <mat-error *ngIf="formErrors.personalInfo.firstName">{{formErrors.personalInfo.firstName}}</mat-error>
                 </mat-form-field>
               </div>
-              <div fxLayout="row" fxLayoutAlign="center center">
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
                 <mat-form-field>
                   <input formControlName="lastName" matInput placeholder="Last Name" type="text">
                   
                 </mat-form-field>
               </div>
-              <div fxLayout="row" fxLayoutAlign="center center">
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
                 <mat-form-field>
                   <input formControlName="phoneNumber" matInput placeholder="Phone Number" type="text">
                   <mat-error *ngIf="formErrors.personalInfo.phoneNumber">{{formErrors.personalInfo.phoneNumber}}</mat-error>
@@ -50,27 +51,22 @@
             </div>
           </ng-container>
           <ng-container *ngIf="currentStep === 'contactInfo'">
-            <h3>Mailing Information</h3>
-            <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="start center">
-              <div fxLayout="row" fxLayoutAlign="center center">
+            <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="center center">
+              <h3>Mailing Information</h3>
+            
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
                 <mat-form-field>
                   <input formControlName="street" matInput placeholder="Street" type="text"/>
                   <mat-error *ngIf="formErrors.contactInfo.street">{{formErrors.contactInfo.street}}</mat-error>
                 </mat-form-field>
               </div>
-              <div fxLayout="row" fxLayoutAlign="center center">
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
                 <mat-form-field>
                   <input formControlName="city" matInput placeholder="City" type="text"/>
                   <mat-error *ngIf="formErrors.contactInfo.city">{{formErrors.contactInfo.city}}</mat-error>
                 </mat-form-field>
               </div>
-              <div fxLayout="row" fxLayoutAlign="center center">
-                <mat-form-field>
-                  <input  formControlName="zip" matInput placeholder="Zip Code" type="text"/>
-                  <mat-error *ngIf="formErrors.contactInfo.zip">{{formErrors.contactInfo.zip}}</mat-error>
-                </mat-form-field>
-              </div>
-              <div fxLayout="row" fxLayoutAlign="center center">
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
                 <mat-form-field>
                   <input matInput placeholder="State" [formControl]="registrationForm.get('contactInfo').get('state')" type="text" [matAutocomplete]="stateAuto"/>
                   <mat-autocomplete #stateAuto="matAutocomplete">
@@ -81,7 +77,11 @@
                   <mat-error *ngIf="formErrors.contactInfo.state">{{formErrors.contactInfo.state}}</mat-error>
                 </mat-form-field>
               </div>
-              <div fxFlexFill fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="space-between center">
+              <div fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+                <mat-form-field>
+                  <input  formControlName="zip" matInput placeholder="Zip Code" type="text"/>
+                  <mat-error *ngIf="formErrors.contactInfo.zip">{{formErrors.contactInfo.zip}}</mat-error>
+                </mat-form-field>
               </div>
             </div>
           </ng-container>
@@ -89,7 +89,7 @@
             <div class="contact-inputs" formGroupName="contactInfo" fxLayout="column" fxLayoutAlign="start center">
               <h3>Disclaimer</h3>
               <p>
-                <strong>Please note:</strong> If you are bidding remotely, you will need to send someone to pick up your items. The Lunafest committe will not be shipping your winnings.
+                <strong>Please note:</strong> If you are bidding remotely, you will need to send someone to pick up and pay for your items. The Lunafest committe will not be shipping your winnings.
               </p>
             </div>
             <ng-container *ngIf="signUpErrorMsg.length > 0">
@@ -122,7 +122,7 @@
       <ng-template #signUp>
         <div class="actions-wrapper" fxLayout="row"  fxLayoutAlign="space-between center">
           <button mat-raised-button type="button" role="button" (click)="previousStep()">Back</button>
-          <button mat-raised-button type="button" role="button" (click)="signupUser()" [disabled]="registrationForm.invalid || signUpErrorMsg.length > 0">Sign up</button>  
+          <button mat-raised-button type="button" role="button" color="primary" (click)="signupUser()" [disabled]="registrationForm.invalid || signUpErrorMsg.length > 0">Sign up</button>  
         </div>
       </ng-template>
     </mat-card-actions>

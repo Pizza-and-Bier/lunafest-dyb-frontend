@@ -4,31 +4,40 @@
       Welcome!
     </mat-card-title>
     <mat-card-content>
-      <div fxLayout="row" fxLayoutAlign="center center">
-        <img src="assets/beer-pizza.png" width="100px" height="100px"/>
-      </div>
-      <form class="login-form" [formGroup]="loginForm" fxLayout="column">
+      <ng-container *ngIf="!loggingIn; else loginTransition">
         <div fxLayout="row" fxLayoutAlign="center center">
-          <mat-form-field>
-            <input formControlName="email" matInput placeholder="Email" type="email">
-            <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
-          </mat-form-field>
+          <img src="assets/beer-pizza.png" width="100px" height="100px"/>
         </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <mat-form-field>
-            <input formControlName="password" matInput placeholder="Password" type="password">
+        <form class="login-form" [formGroup]="loginForm" fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field>
+              <input formControlName="email" matInput placeholder="Email" type="email">
+              <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-form-field>
+              <input (keydown)="loginFromEnter($event)" formControlName="password" matInput placeholder="Password" type="password">
             <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
-          </mat-form-field>
+            </mat-form-field>
+          </div>
+        </form>
+        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="invalidLogin" class="login-invalid">
+          Invalid username/password combination.
         </div>
-      </form>
-      <div class="login-actions" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-        <button mat-raised-button color="primary" (click)="attemptLogin()">Login</button>
-        <div class="login-actions-secondary" fxLayout="row" fxLayoutAlign="space-around center">
-          <button mat-button routerLink="/sign-up" color="primary">Sign Up</button>
-          <button mat-button>Password?</button>
+        <div class="login-actions" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+          <button mat-raised-button color="primary" (click)="attemptLogin()">Login</button>
+          <div class="login-actions-secondary" fxLayout="row" fxLayoutAlign="space-around center">
+            <button mat-button routerLink="/sign-up" color="primary">Sign Up</button>
+            <button mat-button>Password?</button>
+          </div>
         </div>
-      </div>
-
+      </ng-container>
+      <ng-template #loginTransition>
+        <div fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+          <mat-spinner [diameter]="150"></mat-spinner>
+        </div>  
+      </ng-template>
     </mat-card-content>
   </mat-card>
 </section>

@@ -41,7 +41,11 @@ export class AuctionAdminComponent implements OnInit {
   }
 
   public stopAuction(): void {
-    this.auctionAdminService.updateStatus(AuctionStatus.STOPPED);
+    this.auctionAdminService.updateStatus(AuctionStatus.STOPPED).then(
+      (_) => {
+        this.auctionAdminService.generatePaymentRecords();
+      }
+    );
   }
 
   private getAuction(): void {
