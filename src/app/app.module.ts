@@ -54,6 +54,8 @@ import { ItemOrderService } from './item-order/item-order.service';
 import { CategoryNamesPipe } from './util/pipes/category-names.pipe';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ForgotPasswordService } from './forgot-password/forgot-password.service';
+import { PasswordResetConfirmComponent } from './password-reset-confirm/password-reset-confirm.component';
+import { PasswordResetService } from './password-reset-confirm/password-reset.service';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,8 @@ import { ForgotPasswordService } from './forgot-password/forgot-password.service
     ItemOrderComponent,
     ItemOrderPipe,
     CategoryNamesPipe,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    PasswordResetConfirmComponent
   ],
   imports: [
     BrowserModule,
@@ -105,7 +108,8 @@ import { ForgotPasswordService } from './forgot-password/forgot-password.service
     AuctionAdminService,
     ItemWinnersService,
     ItemOrderService,
-    ForgotPasswordService
+    ForgotPasswordService,
+    PasswordResetService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]

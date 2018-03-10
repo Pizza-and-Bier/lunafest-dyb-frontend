@@ -44,6 +44,9 @@ export class ForgotPasswordComponent implements OnInit {
         else if (err.indexOf("invalid email") !== -1) {
           this.forgotPasswordEmail.setErrors({"email": true});
         }
+        else {
+          this.forgotPasswordEmail.setErrors({"unknown": true});
+        }
         this.sendingReset = false;
         this.resetSent = false;
       }
