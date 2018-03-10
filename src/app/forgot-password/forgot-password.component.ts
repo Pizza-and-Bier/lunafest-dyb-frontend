@@ -36,8 +36,16 @@ export class ForgotPasswordComponent implements OnInit {
         console.log(data);
         this.resetSent = true;
       },
-      (err) => {
+      (err: string) => {
         console.warn(err);
+        if (err.indexOf("there is no user with this email") !== -1) {
+          this.forgotPasswordEmail.setErrors({"noUserFound": true});
+        }
+        else if (err.indexOf("invalid email") !== -1) {
+          this.forgotPasswordEmail.setErrors({"email": true});
+        }
+        this.sendingReset = false;
+        this.resetSent = false;
       }
     );
   }
