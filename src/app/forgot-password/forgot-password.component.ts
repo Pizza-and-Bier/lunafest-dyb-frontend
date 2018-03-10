@@ -31,7 +31,15 @@ export class ForgotPasswordComponent implements OnInit {
 
   public reset(): void {
     this.sendingReset = true;
-    this.forgotPasswordService.sendResetEmail(this.forgotPasswordEmail.value);
+    this.forgotPasswordService.sendResetEmail(this.forgotPasswordEmail.value).then(
+      (data) => {
+        console.log(data);
+        this.resetSent = true;
+      },
+      (err) => {
+        console.warn(err);
+      }
+    );
   }
 
   private buildForm(): void {

@@ -12,7 +12,7 @@ export class ForgotPasswordService {
     return this.authService.userExists(email);
   }
 
-  public sendResetEmail(email: string): void {
-    // return this.authService.sendPasswordResetEmail(user.uid, user.email);
+  public sendResetEmail(email: string): Promise<any> {
+    return this.authService.sendPasswordResetEmail(email);
   }
 }
