@@ -133,7 +133,7 @@ export class BaseItemService implements OnDestroy {
      * @returns {undefined}
      * @private
      */
-    private transcribeObject (item: Object, resolve: Function, reject: Function): void {
+    private transcribeObject(item: Object, resolve: Function, reject: Function): void {
         let I = new Item();
         // assign properties to new Item object
         for (let key in item) {

@@ -60,7 +60,12 @@ export class BaseUserService implements OnDestroy {
         return Observable.create((obs) => {
             this.subs.push(userRef.valueChanges().subscribe((user) => {
                 if (user.following) {
-                    this.subs.push(__this.retrieveItemObjects(user.following).subscribe((items) => {
+                    this.subs.push(__this.retrieveItemObjects(user.following).map(
+                        (changes) => {
+                            return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+                        }
+                    )
+                    .subscribe((items) => {
                         obs.next(items);
                     }));
                 } else
@@ -87,7 +92,7 @@ export class BaseUserService implements OnDestroy {
     }
 
     /**
-     * @author Anthony Pizzimenti
+     * @author Cale Bierman, Anthony Pizzimenti
      * @desc Given a user's unique ID and an item number, remove that item from the user's follow-item
      * list if it exists there.
      * @param {string} uID              A user's unique ID, as assigned by Google.
@@ -186,8 +191,23 @@ export class BaseUserService implements OnDestroy {
                             reject("Uncommitted")
                         }
                     }
-                );
-            // }));
+                    return currentData;
+                },
+                (err, committed, snapshot) => {
+                    console.log("err", err);
+                    if (err) {
+                        reject(err);
+                    }
+                    if (committed) {
+                        resolve("Bid success");
+                    }
+                    else {
+                        reject("Uncommitted")
+                    }
+                    console.log("committed", committed);
+                    console.log("snap", snapshot);
+                }
+            );
         });
     }
 
@@ -245,7 +265,7 @@ export class BaseUserService implements OnDestroy {
             obs: Observable<any>;
             
         for (let id of itemIDs)
-            items.push(__this.db.object<Item>("/items/" + id).valueChanges());
+            items.push(__this.db.object<Item>("/items/" + id).snapshotChanges());
 
         return Observable.combineLatest(...items);
     }

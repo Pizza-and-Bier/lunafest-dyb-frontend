@@ -10,23 +10,39 @@
     color: #FFFFFF;
 }
 
+.current-bid .amount {
+    font-size: 1.2rem;
+    color: #178218;
+}
+
+.status-label {
+    width: 100%;
+}
+
+mat-card img {
+    height: 20%;
+    max-height: 250px;
+}
+
+mat-card.item-card {
+    min-width: 270px;
+}
+
+
 .losing-item {
     background: #D90B0B;
     color: #FFFFFF;
 }
 
 .my-bids-wrapper {
-    background: #FFFFFF;
     height: 100%;
     margin-top: 5px;
 }
 
-mat-list-item.dyb-list-item.my-bids-list-item {
-    height: 70px;
+.my-bids-wrapper.mobile {
+    background: #FFFFFF;;
 }
 
-@media only screen and (min-width: 1280px) {
-    .my-bids-wrapper {
-        
-    }
+mat-list-item.dyb-list-item.my-bids-list-item {
+    height: 70px;
 }

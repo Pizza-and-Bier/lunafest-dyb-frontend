@@ -1,18 +1,18 @@
-<div class="filter-information" *ngIf="filterCategories !== null " fxLayout="row" fxLayoutAlign="space-between">
+<div class="filter-information" *ngIf="filterCategories !== null && filterCategories.length > 0 " fxLayout="row" fxLayoutAlign="space-between">
   <div class="filter-info-text" fxLayout="column" fxLayoutAlign="center center">Showing {{filteredListingLength}} out of {{itemInfoToggles.length}} items</div>
   <span></span>
   <button mat-button (click)="clearFilters()">Clear Filters</button>
   
 </div>
-<section class="item-list-wrapper">
-  <div class="item-list-item" *ngFor="let item of itemList | async | categories: filterCategories | itemOrder; let i = index">
-    <button mat-mini-fab color="accent" class="item-edit-button" matTooltip="Edit Item" matTooltipPosition="left" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
-    <mat-card>
+<section class="item-list-wrapper" fxLayout.lt-md="column" fxLayoutAlign="center center" fxLayout.gt-md="row" fxLayout.md="row" fxLayoutWrap.gt-md fxLayoutWrap.md fxLayoutGap.md="10px" fxLayoutGap.gt-md="5px">
+  <div fxFlex.gt-md="30" fxFlex.md="45" fxFlex.lt-md="90" class="item-list-item" [ngClass.gt-md]="{'opened': itemInfoToggles[i]}" ngClass.sm="mobile" ngClass.xs="mobile"  *ngFor="let item of itemList | async | categories: filterCategories | itemOrder; let i = index">
+    <button *ngIf="currentUser && currentUser.role === 'admin'" mat-mini-fab color="accent" class="item-edit-button" matTooltip="Edit Item" matTooltipPosition="left" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
+    <mat-card class="item-card">
       <img mat-card-image [src]="item?.images[itemImageSelections[i]]">
       <mat-card-content>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <div fxLayout="column" fxLayoutAlign="start start">
-            <div class="item-name">
+            <div class="item-name" [ngClass.gt-md]="{'big-name': item?.name.length > 55}">
               <strong>{{item?.name}}</strong>
             </div>
             <div class="estimated-worth">
@@ -34,15 +34,30 @@
           </div>
         </div>
         <div class="item-more-info" *ngIf="itemInfoToggles[i]">
-          <mat-divider [inset]="true"></mat-divider>
           <div class="gallery-wrapper" *ngIf="item?.images.length > 1">
+            <mat-divider [inset]="true"></mat-divider>
             <h4>More images</h4>
             <dyb-item-card-gallery [images]="item?.images" (selected)="changeImageSource($event, i)"></dyb-item-card-gallery>
           </div>
-          <mat-divider [inset]="true"></mat-divider>
-          <div class="item-description">
-              {{item?.description}}
+          <div *ngIf="item?.description.length > 0">
+            <mat-divider [inset]="true"></mat-divider>
+            <div class="item-description">
+                {{item?.description}}
+            </div>
           </div>
+          <div *ngIf="item?.donorInfo">
+            <div class="donor-info">
+              <em>Graciously donated by {{item?.donorInfo}}</em>
+            </div>
+          </div>
+          <div *ngIf="item?.categories">
+            <div class="categories-wrapper">
+              <mat-chip-list>
+                <mat-chip class="category-chip" color="primary" disabled *ngFor="let category of item?.categories | categoryNames">{{category}}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+          
         </div>
       </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
@@ -55,5 +70,6 @@
       </mat-card-actions>
     </mat-card>
   </div>
+
   <button class="filter-trigger" color="accent" mat-fab type="button" role="button" (click)="openFilterDialog()"><mat-icon>filter_list</mat-icon></button>
 </section>
