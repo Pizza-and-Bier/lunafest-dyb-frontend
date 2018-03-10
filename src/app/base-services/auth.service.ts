@@ -143,7 +143,14 @@ export class BaseAuthService {
         });
     }
 
-    public resetPassword(actionCode: string, newPassword: string) {
+    /**
+     * @author Anthony Pizzimenti
+     * @desc Sends Google a password reset confirmation.
+     * @param {string} actionCode Code provided by Google for password reset.
+     * @param {string} newPassword New password.
+     * @returns {Promise<any>}
+     */
+    public resetPassword(actionCode: string, newPassword: string): Promise<any> {
         return new Promise((resolve, reject) => {
             let reset = this.afAuth.auth.confirmPasswordReset(actionCode, newPassword),
                 reason = "Password couldn't be reset - ";
