@@ -1,4 +1,4 @@
-<section class="my-bids-wrapper" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+<section class="my-bids-wrapper" ngClass.sm="mobile" fxLayout="column" fxLayoutAlign="center center">
   <ng-container *ngIf="noBids; else bidList">
     <mat-card class="no-bids-card">
       <mat-card-content>
@@ -12,16 +12,75 @@
     </mat-card>
   </ng-container>
   <ng-template #bidList>
-    <mat-list role="list" class="bid-list" fxFlexFill>
-      <mat-list-item class="dyb-list-item my-bids-list-item" *ngFor="let item of userBids | async; let i = index">
-        <img *ngIf="item?.images[displayedImages[i]]" matListAvatar [src]="item?.images[displayedImages[i]]"/>
-        <div matLine>
-          <div fxLayout="row" fxLayoutAlign="space-between center">
-            <div class="item-text">
-              <div>
-                {{item?.name}}
+    <ng-container *ngIf="mobile; else desktopView">
+      <mat-list role="list" class="bid-list" fxFlexFill>
+        <mat-list-item class="dyb-list-item my-bids-list-item" *ngFor="let item of userBids | async; let i = index">
+          <img *ngIf="item?.images[displayedImages[i]]" matListAvatar [src]="item?.images[displayedImages[i]]"/>
+          <div matLine>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="item-text">
+                <div>
+                  {{item?.name}}
+                </div>
+                <div>
+                  <ng-container *ngIf="userWinningItem(item); else losingItem">
+                    <div class="item-status-label winning-item">
+                      Winning
+                    </div>
+                  </ng-container>
+                  <ng-template #losingItem>
+                    <div class="item-status-label losing-item">
+                      Losing
+                    </div>
+                  </ng-template>
+                </div>
               </div>
               <div>
+                <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #actionsMenu>
+                  <button (click)="placeBid(item)" mat-menu-item>
+                    Place bid
+                  </button>
+                  <button (click)="unfollowItem(item)" mat-menu-item>
+                    Unfollow
+                  </button>
+                </mat-menu>
+              </div>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </ng-container>
+    <ng-template #desktopView>
+      <div fxLayout="column" fxLayoutAlign="start center">
+        <div fxFlex="30" class="my-bids-card" ngClass.sm="mobile" ngClass.xs="mobile"  *ngFor="let item of userBids | async; let i = index" fxFlexFill>
+          <mat-card class="item-card">
+            <img mat-card-image *ngIf="item?.images[displayedImages[i]]" [src]="item?.images[displayedImages[i]]"/>
+            <mat-card-content>
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="item-text">
+                  <div>
+                    <strong>{{item?.name}}</strong>
+                  </div>
+                </div>
+                <div class="current-bid" fxLayout="column" fxLayoutAlign="start end">
+                  <div class="amount">
+                    <ng-container *ngIf="item?.currentBid">
+                        <strong>{{item?.currentBid.amount | currency: 'USD': 2}}</strong>
+                    </ng-container>
+                    <ng-container *ngIf="!item?.currentBid">
+                        <strong>{{item?.openingBid | currency: 'USD': 2}}</strong>
+                    </ng-container>
+                  </div>
+                  <div>
+                    Current Bid
+                  </div>
+                </div>
+              </div>
+              <div class="status-label">
                 <ng-container *ngIf="userWinningItem(item); else losingItem">
                   <div class="item-status-label winning-item">
                     Winning
@@ -33,24 +92,19 @@
                   </div>
                 </ng-template>
               </div>
-            </div>
-            <div>
-              <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
-                <mat-icon>more_vert</mat-icon>
+              
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+              <button mat-raised-button (click)="unfollowItem(item)">
+                Unfollow
               </button>
-              <mat-menu #actionsMenu>
-                <button (click)="placeBid(item)" mat-menu-item>
-                  Place bid
-                </button>
-                <button (click)="unfollowItem(item)" mat-menu-item>
-                  Unfollow
-                </button>
-              </mat-menu>
-            </div>
-          </div>
+              <button mat-raised-button color="primary"  (click)="placeBid(item)">
+                Place bid
+              </button>
+            </mat-card-actions>
+          </mat-card>
         </div>
-        <mat-divider></mat-divider>
-      </mat-list-item>
-    </mat-list>
+      </div>
+    </ng-template>
   </ng-template>
 </section>

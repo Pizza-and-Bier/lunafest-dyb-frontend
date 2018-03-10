@@ -7,8 +7,11 @@ import { Item } from '../../models';
 })
 export class WinnerTotalPipe implements PipeTransform {
 
-  transform(items: Item[]): any {
-    return items.reduce((acc, curr) => acc + curr.currentBid.amount, 0);
+  transform(items: {name: string, amount: number}[]): any {
+    if (items === null) {
+      return;
+    }
+    return items.reduce((acc, curr) => acc + curr.amount, 0);
   }
 
 }

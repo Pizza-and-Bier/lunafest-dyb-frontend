@@ -13,10 +13,13 @@ export class PlaceABidService {
 
   public placeBid(itemId: string, bidAmount: number): Promise<any> {
     return this.authService.uniqueID().then(
-      (uid) => {
-        return this.userService.bid(uid, itemId, bidAmount);
-      }
-    );
+    (uid) => {
+      return this.userService.user(uid).take(1).subscribe(
+        (user) => {
+          return this.userService.bid(user, itemId, bidAmount);
+        }
+      );
+    });
   }
 
   public getItem(itemId: string): Observable<Item> {

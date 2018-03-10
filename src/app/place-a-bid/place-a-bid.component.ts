@@ -49,7 +49,6 @@ export class PlaceABidComponent implements OnInit {
   private bidService: PlaceABidService) { }
 
   ngOnInit() {
-    console.log(this.data.id);
     this.getItem();
     this.buildForm();
   }
@@ -99,15 +98,27 @@ export class PlaceABidComponent implements OnInit {
     }
     this.bidService.placeBid(this.item.key, total).then(
       (data) => {
-        if (this.data.user && this.data.user.following && this.data.user.following.indexOf(this.item.key) === -1) {
-          this.bidService.followItem(this.item.key);
+        if (this.data.user) {
+          this.bidService.followItem(this.item.key).then(
+            (followData) => {
+              this.bidComplete = true;
+              setTimeout(() => {
+                this.dialogRef.close();
+              }, 1000);
+            }
+          ).catch(
+            (err) => {
+              console.warn(err);
+              this.bidComplete = true;
+              setTimeout(() => {
+                this.dialogRef.close();
+              }, 1000);
+            }
+          );
         }
-        this.bidComplete = true;
-        setTimeout(() => {
-          this.dialogRef.close();
-        }, 1000);
       }
     ).catch((err) => {
+      console.log(err);
       this.showBidConflict = true;
     });
   }
@@ -119,7 +130,6 @@ export class PlaceABidComponent implements OnInit {
   private getItem(): void {
     this.bidService.getItem(this.data.id).subscribe(
       (itemData) => {
-        console.log(this.item);
         this.item = itemData;
         this.getImageSource();
         this.setBidFloorValues();
