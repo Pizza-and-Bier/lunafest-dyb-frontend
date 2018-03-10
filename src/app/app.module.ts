@@ -52,6 +52,8 @@ import { WinnerTotalPipe } from './util/pipes/winner-total.pipe';
 import { ItemOrderComponent } from './item-order/item-order.component';
 import { ItemOrderService } from './item-order/item-order.service';
 import { CategoryNamesPipe } from './util/pipes/category-names.pipe';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordService } from './forgot-password/forgot-password.service';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,8 @@ import { CategoryNamesPipe } from './util/pipes/category-names.pipe';
     WinnerTotalPipe,
     ItemOrderComponent,
     ItemOrderPipe,
-    CategoryNamesPipe
+    CategoryNamesPipe,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +105,7 @@ import { CategoryNamesPipe } from './util/pipes/category-names.pipe';
     AuctionAdminService,
     ItemWinnersService,
     ItemOrderService,
+    ForgotPasswordService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]
