@@ -110,36 +110,34 @@ export class BaseAuthService {
      */
     public sendPasswordResetEmail(uID: string, email: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.subs.push(this.userService.user(uID).take(1).subscribe((user) => {
-                let sent = this.afAuth.auth.sendPasswordResetEmail(email ? email : user.email),
-                    reason = "Password reset email not sent - ";
+            let sent = this.afAuth.auth.sendPasswordResetEmail(email),
+                reason = "Password reset email not sent - ";
 
-                sent.then(_ => resolve(true)).catch((err) => {
-                    switch (err.code) {
-                        case "auth/invalid-email":
-                            reject(reason + "invalid email.");
-                            break;
-                        case "auth/missing-android-pkg-name":
-                            reject(reason + "missing Android package name.");
-                            break;
-                        case "auth/missing-continue-uri":
-                            reject(reason + "a continue (redirect) URL wasn't provided.");
-                            break;
-                        case "auth/missing-ios-bundle-id":
-                            reject(reason + "iOS bundle ID wasn't provided.");
-                            break;
-                        case "auth/invalid-continue-uri":
-                            reject(reason + "the continue URL was bad.");
-                            break;
-                        case "auth/unauthorized-continue-uri":
-                            reject(reason + "whitelist the domain of the continue URL in the firebase console.");
-                            break;
-                        case "auth/user-not-found":
-                            reject(reason + "there is no user with this email.");
-                            break;
-                    }
-                });
-            }));
+            sent.then(_ => resolve(true)).catch((err) => {
+                switch (err.code) {
+                    case "auth/invalid-email":
+                        reject(reason + "invalid email.");
+                        break;
+                    case "auth/missing-android-pkg-name":
+                        reject(reason + "missing Android package name.");
+                        break;
+                    case "auth/missing-continue-uri":
+                        reject(reason + "a continue (redirect) URL wasn't provided.");
+                        break;
+                    case "auth/missing-ios-bundle-id":
+                        reject(reason + "iOS bundle ID wasn't provided.");
+                        break;
+                    case "auth/invalid-continue-uri":
+                        reject(reason + "the continue URL was bad.");
+                        break;
+                    case "auth/unauthorized-continue-uri":
+                        reject(reason + "whitelist the domain of the continue URL in the firebase console.");
+                        break;
+                    case "auth/user-not-found":
+                        reject(reason + "there is no user with this email.");
+                        break;
+                }
+            });
         });
     }
 
