@@ -11,8 +11,6 @@ import { LoginService } from '../services/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  public invalidLogin: boolean = false;
-
   public loggingIn = false;
 
   public formErrors: any = {
@@ -52,10 +50,13 @@ export class LoginComponent implements OnInit {
         this.router.navigate(["/user/items/list"]);
       },
       (err) => {
-        console.log(err);
-        if (err.code === "auth/wrong-password") {
-          this.loggingIn = false;
-          this.invalidLogin = true;
+        this.loggingIn = false;
+
+        if (err.code === 'auth/user-not-found') {
+            this.formErrors.email = 'UNKNOWN';
+        }
+        if (err.code === 'auth/wrong-password') {
+          this.formErrors.password = 'WRONG';
         }
       }
     );
