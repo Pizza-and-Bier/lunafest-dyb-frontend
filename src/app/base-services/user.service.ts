@@ -4,9 +4,12 @@ import { AngularFireDatabase, AngularFireList, AngularFireObject } from "angular
 import "rxjs/add/operator/take";
 import { Reference } from "firebase/database";
 import { pull, assign } from "lodash";
+import { DataSnapshot } from "@firebase/database";
 
 import { User, Item, Bid } from "../models";
 import { Unsubscribe } from "./unsubscribe";
+import { ItemWinner } from "../models/item-winner.model";
+
 
 @Injectable()
 @Unsubscribe
@@ -113,47 +116,81 @@ export class BaseUserService implements OnDestroy {
      * @param {number} bidValue     The amount to be bid.
      * @returns {Promise<any>}      Resolves if the bid was successful, rejects if not. 
      */
-    public bid(uID: string, iID: string | number, bidValue: number): Promise<any> {
+    public bid(user: User, iID: string | number, bidValue: number): Promise<any> {
         let itemReference: Reference<Item> = this.db.database.ref("/items/" + iID.toString()),
-            __this = this;
+            __this = this,
+            winnerRef = this.db.list<ItemWinner>('/winners');
 
         return new Promise((resolve, reject) => {
-            let time = Date.now(),
-                bid: Bid = {
-                    amount: bidValue,
-                    createdAt: time,
-                    createdBy: uID
-                };
+            // this.subs.push(itemReference.valueChanges().take(1).subscribe((item) => {
+                let time = Date.now(),
+                    bid: Bid = {
+                        amount: bidValue,
+                        createdAt: time,
+                        createdBy: user.uid
+                    };
 
-            itemReference.transaction(
-                (currentData) => {
-                    if (currentData) {
-                        if (currentData.currentBid) {
-                            if (currentData.currentBid.amount < bid.amount) {
-                                currentData.currentBid = bid;
+                itemReference.transaction(
+                    (currentData: Item) => {
+                        // Have to account for null values during transactions
+                        // due to latency.
+                        if (currentData) {
+                            // Decide if this is the first time
+                            // this item has bee bid on.
+                            if (currentData.currentBid) {
+                                // If a bid is higher than the current one, we should just take that.
+                                if (currentData.currentBid.amount < bid.amount) {
+                                    currentData.currentBid = bid;
+                                    currentData.bidders[user.uid] = true;
+                                }
+                                // Otherwise, we should take the latest one.
+                                else if (currentData.currentBid.createdAt < bid.createdAt) {
+                                    currentData.currentBid = bid;
+                                    if (currentData.bidders) {
+                                        currentData.bidders[user.uid] = true;
+                                    }
+                                    else {
+                                        currentData.bidders = {};
+                                        currentData.bidders[user.uid] = true;
+                                    }
+                                }
                             }
-                            else if (currentData.currentBid.createdAt < bid.createdAt) {
+                            // This is the case where it's the very first bid on an
+                            // item.
+                            else {
                                 currentData.currentBid = bid;
-                                currentData.bidders[uID] = true;
+                                if (currentData.bidders) {
+                                    currentData.bidders[user.uid] = true;
+                                }
+                                else {
+                                    currentData.bidders = {};
+                                    currentData.bidders[user.uid] = true;
+                                }
+                                
                             }
                         }
+                        return currentData;
+                    },
+                    (err: Error|null, committed: boolean, snapshot: DataSnapshot) => {
+                        console.log("err", err);
+                        if (err) {
+                            reject(err);
+                        }
+                        if (committed) {
+                            const item = snapshot.val();
+                            winnerRef.set(snapshot.key, {
+                                itemName: item.name,
+                                winner: `${user.firstName} ${user.lastName}`,
+                                amount: item.currentBid.amount,
+                                paid: false,
+                                uid: user.uid
+                            });
+                            resolve("Bid success");
+                        }
+                        else {
+                            reject("Uncommitted");
+                        }
                     }
-                    return currentData;
-                },
-                (err, committed, snapshot) => {
-                    console.log("err", err);
-                    if (err) {
-                        reject(err);
-                    }
-                    if (committed) {
-                        resolve("Bid success");
-                    }
-                    else {
-                        reject("Uncommitted")
-                    }
-                    console.log("committed", committed);
-                    console.log("snap", snapshot);
-                }
             );
         });
     }

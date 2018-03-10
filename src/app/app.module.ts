@@ -101,7 +101,7 @@ import { CategoryNamesPipe } from './util/pipes/category-names.pipe';
     EditItemService,
     AuctionAdminService,
     ItemWinnersService,
-    ItemOrderService
+    ItemOrderService,
   ],
   bootstrap: [AppComponent],
   entryComponents: [ PlaceABidComponent, ConfirmDialogComponent, ItemListFilterDialogComponent ]

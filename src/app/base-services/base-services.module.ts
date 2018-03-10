@@ -10,6 +10,7 @@ import { BaseAuthService } from './auth.service';
 import { BaseUserService } from "./user.service";
 import { BaseImageService } from "./image.service";
 import { BaseAuctionService } from "./auction.service";
+import { BaseWinnerService } from './winner.service';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { BaseAuctionService } from "./auction.service";
       BaseAuthService,
       BaseUserService,
       BaseImageService,
-      BaseAuctionService
+      BaseAuctionService,
+      BaseWinnerService
   ]
 })
 export class BaseServicesModule { }

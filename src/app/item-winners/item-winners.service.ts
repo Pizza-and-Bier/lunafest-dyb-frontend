@@ -1,27 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs/Observable";
 
-import { BaseItemService, BaseUserService } from '../base-services';
+import { BaseWinnerService } from '../base-services';
 import { Item, User } from '../models';
+import { ItemWinner } from '../models/item-winner.model';
+import { PaymentRecord } from '../models/payment-record';
 
 @Injectable()
 export class ItemWinnersService {
 
-  constructor(private itemService: BaseItemService, private userService: BaseUserService) { }
+  constructor(private winnerService: BaseWinnerService) { }
 
-  public getItems(): Observable<Item[]> {
-    return this.itemService.all().snapshotChanges().map(
+  public getItems(): Observable<ItemWinner[]> {
+    return this.winnerService.getWinners().snapshotChanges().take(1).map(
       (changes) => {
         return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
       }
     );
   }
 
-  public getAllUsers(): Observable<User[]> {
-    return this.userService.allUsers().valueChanges();
+  public getPaymentRecords(): Observable<PaymentRecord[]> {
+    return this.winnerService.getPaymentRecords().snapshotChanges().map(
+      (changes) => {
+        return changes.map(c => ({uid: c.payload.key, ...c.payload.val()}));
+      }
+    );
   }
 
-  public markItemPaid(item: Item): Promise<any> {
-    return this.itemService.update(item.key, item);
+  public markAsPaid(uid: string): Promise<any> {
+    return this.winnerService.togglePayment(uid, true);
+  }
+
+  public undoPayment(uid: string) : Promise<any> {
+    return this.winnerService.togglePayment(uid, false);
   }
 }
