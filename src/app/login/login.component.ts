@@ -44,7 +44,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(["/user/items/list"]);
       }, err => {
         if (err.code === 'auth/user-not-found') {
-          this.invalidLogin = true;
+          this.formErrors.email = 'Unable to locate this email.  Have you registered?';
+          return;
+        }
+        if (err.code === 'auth/wrong-password') {
+          this.formErrors.password = 'Wrong password.  Please try again.';
         }
       }
     );
