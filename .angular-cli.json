@@ -20,7 +20,8 @@
       "prefix": "dyb",
       "styles": [
         "styles.scss",
-        "../node_modules/dragula/dist/dragula.min.css"
+        "../node_modules/dragula/dist/dragula.min.css",
+        "material/dyb-theme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
