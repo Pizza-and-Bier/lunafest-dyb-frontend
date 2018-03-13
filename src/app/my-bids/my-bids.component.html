@@ -1,4 +1,4 @@
-<section class="my-bids-wrapper" ngClass.sm="mobile" fxLayout="column" fxLayoutAlign="center center">
+<section class="my-bids-wrapper" ngClass.lt-lg="mobile" fxLayout="column" fxLayoutAlign="center center">
   <ng-container *ngIf="noBids; else bidList">
     <mat-card class="no-bids-card">
       <mat-card-content>
@@ -55,7 +55,7 @@
       </mat-list>
     </ng-container>
     <ng-template #desktopView>
-      <div fxLayout="column" fxLayoutAlign="start center">
+      <div fxLayout="row" fxLayoutAlign="start center" fxFlexFill fxLayoutGap="10px">
         <div fxFlex="30" class="my-bids-card" ngClass.sm="mobile" ngClass.xs="mobile"  *ngFor="let item of userBids | async; let i = index" fxFlexFill>
           <mat-card class="item-card">
             <img mat-card-image *ngIf="item?.images[displayedImages[i]]" [src]="item?.images[displayedImages[i]]"/>
