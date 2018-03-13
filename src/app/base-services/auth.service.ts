@@ -108,7 +108,7 @@ export class BaseAuthService {
      * @param {string} email    The email provided by the user.
      * @returns {Promise<any>} Resolves if the email is sent successfully.
      */
-    public sendPasswordResetEmail(uID: string, email: string): Promise<any> {
+    public sendPasswordResetEmail(email: string): Promise<any> {
         return new Promise((resolve, reject) => {
             let sent = this.afAuth.auth.sendPasswordResetEmail(email),
                 reason = "Password reset email not sent - ";
