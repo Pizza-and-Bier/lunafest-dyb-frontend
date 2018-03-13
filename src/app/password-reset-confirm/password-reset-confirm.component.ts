@@ -67,6 +67,9 @@ export class PasswordResetConfirmComponent implements OnInit {
       },
       (err) => {
         console.warn(err);
+        this.resetSuccess = false;
+        this.codeMissing = true;
+        this.resettingPassword = false;
       }
     );
   }
