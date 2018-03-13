@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 import { LoginService } from '../services/login.service';
 
+import makeCustomValidator from '../util/valid-input.validator';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,9 +13,9 @@ import { LoginService } from '../services/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  public invalidLogin: boolean = false;
-
   public loggingIn = false;
+  private invalidEmail = false;
+  private invalidPassword = false;
 
   public formErrors: any = {
     "email": "",
@@ -52,10 +54,15 @@ export class LoginComponent implements OnInit {
         this.router.navigate(["/user/items/list"]);
       },
       (err) => {
-        console.log(err);
-        if (err.code === "auth/wrong-password") {
-          this.loggingIn = false;
-          this.invalidLogin = true;
+        this.loggingIn = false;
+
+        if (err.code === 'auth/user-not-found') {
+          this.invalidEmail = true;
+          this.formErrors.email = 'Could not find user with matching email.  Have you signed up?';
+        }
+        if (err.code === 'auth/wrong-password') {
+          this.invalidPassword = true;
+          this.formErrors.password = 'Please re-try your password.';
         }
       }
     );
@@ -65,10 +72,12 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       "email": ["", [
         Validators.required,
-        Validators.email
+        Validators.email,
+        makeCustomValidator(() => (!this.invalidEmail), 'email')
       ]],
       "password": ["", [
-        Validators.required
+        Validators.required,
+        makeCustomValidator(() => (!this.invalidPassword), 'password')
       ]]
     })
 
@@ -82,6 +91,9 @@ export class LoginComponent implements OnInit {
 
   private onValueChanged(data?: any): void {
     let form = this.loginForm;
+
+    this.invalidEmail = false;
+    this.invalidPassword = false;
 
     for (let field in this.formErrors) {
       if (form.get(field) !== null && form.getError(field) !== undefined) {

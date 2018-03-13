@@ -18,12 +18,10 @@
           <div fxLayout="row" fxLayoutAlign="center center">
             <mat-form-field>
               <input (keydown)="loginFromEnter($event)" formControlName="password" matInput placeholder="Password" type="password">
+            <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
             </mat-form-field>
           </div>
         </form>
-        <div fxLayout="row" fxLayoutAlign="start center" *ngIf="invalidLogin" class="login-invalid">
-          Invalid username/password combination.
-        </div>
         <div class="login-actions" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
           <button mat-raised-button color="primary" (click)="attemptLogin()">Login</button>
           <div class="login-actions-secondary" fxLayout="row" fxLayoutAlign="space-around center">
