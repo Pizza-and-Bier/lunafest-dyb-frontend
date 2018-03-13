@@ -20,6 +20,8 @@ export class PasswordResetConfirmComponent implements OnInit {
 
   public resetSuccess = false;
 
+  public badCode = false;
+
   private authCode: string;
 
   private formErrors = {
@@ -65,11 +67,13 @@ export class PasswordResetConfirmComponent implements OnInit {
       (data) => {
         this.resetSuccess = true;
       },
-      (err) => {
+      (err: string) => {
         console.warn(err);
         this.resetSuccess = false;
-        this.codeMissing = true;
         this.resettingPassword = false;
+        if (err.includes("the action code provided is invalid.")) {
+          this.badCode = true;
+        }
       }
     );
   }
