@@ -65,6 +65,14 @@
     min-height: 417.5px;
     max-height: 417.5px;
 }
+.item-list-item.mobile {
+    min-height: 0;
+    
+}
+
+.item-list-item.tablet {
+    margin-bottom: 5px;
+}
 
 
 .item-list-item.opened {

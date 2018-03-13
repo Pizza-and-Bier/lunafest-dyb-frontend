@@ -17,10 +17,14 @@ import { AuctionClosedComponent } from '../auction-closed/auction-closed.compone
 import { AuctionGuard } from './auction.guard';
 import { ItemWinnersComponent } from '../item-winners/item-winners.component';
 import { ItemOrderComponent } from '../item-order/item-order.component';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { PasswordResetConfirmComponent } from '../password-reset-confirm/password-reset-confirm.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: "sign-up", component: RegistrationComponent },
+  { path: "password/forgot", component: ForgotPasswordComponent},
+  { path: "password/reset", component: PasswordResetConfirmComponent },
   { path: 'user', component: AuthWrapperComponent, canActivate: [ AuthGuard ],
     children: [
       { path: 'auction-closed', component: AuctionClosedComponent},
