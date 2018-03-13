@@ -58,11 +58,11 @@ export class LoginComponent implements OnInit {
 
         if (err.code === 'auth/user-not-found') {
           this.invalidEmail = true;
-          this.formErrors.email = err.message;
+          this.formErrors.email = 'Could not find user with matching email.  Have you signed up?';
         }
         if (err.code === 'auth/wrong-password') {
           this.invalidPassword = true;
-          this.formErrors.password = err.message;
+          this.formErrors.password = 'Please re-try your password.';
         }
       }
     );
